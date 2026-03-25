@@ -1,0 +1,84 @@
+# Miscellaneous
+
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ / Android Studio
+
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# VS Code（必要ならコメント外す）
+
+#.vscode/
+
+# Flutter / Dart
+
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub/
+.pub-cache/
+build/
+
+# Generated files
+
+.packages
+
+# Documentation
+
+**/doc/api/
+
+# Coverage
+
+coverage/
+
+# Android
+
+/android/app/debug
+/android/app/profile
+/android/app/release
+android/.gradle/
+android/local.properties
+
+# iOS
+
+ios/Flutter/.last_build_id
+ios/Flutter/ephemeral/
+ios/Pods/
+ios/.symlinks/
+
+# macOS
+
+macos/Flutter/ephemeral/
+macos/Pods/
+
+# Windows
+
+windows/flutter/ephemeral/
+
+# Linux
+
+linux/flutter/ephemeral/
+
+# Web
+
+lib/generated_plugin_registrant.dart
+
+# Env（使う場合）
+
+.env
+
+# FVM（使う場合）
+
+.fvm/

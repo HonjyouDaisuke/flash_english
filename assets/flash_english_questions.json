@@ -1,0 +1,72 @@
+[
+  {
+    "category": "中学１年生レベル",
+    "japanese": "これは良い本です。",
+    "english": "This is a good book.",
+    "japanese_audio": "audio/01J.wav",
+    "english_audio": "audio/01E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "この辞書は良い",
+    "english": "This dictionary is good.",
+    "japanese_audio": "audio/02J.wav",
+    "english_audio": "audio/02E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "あれは面白い本ですか？ーはい、そうです。",
+    "english": "Is that an interesting book? - Yes, it is.",
+    "japanese_audio": "audio/03J.wav",
+    "english_audio": "audio/03E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "あの本は面白いですか？ーいえ、面白くありません。",
+    "english": "Is that book interesting? - No, it isn't.",
+    "japanese_audio": "audio/04J.wav",
+    "english_audio": "audio/04E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "これは正しくない。",
+    "english": "This is not right.",
+    "japanese_audio": "audio/05J.wav",
+    "english_audio": "audio/05E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "あれは本物の花ではない。",
+    "english": "That is no a real flower.",
+    "japanese_audio": "audio/06J.wav",
+    "english_audio": "audio/06E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "このスープはあまり美味しくない。",
+    "english": "This soup is not very tasty.",
+    "japanese_audio": "audio/07J.wav",
+    "english_audio": "audio/07E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "これは塩ですか、それとも砂糖ですか？ー砂糖です。",
+    "english": "Is this salt or sugar? - It is sugar.",
+    "japanese_audio": "audio/08J.wav",
+    "english_audio": "audio/08E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "あの女性はフランス人ですか、それともイタリア人ですか？ーフランス人です。",
+    "english": "Is that woman French or Italian? - She is French.",
+    "japanese_audio": "audio/09J.wav",
+    "english_audio": "audio/09E.wav"
+  },
+  {
+    "category": "中学１年生レベル",
+    "japanese": "あの男性は日本人ですか、それとも中国人ですか？ー日本人です。",
+    "english": "Is that man Japanese or Chinese? - He is Japanese.",
+    "japanese_audio": "audio/10J.wav",
+    "english_audio": "audio/10E.wav"
+  }
+]
