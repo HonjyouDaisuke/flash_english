@@ -1,15 +1,12 @@
 import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/question_mapper.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flash_english/domain/repositories/seed_repository.dart';
 import 'package:sqflite/sqflite.dart';
 import 'app_database.dart';
 import 'package:flash_english/domain/entities/question.dart';
 
 class SeedRepositoryImpl implements SeedRepository {
-  static const _seedKey = 'is_seeded';
-
   final QuestionLocalDataSource dataSource;
 
   SeedRepositoryImpl(this.dataSource);

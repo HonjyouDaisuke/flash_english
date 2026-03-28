@@ -14,8 +14,6 @@ class TrainingPage extends ConsumerStatefulWidget {
 }
 
 class _TrainingPageState extends ConsumerState<TrainingPage> {
-  final GlobalKey<FlashCardWidgetState> _flipKey = GlobalKey();
-
   @override
   void initState() {
     super.initState();

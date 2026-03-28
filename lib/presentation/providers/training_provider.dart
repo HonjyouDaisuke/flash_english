@@ -62,16 +62,12 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   Future<void> playFront() async {
     final q = state.current;
-    if (q.japaneseAudio != null) {
-      await _audio.execute(q.japaneseAudio!);
-    }
+    await _audio.execute(q.japaneseAudio!);
   }
 
   Future<void> playBack() async {
     final q = state.current;
-    if (q.englishAudio != null) {
-      await _audio.execute(q.englishAudio!);
-    }
+    await _audio.execute(q.englishAudio!);
   }
 
   Future<void> playCurrent() async {
