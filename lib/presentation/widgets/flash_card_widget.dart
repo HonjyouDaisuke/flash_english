@@ -43,24 +43,11 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
     }
   }
 
-  // Future<void> _handleFlip() async {
-  //   _isFront = !_isFront;
-
-  //   await playCurrentSound();
-  //   widget.onFlip?.call(_isFront);
-  // }
-
   void reset() {
     if (!isFront) {
       _cardKey.currentState?.toggleCard();
       isFront = true;
       //widget.onFlip?.call(_isFront);
-    }
-  }
-
-  Future<void> _playInitialAudio() async {
-    if (widget.frontAudio != null) {
-      await _play(widget.frontAudio!);
     }
   }
 
@@ -82,19 +69,6 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
   @override
   void didUpdateWidget(covariant FlashCardWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // 👇 問題が変わったときだけ
-    if (oldWidget.frontText != widget.frontText ||
-        oldWidget.backText != widget.backText) {
-      isFront = true;
-
-      if (_cardKey.currentState?.isFront == false) {
-        _cardKey.currentState?.toggleCard();
-      }
-
-      //widget.onFlip?.call(true); // 親も同期
-      //_playInitialAudio();
-    }
   }
 
   @override
