@@ -18,16 +18,16 @@ class AppDatabase {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-
+    await deleteDatabase(path);
     return await openDatabase(
       path,
-      version: 1,
-      onCreate: _createDB,
+      version: 2,
+      onCreate: createDB,
     );
   }
 
   /// テーブル作成
-  Future<void> _createDB(Database db, int version) async {
+  Future<void> createDB(DatabaseExecutor db, int version) async {
     // questionsテーブル
     await db.execute('''
       CREATE TABLE questions (
@@ -41,14 +41,32 @@ class AppDatabase {
       )
     ''');
 
-    // study_logsテーブル（将来用）
+    // 👇 セッションテーブル追加
+    await db.execute('''
+      CREATE TABLE study_sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        startedAt TEXT NOT NULL,
+        endedAt TEXT
+      )
+    ''');
+
+    // 👇 ログテーブル修正
     await db.execute('''
       CREATE TABLE study_logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         questionId INTEGER,
         isCorrect INTEGER,
-        studyTime INTEGER,
-        createdAt TEXT
+        createdAt TEXT,
+        sessionId INTEGER,
+        FOREIGN KEY (sessionId) REFERENCES study_sessions(id)
+      )
+    ''');
+
+    // settingsテーブル
+    await db.execute('''
+      CREATE TABLE settings (
+        key TEXT PRIMARY KEY,
+        value TEXT
       )
     ''');
   }

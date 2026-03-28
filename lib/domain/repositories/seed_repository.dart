@@ -1,6 +1,8 @@
+import 'package:sqflite/sqflite.dart';
+
 abstract class SeedRepository {
-  Future<bool> isSeeded();
-  Future<void> setSeeded();
-  Future<void> seed();
+  Future<void> seed(DatabaseExecutor db);
+  Future<bool> isSeeded(DatabaseExecutor db);
+  Future<void> setSeeded(DatabaseExecutor db);
   Future<void> reset();
 }

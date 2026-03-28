@@ -58,7 +58,10 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton.filled(
                 icon: const Icon(Icons.fast_rewind),
-                color: Colors.white,
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: notifier.prev,
               ),
               const SizedBox(width: 20),
@@ -100,7 +103,10 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
               const SizedBox(width: 20),
               IconButton.filled(
                 icon: const Icon(Icons.fast_forward),
-                color: Colors.white,
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
                 onPressed: notifier.next,
               ),
             ]),

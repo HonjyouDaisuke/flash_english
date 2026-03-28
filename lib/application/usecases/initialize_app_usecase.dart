@@ -1,4 +1,5 @@
 import 'package:flash_english/domain/repositories/seed_repository.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
 
 class InitializeAppUseCase {
   final SeedRepository repository;
@@ -6,11 +7,15 @@ class InitializeAppUseCase {
   InitializeAppUseCase(this.repository);
 
   Future<void> execute() async {
-    final seeded = await repository.isSeeded();
+    final db = await AppDatabase.instance.database;
 
-    if (!seeded) {
-      await repository.seed();
-      await repository.setSeeded();
-    }
+    await db.transaction((txn) async {
+      final seeded = await repository.isSeeded(txn);
+
+      if (!seeded) {
+        await repository.seed(txn);
+        await repository.setSeeded(txn);
+      }
+    });
   }
 }
