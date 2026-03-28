@@ -25,9 +25,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     });
   }
 
-  Future<void> playSound() async {
-    await _flipKey.currentState?.playCurrentSound();
-  }
+  // Future<void> playSound() async {
+  //   await _flipKey.currentState?.playCurrentSound();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                onPressed: playSound,
+                onPressed: () {
+                  ref.read(trainingProvider.notifier).playCurrent();
+                },
               ),
               const SizedBox(width: 20),
               if (!state.isFront) ...[

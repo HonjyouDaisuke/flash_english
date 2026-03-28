@@ -1,3 +1,5 @@
+import 'package:flash_english/application/usecases/play_audio_usecase.dart';
+import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/domain/entities/question.dart';
 import 'package:flash_english/application/usecases/get_questions_usecase.dart';
@@ -6,8 +8,10 @@ import 'package:flash_english/infrastructure/repositories/question_repository_im
 final trainingProvider =
     StateNotifierProvider<TrainingNotifier, TrainingState>((ref) {
   final repo = QuestionRepositoryImpl();
-  final usecase = GetQuestionsUseCase(repo);
-  return TrainingNotifier(usecase);
+  final getQ = GetQuestionsUseCase(repo);
+  final audioRepo = ref.read(audioRepositoryProvider);
+  final playAudio = PlayAudioUseCase(audioRepo);
+  return TrainingNotifier(getQ, playAudio);
 });
 
 class TrainingState {
@@ -42,8 +46,9 @@ class TrainingState {
 
 class TrainingNotifier extends StateNotifier<TrainingState> {
   final GetQuestionsUseCase _usecase;
+  final PlayAudioUseCase _audio;
 
-  TrainingNotifier(this._usecase) : super(const TrainingState());
+  TrainingNotifier(this._usecase, this._audio) : super(const TrainingState());
 
   Future<void> load() async {
     final q = await _usecase.execute();
@@ -52,27 +57,55 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
       questions: q,
       isLoading: false,
     );
+    await playFront();
   }
 
-  void next() {
+  Future<void> playFront() async {
+    final q = state.current;
+    if (q.japaneseAudio != null) {
+      await _audio.execute(q.japaneseAudio!);
+    }
+  }
+
+  Future<void> playBack() async {
+    final q = state.current;
+    if (q.englishAudio != null) {
+      await _audio.execute(q.englishAudio!);
+    }
+  }
+
+  Future<void> playCurrent() async {
+    if (state.isFront) {
+      await playFront();
+    } else {
+      await playBack();
+    }
+  }
+
+  void next() async {
     if (state.currentIndex >= state.questions.length - 1) return;
 
     state = state.copyWith(
       currentIndex: state.currentIndex + 1,
       isFront: true,
     );
+
+    await playFront();
   }
 
-  void prev() {
+  void prev() async {
     if (state.currentIndex <= 0) return;
 
     state = state.copyWith(
       currentIndex: state.currentIndex - 1,
       isFront: true,
     );
+
+    await playFront();
   }
 
-  void flip(bool isFront) {
+  void flip(bool isFront) async {
     state = state.copyWith(isFront: isFront);
+    await playCurrent();
   }
 }

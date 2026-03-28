@@ -23,48 +23,45 @@ class FlashCardWidget extends StatefulWidget {
 }
 
 class FlashCardWidgetState extends State<FlashCardWidget> {
-  final AudioPlayer _player = AudioPlayer();
+  // final AudioPlayer _player = AudioPlayer();
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   bool isFront = true;
 
-  Future<void> _play(String path) async {
-    if (path.isEmpty) return;
-    await _player.stop();
-    await _player.play(AssetSource(path));
-  }
+  // Future<void> _play(String path) async {
+  //   if (path.isEmpty) return;
+  //   await _player.stop();
+  //   await _player.play(AssetSource(path));
+  // }
 
-  Future<void> playCurrentSound() async {
-    if (isFront && widget.frontAudio != null) {
-      await _play(widget.frontAudio!);
-      debugPrint("表面: $isFront  ファイル名:$widget.frontAudio");
-    } else if (!isFront && widget.backAudio != null) {
-      await _play(widget.backAudio!);
-      debugPrint("裏面: $isFront  ファイル名:$widget.backAudio");
-    }
-  }
+  // Future<void> playCurrentSound() async {
+  //   if (isFront && widget.frontAudio != null) {
+  //     await _play(widget.frontAudio!);
+  //   } else if (!isFront && widget.backAudio != null) {
+  //     await _play(widget.backAudio!);
+  //   }
+  // }
 
   void reset() {
     if (!isFront) {
       _cardKey.currentState?.toggleCard();
       isFront = true;
-      //widget.onFlip?.call(_isFront);
     }
   }
 
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _player.dispose();
+  //   super.dispose();
+  // }
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      playCurrentSound();
-    });
-  }
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     playCurrentSound();
+  //   });
+  // }
 
   @override
   void didUpdateWidget(covariant FlashCardWidget oldWidget) {
@@ -77,7 +74,7 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
       key: _cardKey,
       onFlipDone: (_) async {
         isFront = !isFront;
-        await playCurrentSound();
+        // await playCurrentSound();
         widget.onFlip?.call(isFront);
       },
       front: Container(
