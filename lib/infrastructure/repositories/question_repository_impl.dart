@@ -1,14 +1,15 @@
 import 'package:flash_english/domain/entities/question.dart';
 import 'package:flash_english/domain/repositories/question_repository.dart';
-import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
+import 'package:flash_english/infrastructure/persistence/mappers/question_mapper.dart';
 
 class QuestionRepositoryImpl implements QuestionRepository {
-  final QuestionLocalDataSource localDataSource;
-
-  QuestionRepositoryImpl(this.localDataSource);
-
   @override
   Future<List<Question>> getQuestions() async {
-    return await localDataSource.loadQuestions();
+    final db = await AppDatabase.instance.database;
+
+    final result = await db.query('questions');
+
+    return result.map((map) => QuestionMapper.fromMap(map)).toList();
   }
 }

@@ -46,9 +46,12 @@ class _MainTabPageState extends State<MainTabPage> {
         },
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.school), label: 'トレーニング'),
-          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: '結果'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'チャット'),
-          BottomNavigationBarItem(icon: Icon(Icons.warning), label: '苦手'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.dashboard), label: 'ダッシュボード'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.calendar_month), label: 'カレンダー'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.emoji_events), label: 'チャレンジ'),
         ],
       ),
     );
