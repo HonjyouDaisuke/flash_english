@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flip_card/flip_card.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 class FlashCardWidget extends StatefulWidget {
   final String frontText;
@@ -27,41 +26,12 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   bool isFront = true;
 
-  // Future<void> _play(String path) async {
-  //   if (path.isEmpty) return;
-  //   await _player.stop();
-  //   await _player.play(AssetSource(path));
-  // }
-
-  // Future<void> playCurrentSound() async {
-  //   if (isFront && widget.frontAudio != null) {
-  //     await _play(widget.frontAudio!);
-  //   } else if (!isFront && widget.backAudio != null) {
-  //     await _play(widget.backAudio!);
-  //   }
-  // }
-
   void reset() {
     if (!isFront) {
       _cardKey.currentState?.toggleCard();
       isFront = true;
     }
   }
-
-  // @override
-  // void dispose() {
-  //   _player.dispose();
-  //   super.dispose();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     playCurrentSound();
-  //   });
-  // }
 
   @override
   void didUpdateWidget(covariant FlashCardWidget oldWidget) {

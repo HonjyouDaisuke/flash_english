@@ -25,10 +25,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     });
   }
 
-  // Future<void> playSound() async {
-  //   await _flipKey.currentState?.playCurrentSound();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
