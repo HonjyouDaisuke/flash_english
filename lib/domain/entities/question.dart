@@ -1,4 +1,5 @@
 class Question {
+  final int? id;
   final String category;
   final String japanese;
   final String english;
@@ -6,6 +7,7 @@ class Question {
   final String englishAudio;
 
   Question({
+    required this.id,
     required this.category,
     required this.japanese,
     required this.english,

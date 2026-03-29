@@ -10,6 +10,7 @@ class QuestionLocalDataSource {
 
     return data
         .map((e) => Question(
+              id: e['id'],
               category: e['category'],
               japanese: e['japanese'],
               english: e['english'],

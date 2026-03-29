@@ -3,7 +3,7 @@ import 'package:flash_english/infrastructure/persistence/mappers/question_mapper
 import 'package:flutter/material.dart';
 import 'package:flash_english/domain/repositories/seed_repository.dart';
 import 'package:sqflite/sqflite.dart';
-import 'app_database.dart';
+import '../persistence/app_database.dart';
 import 'package:flash_english/domain/entities/question.dart';
 
 class SeedRepositoryImpl implements SeedRepository {

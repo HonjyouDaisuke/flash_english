@@ -71,7 +71,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(trainingProvider.notifier).answer(false);
+                  },
                 ),
               ],
               const SizedBox(width: 20),
@@ -95,7 +97,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    ref.read(trainingProvider.notifier).answer(true);
+                  },
                 ),
               ],
               const SizedBox(width: 20),

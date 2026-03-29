@@ -1,4 +1,8 @@
+import 'package:flash_english/application/usecases/end_session_usecase.dart';
 import 'package:flash_english/application/usecases/play_audio_usecase.dart';
+import 'package:flash_english/application/usecases/save_answer_usecase.dart';
+import 'package:flash_english/application/usecases/start_session_usecase.dart';
+import 'package:flash_english/infrastructure/repositories/study_repository_impl.dart';
 import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/domain/entities/question.dart';
@@ -6,12 +10,20 @@ import 'package:flash_english/application/usecases/get_questions_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/question_repository_impl.dart';
 
 final trainingProvider =
-    StateNotifierProvider<TrainingNotifier, TrainingState>((ref) {
+    StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
   final repo = QuestionRepositoryImpl();
   final getQ = GetQuestionsUseCase(repo);
   final audioRepo = ref.read(audioRepositoryProvider);
   final playAudio = PlayAudioUseCase(audioRepo);
-  return TrainingNotifier(getQ, playAudio);
+  final studyRepo = StudyRepositoryImpl();
+
+  return TrainingNotifier(
+    getQ,
+    playAudio,
+    StartSessionUseCase(studyRepo),
+    EndSessionUseCase(studyRepo),
+    SaveAnswerUseCase(studyRepo),
+  );
 });
 
 class TrainingState {
@@ -19,12 +31,14 @@ class TrainingState {
   final int currentIndex;
   final bool isFront;
   final bool isLoading;
+  final int? sessionId;
 
   const TrainingState({
     this.questions = const [],
     this.currentIndex = 0,
     this.isFront = true,
     this.isLoading = true,
+    this.sessionId,
   });
 
   Question get current => questions[currentIndex];
@@ -34,12 +48,14 @@ class TrainingState {
     int? currentIndex,
     bool? isFront,
     bool? isLoading,
+    int? sessionId,
   }) {
     return TrainingState(
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
       isFront: isFront ?? this.isFront,
       isLoading: isLoading ?? this.isLoading,
+      sessionId: sessionId ?? this.sessionId,
     );
   }
 }
@@ -47,17 +63,44 @@ class TrainingState {
 class TrainingNotifier extends StateNotifier<TrainingState> {
   final GetQuestionsUseCase _usecase;
   final PlayAudioUseCase _audio;
+  final StartSessionUseCase _startSession;
+  final EndSessionUseCase _endSession;
+  final SaveAnswerUseCase _saveAnswer;
 
-  TrainingNotifier(this._usecase, this._audio) : super(const TrainingState());
+  TrainingNotifier(
+    this._usecase,
+    this._audio,
+    this._startSession,
+    this._endSession,
+    this._saveAnswer,
+  ) : super(const TrainingState());
 
   Future<void> load() async {
     final q = await _usecase.execute();
+    final sessionId = await _startSession.execute();
 
     state = state.copyWith(
       questions: q,
       isLoading: false,
+      sessionId: sessionId,
     );
     await playFront();
+  }
+
+  Future<void> endSession() async {
+    if (state.sessionId == null) return;
+
+    await _endSession.execute(state.sessionId!);
+  }
+
+  @override
+  void dispose() {
+    endSession(); // 👈 ここで終了
+    super.dispose();
+  }
+
+  void setSession(int id) {
+    state = state.copyWith(sessionId: id);
   }
 
   Future<void> playFront() async {
@@ -103,5 +146,19 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
   void flip(bool isFront) async {
     state = state.copyWith(isFront: isFront);
     await playCurrent();
+  }
+
+  Future<void> answer(bool isCorrect) async {
+    final q = state.current;
+
+    if (state.sessionId == null) return;
+
+    await _saveAnswer.execute(
+      questionId: q.id!,
+      isCorrect: isCorrect,
+      sessionId: state.sessionId!,
+    );
+
+    next(); // 👈 次へ
   }
 }
