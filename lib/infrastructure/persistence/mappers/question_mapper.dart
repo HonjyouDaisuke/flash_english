@@ -7,8 +7,8 @@ class QuestionMapper {
       'category': q.category,
       'japanese': q.japanese,
       'english': q.english,
-      'japaneseAudio': q.japaneseAudio,
-      'englishAudio': q.englishAudio,
+      'japanese_audio': q.japaneseAudio,
+      'english_audio': q.englishAudio,
     };
   }
 
@@ -18,8 +18,8 @@ class QuestionMapper {
       category: map['category'],
       japanese: map['japanese'],
       english: map['english'],
-      japaneseAudio: map['japaneseAudio'],
-      englishAudio: map['englishAudio'],
+      japaneseAudio: map['japanese_audio'],
+      englishAudio: map['english_audio'],
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flash_english/application/usecases/save_answer_usecase.dart';
 import 'package:flash_english/application/usecases/start_session_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/study_repository_impl.dart';
 import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/domain/entities/question.dart';
 import 'package:flash_english/application/usecases/get_questions_usecase.dart';
@@ -17,13 +18,17 @@ final trainingProvider =
   final playAudio = PlayAudioUseCase(audioRepo);
   final studyRepo = StudyRepositoryImpl();
 
-  return TrainingNotifier(
+  final notifier = TrainingNotifier(
     getQ,
     playAudio,
     StartSessionUseCase(studyRepo),
     EndSessionUseCase(studyRepo),
     SaveAnswerUseCase(studyRepo),
   );
+  ref.onDispose(() {
+    notifier.endSession();
+  });
+  return notifier;
 });
 
 class TrainingState {
@@ -76,14 +81,22 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
   ) : super(const TrainingState());
 
   Future<void> load() async {
+    debugPrint("🔥 LOAD START");
+
     final q = await _usecase.execute();
+    debugPrint("✅ QUESTIONS: ${q.length}");
+
     final sessionId = await _startSession.execute();
+    debugPrint("🟡 SESSION: $sessionId");
 
     state = state.copyWith(
       questions: q,
       isLoading: false,
       sessionId: sessionId,
     );
+
+    debugPrint("🟢 STATE UPDATED");
+
     await playFront();
   }
 
@@ -122,6 +135,8 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
   }
 
   void next() async {
+    if (state.questions.isEmpty) return;
+
     if (state.currentIndex >= state.questions.length - 1) return;
 
     state = state.copyWith(

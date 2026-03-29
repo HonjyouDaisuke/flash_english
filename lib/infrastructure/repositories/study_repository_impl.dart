@@ -9,7 +9,7 @@ class StudyRepositoryImpl implements StudyRepository {
     final database = await db.database;
 
     return await database.insert('study_sessions', {
-      'startedAt': DateTime.now().toIso8601String(),
+      'started_at': DateTime.now().toIso8601String(),
     });
   }
 
@@ -19,7 +19,7 @@ class StudyRepositoryImpl implements StudyRepository {
 
     await database.update(
       'study_sessions',
-      {'endedAt': DateTime.now().toIso8601String()},
+      {'ended_at': DateTime.now().toIso8601String()},
       where: 'id = ?',
       whereArgs: [sessionId],
     );
@@ -34,10 +34,10 @@ class StudyRepositoryImpl implements StudyRepository {
     final database = await db.database;
 
     await database.insert('study_logs', {
-      'questionId': questionId,
-      'isCorrect': isCorrect ? 1 : 0,
-      'createdAt': DateTime.now().toIso8601String(),
-      'sessionId': sessionId,
+      'question_id': questionId,
+      'is_correct': isCorrect ? 1 : 0,
+      'created_at': DateTime.now().toIso8601String(),
+      'session_id': sessionId,
     });
   }
 }
