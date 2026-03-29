@@ -4,6 +4,7 @@ class StudyLog {
   final bool isCorrect;
   final DateTime createdAt;
   final int sessionId;
+  final int durationSeconds;
 
   StudyLog({
     this.id,
@@ -11,5 +12,6 @@ class StudyLog {
     required this.isCorrect,
     required this.createdAt,
     required this.sessionId,
+    required this.durationSeconds,
   });
 }

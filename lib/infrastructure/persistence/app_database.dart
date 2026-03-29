@@ -36,8 +36,8 @@ class AppDatabase {
         english TEXT NOT NULL,
         audioPath TEXT,
         category TEXT,
-        japaneseAudio TEXT,
-        englishAudio TEXT
+        japanese_audio TEXT,
+        english_audio TEXT
       )
     ''');
 
@@ -45,8 +45,8 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE study_sessions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        startedAt TEXT NOT NULL,
-        endedAt TEXT
+        started_at TEXT NOT NULL,
+        ended_at TEXT
       )
     ''');
 
@@ -54,11 +54,12 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE study_logs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        questionId INTEGER,
-        isCorrect INTEGER,
-        createdAt TEXT,
-        sessionId INTEGER,
-        FOREIGN KEY (sessionId) REFERENCES study_sessions(id)
+        question_id INTEGER,
+        is_correct INTEGER,
+        created_at TEXT,
+        session_id INTEGER,
+        duration INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY (session_id) REFERENCES study_sessions(id)
       )
     ''');
 

@@ -10,11 +10,11 @@ class InitializeAppUseCase {
     final db = await AppDatabase.instance.database;
 
     await db.transaction((txn) async {
-      final seeded = await repository.isSeeded(txn);
+      final needsSeed = await repository.needsSeeding(txn);
 
-      if (!seeded) {
+      if (needsSeed) {
         await repository.seed(txn);
-        await repository.setSeeded(txn);
+        await repository.setSeeded(txn); // ←これは任意
       }
     });
   }
