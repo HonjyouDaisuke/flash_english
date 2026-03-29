@@ -14,13 +14,11 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
-  late Future<DailyStats> _future;
+  Future<DailyStats>? _future;
 
   @override
   void initState() {
     super.initState();
-    final usecase = ref.read(getTodayStatsUseCaseProvider);
-    _future = usecase.execute(); // ← ここで1回だけ
   }
 
   @override
@@ -42,6 +40,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       body: FutureBuilder<DailyStats>(
         future: _future,
         builder: (context, snapshot) {
+          if (_future == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
