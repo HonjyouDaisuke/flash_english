@@ -32,7 +32,7 @@ class TodayStatsCardWidget extends StatelessWidget {
             _row('学習時間', formatDuration(stats.studyTime)),
             _row('センテンス数', '${stats.sentenceCount}'),
             _row('正解数', '${stats.correctCount}'),
-            _row('不正回数', '${stats.wrongCount}'),
+            _row('不正解数', '${stats.wrongCount}'),
           ],
         ),
       ),

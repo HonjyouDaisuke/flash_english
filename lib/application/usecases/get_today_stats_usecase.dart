@@ -12,21 +12,20 @@ class GetTodayStatsUseCase {
     this.sessionRepository,
   );
 
-  List<StudyLog> _filterToday(List<StudyLog> logs) {
-    final now = DateTime.now();
-
+  List<StudyLog> _filterByDate(List<StudyLog> logs, DateTime date) {
     return logs.where((l) {
-      return l.createdAt.year == now.year &&
-          l.createdAt.month == now.month &&
-          l.createdAt.day == now.day;
+      return l.createdAt.year == date.year &&
+          l.createdAt.month == date.month &&
+          l.createdAt.day == date.day;
     }).toList();
   }
 
   Future<DailyStats> execute() async {
+    final now = DateTime.now();
     final logs = await logRepository.getAllLogs();
-    final todayLogs = _filterToday(logs);
+    final todayLogs = _filterByDate(logs, now);
 
-    final sessions = await sessionRepository.getSessionsByDate(DateTime.now());
+    final sessions = await sessionRepository.getSessionsByDate(now);
 
     final totalTime = sessions.fold<Duration>(
       Duration.zero,

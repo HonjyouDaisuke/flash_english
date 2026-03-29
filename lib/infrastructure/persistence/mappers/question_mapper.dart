@@ -18,8 +18,8 @@ class QuestionMapper {
       category: map['category'],
       japanese: map['japanese'],
       english: map['english'],
-      japaneseAudio: map['japanese_audio'],
-      englishAudio: map['english_audio'],
+      japaneseAudio: map['japanese_audio'] ?? map['japaneseAudio'],
+      englishAudio: map['english_audio'] ?? map['englishAudio'],
     );
   }
 }

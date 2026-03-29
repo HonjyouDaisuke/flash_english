@@ -24,6 +24,19 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _reload();
+  }
+
+  void _reload() {
+    final usecase = ref.read(getTodayStatsUseCaseProvider);
+    setState(() {
+      _future = usecase.execute();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<DailyStats>(

@@ -58,6 +58,7 @@ class AppDatabase {
         is_correct INTEGER,
         created_at TEXT,
         session_id INTEGER,
+        duration INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (session_id) REFERENCES study_sessions(id)
       )
     ''');
