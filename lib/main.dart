@@ -3,6 +3,7 @@ import 'package:flash_english/infrastructure/datasources/local/question_local_da
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/infrastructure/repositories/seed_repository_impl.dart';
 import 'package:flash_english/presentation/providers/database_provider.dart';
+import 'package:flash_english/presentation/theme/app_theme.dart';
 import 'package:flash_english/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,6 +47,9 @@ class FlashEnglishApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.light,
       routerConfig: appRouter,
     );
   }

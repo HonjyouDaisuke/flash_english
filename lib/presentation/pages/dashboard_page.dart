@@ -37,6 +37,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: FutureBuilder<DailyStats>(
         future: _future,
         builder: (context, snapshot) {

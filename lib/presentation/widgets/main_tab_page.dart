@@ -32,14 +32,15 @@ class _MainTabPageState extends State<MainTabPage> {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _calculateIndex(context);
-
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Colors.blue, // ← 選択中
-        unselectedItemColor: Colors.grey, // ← 未選択
-        backgroundColor: Colors.white, // ← 背景
+        selectedItemColor: cs.primary, // ← 選択中
+        unselectedItemColor: cs.onSurface, // ← 未選択
+        backgroundColor: cs.surface, // ← 背景
         currentIndex: currentIndex, // ← ここ重要
         onTap: (index) {
           context.go(routes[index]);
