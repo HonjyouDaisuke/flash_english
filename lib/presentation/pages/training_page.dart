@@ -1,6 +1,7 @@
 import 'package:flash_english/domain/enums/training_mode.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
+import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,6 +15,8 @@ class TrainingPage extends ConsumerStatefulWidget {
 }
 
 class _TrainingPageState extends ConsumerState<TrainingPage> {
+  final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
+  bool _isSyncing = false;
   @override
   void initState() {
     super.initState();
@@ -23,6 +26,27 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     });
   }
 
+  void _startAutoFlip(TrainingNotifier notifier) async {
+    Future.delayed(const Duration(seconds: 5), () {
+      if (!mounted) return;
+      ref.read(trainingProvider.notifier).flip(false);
+      // まだ表ならflip
+      // if (ref.read(trainingProvider).isFront) {
+      //   _cardKey.currentState?.toggleCard();
+      // }
+    });
+  }
+
+  void _syncCard(bool isFront) {
+    final card = _cardKey.currentState;
+    if (card == null) return;
+
+    if (isFront != card.isFront) {
+      _isSyncing = true; // 👈 ここ重要
+      card.toggleCard();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
@@ -30,6 +54,34 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
+    ref.listen(trainingProvider, (prev, next) {
+      if (prev?.currentIndex != next.currentIndex) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _syncCard(true);
+          _startAutoFlip(notifier);
+        });
+      }
+
+      if (prev?.isFront != next.isFront) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _syncCard(next.isFront);
+        });
+      }
+      // // 問題切り替え
+      //     if (prev?.currentIndex != next.currentIndex) {
+      //       WidgetsBinding.instance.addPostFrameCallback((_) {
+      //         _syncCard(true); // 👈 表に戻す
+      //         _startAutoFlip(notifier);
+      //       });
+      //     }
+
+      //     // 表裏変化
+      //     if (prev?.isFront != next.isFront) {
+      //       WidgetsBinding.instance.addPostFrameCallback((_) {
+      //         _syncCard(next.isFront);
+      //       });
+      //     }
+    });
     if (state.isLoading || state.questions.isEmpty) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -48,12 +100,19 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
             Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
-              key: ValueKey(state.currentIndex),
+              // key: ValueKey(state.currentIndex),
+              cardKey: _cardKey,
               frontText: q.japanese,
               backText: q.english,
               frontAudio: q.japaneseAudio,
               backAudio: q.englishAudio,
-              onFlip: notifier.flip,
+              onFlip: (isFront) {
+                if (_isSyncing) {
+                  _isSyncing = false; // 👈 同期由来なので無視
+                  return;
+                }
+                notifier.flip(isFront); // 👈 ユーザー操作のみ反映
+              },
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               IconButton.filled(
