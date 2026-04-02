@@ -40,6 +40,8 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
     return FlipCard(
       key: _cardKey,
       onFlipDone: (_) async {
@@ -52,14 +54,15 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
         height: 200,
         alignment: Alignment.center,
         child: Card(
-          color: Colors.blue,
+          color: cs.primary,
+          elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Center(
             child: Text(
               widget.frontText,
-              style: const TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, color: cs.onPrimary),
               textAlign: TextAlign.center,
             ),
           ),
@@ -69,14 +72,15 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
         width: 500,
         height: 200,
         child: Card(
-          color: Colors.pink,
+          color: cs.secondary,
+          elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: Center(
             child: Text(
               widget.backText,
-              style: const TextStyle(fontSize: 24),
+              style: TextStyle(fontSize: 24, color: cs.onSecondary),
               textAlign: TextAlign.center,
             ),
           ),

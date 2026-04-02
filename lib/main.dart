@@ -25,20 +25,6 @@ void main() async {
       child: const FlashEnglishApp(),
     ),
   );
-  // WidgetsFlutterBinding.ensureInitialized();
-
-  // final dataSource = QuestionLocalDataSource();
-  // final seedRepository = SeedRepositoryImpl(dataSource);
-
-  // final initializeUseCase = InitializeAppUseCase(seedRepository);
-
-  // await initializeUseCase.execute();
-
-  // runApp(
-  //   const ProviderScope(
-  //     child: FlashEnglishApp(),
-  //   ),
-  // );
 }
 
 class FlashEnglishApp extends StatelessWidget {
