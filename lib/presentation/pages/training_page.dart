@@ -27,6 +27,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
     final notifier = ref.read(trainingProvider.notifier);
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
 
     if (state.isLoading || state.questions.isEmpty) {
       return const Scaffold(
@@ -57,8 +59,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
               IconButton.filled(
                 icon: const Icon(Icons.fast_rewind),
                 style: IconButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: cs.primary,
+                  foregroundColor: cs.onPrimary,
                 ),
                 onPressed: notifier.prev,
               ),
@@ -68,8 +70,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                   icon: const Icon(Icons.cancel_outlined),
                   label: const Text('不正解'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
+                    backgroundColor: cs.error,
+                    foregroundColor: cs.onError,
                   ),
                   onPressed: () {
                     ref.read(trainingProvider.notifier).answer(false);
@@ -81,8 +83,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                 icon: const Icon(Icons.campaign),
                 label: const Text('もう一度再生'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
+                  backgroundColor: cs.secondary,
+                  foregroundColor: cs.onSecondary,
                 ),
                 onPressed: () {
                   ref.read(trainingProvider.notifier).playCurrent();
@@ -94,8 +96,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                   icon: const Icon(Icons.check_circle_outline),
                   label: const Text('正解'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
+                    backgroundColor: cs.tertiary,
+                    foregroundColor: cs.onTertiary,
                   ),
                   onPressed: () {
                     ref.read(trainingProvider.notifier).answer(true);
@@ -106,8 +108,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
               IconButton.filled(
                 icon: const Icon(Icons.fast_forward),
                 style: IconButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
+                  backgroundColor: cs.primary,
+                  foregroundColor: cs.onPrimary,
                 ),
                 onPressed: notifier.next,
               ),
