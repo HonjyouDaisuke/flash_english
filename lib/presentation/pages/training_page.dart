@@ -21,20 +21,34 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   void initState() {
     super.initState();
 
-    Future.microtask(() {
-      ref.read(trainingProvider.notifier).load();
+    // Future.microtask(() {
+    //   ref.read(trainingProvider.notifier).load();
+    // });
+
+    Future.microtask(() async {
+      final notifier = ref.read(trainingProvider.notifier);
+
+      await notifier.load();
+
+      // 👇 初回だけ手動トリガー
+      if (!mounted) return;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _startAutoFlip(notifier);
+      });
     });
   }
 
   void _startAutoFlip(TrainingNotifier notifier) async {
-    Future.delayed(const Duration(seconds: 5), () {
-      if (!mounted) return;
-      ref.read(trainingProvider.notifier).flip(false);
-      // まだ表ならflip
-      // if (ref.read(trainingProvider).isFront) {
-      //   _cardKey.currentState?.toggleCard();
-      // }
-    });
+    final notifier = ref.read(trainingProvider.notifier);
+
+    await notifier.playFrontAndWait();
+
+    await Future.delayed(const Duration(seconds: 5));
+
+    if (!mounted) return;
+
+    notifier.flip(false);
   }
 
   void _syncCard(bool isFront) {
@@ -67,20 +81,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
           _syncCard(next.isFront);
         });
       }
-      // // 問題切り替え
-      //     if (prev?.currentIndex != next.currentIndex) {
-      //       WidgetsBinding.instance.addPostFrameCallback((_) {
-      //         _syncCard(true); // 👈 表に戻す
-      //         _startAutoFlip(notifier);
-      //       });
-      //     }
-
-      //     // 表裏変化
-      //     if (prev?.isFront != next.isFront) {
-      //       WidgetsBinding.instance.addPostFrameCallback((_) {
-      //         _syncCard(next.isFront);
-      //       });
-      //     }
     });
     if (state.isLoading || state.questions.isEmpty) {
       return const Scaffold(
@@ -100,7 +100,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
             Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
-              // key: ValueKey(state.currentIndex),
               cardKey: _cardKey,
               frontText: q.japanese,
               backText: q.english,

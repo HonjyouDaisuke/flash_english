@@ -11,7 +11,7 @@ class TrainingMenuPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppBar(title: const Text('トレーニング')), // ← これも微妙
+        AppBar(title: const Text('トレーニング')),
         Expanded(
           child: Center(
             child: Column(
