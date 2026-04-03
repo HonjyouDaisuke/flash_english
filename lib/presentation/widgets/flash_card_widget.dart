@@ -7,9 +7,11 @@ class FlashCardWidget extends StatefulWidget {
   final String? frontAudio;
   final String? backAudio;
   final ValueChanged<bool>? onFlip;
+  final GlobalKey<FlipCardState>? cardKey;
 
   const FlashCardWidget({
     super.key,
+    this.cardKey,
     required this.frontText,
     required this.backText,
     this.frontAudio,
@@ -22,7 +24,6 @@ class FlashCardWidget extends StatefulWidget {
 }
 
 class FlashCardWidgetState extends State<FlashCardWidget> {
-  // final AudioPlayer _player = AudioPlayer();
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   bool isFront = true;
 
@@ -43,10 +44,8 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     return FlipCard(
-      key: _cardKey,
-      onFlipDone: (_) async {
-        isFront = !isFront;
-        // await playCurrentSound();
+      key: widget.cardKey ?? _cardKey,
+      onFlipDone: (isFront) {
         widget.onFlip?.call(isFront);
       },
       front: Container(

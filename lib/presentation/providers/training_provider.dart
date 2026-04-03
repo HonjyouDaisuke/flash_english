@@ -96,8 +96,6 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     );
 
     debugPrint("🟢 STATE UPDATED");
-
-    await playFront();
   }
 
   Future<void> endSession() async {
@@ -134,6 +132,11 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     }
   }
 
+  Future<void> playFrontAndWait() async {
+    final q = state.current;
+    await _audio.execute(q.japaneseAudio);
+  }
+
   void next() async {
     if (state.questions.isEmpty) return;
 
@@ -143,8 +146,6 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
       currentIndex: state.currentIndex + 1,
       isFront: true,
     );
-
-    await playFront();
   }
 
   void prev() async {
