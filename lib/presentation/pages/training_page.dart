@@ -21,10 +21,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   void initState() {
     super.initState();
 
-    // Future.microtask(() {
-    //   ref.read(trainingProvider.notifier).load();
-    // });
-
     Future.microtask(() async {
       final notifier = ref.read(trainingProvider.notifier);
 
@@ -40,14 +36,27 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   }
 
   void _startAutoFlip(TrainingNotifier notifier) async {
-    final notifier = ref.read(trainingProvider.notifier);
-
+    // final notifier = ref.read(trainingProvider.notifier);
+    final start = ref.read(trainingProvider);
+    if (start.questions.isEmpty || !start.isFront) return;
     await notifier.playFrontAndWait();
+    if (!mounted) return;
+    final afterPlay = ref.read(trainingProvider);
+    if (afterPlay.questions.isEmpty ||
+        afterPlay.currentIndex != start.currentIndex ||
+        !afterPlay.isFront) {
+      return;
+    }
 
     await Future.delayed(const Duration(seconds: 5));
 
     if (!mounted) return;
-
+    final beforeFlip = ref.read(trainingProvider);
+    if (beforeFlip.questions.isEmpty ||
+        beforeFlip.currentIndex != start.currentIndex ||
+        !beforeFlip.isFront) {
+      return;
+    }
     notifier.flip(false);
   }
 

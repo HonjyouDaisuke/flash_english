@@ -27,9 +27,11 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   bool isFront = true;
 
+  GlobalKey<FlipCardState> get _effectiveCardKey => widget.cardKey ?? _cardKey;
+
   void reset() {
     if (!isFront) {
-      _cardKey.currentState?.toggleCard();
+      _effectiveCardKey.currentState?.toggleCard();
       isFront = true;
     }
   }
@@ -44,8 +46,9 @@ class FlashCardWidgetState extends State<FlashCardWidget> {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     return FlipCard(
-      key: widget.cardKey ?? _cardKey,
+      key: _effectiveCardKey,
       onFlipDone: (isFront) {
+        this.isFront = isFront;
         widget.onFlip?.call(isFront);
       },
       front: Container(
