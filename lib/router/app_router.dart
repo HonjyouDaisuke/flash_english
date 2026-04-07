@@ -1,4 +1,7 @@
-import 'package:flash_english/domain/enums/training_mode.dart';
+import 'dart:collection';
+
+import 'package:flash_english/presentation/pages/category_select_page.dart';
+import 'package:flash_english/presentation/pages/unit_select_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/pages/training_menu_page.dart';
@@ -22,14 +25,31 @@ final GoRouter appRouter = GoRouter(
           builder: (context, state) => const TrainingMenuPage(),
           routes: [
             GoRoute(
-              path: 'normal',
-              builder: (context, state) =>
-                  const TrainingPage(mode: TrainingMode.level1),
-            ),
+                path: 'category',
+                builder: (context, state) => const CategorySelectPage(),
+                routes: [
+                  GoRoute(
+                      path: 'unit',
+                      builder: (context, state) => const UnitSelectPage(
+                            categoryId: 1,
+                          ),
+                      routes: [
+                        GoRoute(
+                          path: 'training',
+                          builder: (context, state) {
+                            final categoryId = int.parse(
+                                state.uri.queryParameters['categoryId'] ?? '0');
+                            final unitId = int.parse(
+                                state.uri.queryParameters['unitId'] ?? '0');
+                            return TrainingPage(
+                                categoryId: categoryId, unitId: unitId);
+                          },
+                        ),
+                      ]),
+                ]),
             GoRoute(
               path: 'shuffle',
-              builder: (context, state) =>
-                  const TrainingPage(mode: TrainingMode.shuffle),
+              builder: (context, state) => const TrainingPage(),
             ),
           ],
         ),

@@ -1,6 +1,8 @@
 import 'package:flash_english/application/usecases/reset_app_usecase.dart';
 import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
 import 'package:flash_english/infrastructure/repositories/seed_repository_impl.dart';
+import 'package:flash_english/presentation/pages/category_select_page.dart';
+import 'package:flash_english/presentation/pages/training_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,7 +36,7 @@ class TrainingMenuPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    context.push('/training/shuffle');
+                    context.push('/training/category');
                   },
                   child: const Text('シャッフル'),
                 ),

@@ -1,4 +1,3 @@
-import 'package:flash_english/domain/enums/training_mode.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
@@ -6,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
-  final TrainingMode mode;
-
-  const TrainingPage({super.key, required this.mode});
+  final int? categoryId;
+  final int? unitId;
+  const TrainingPage({super.key, this.categoryId, this.unitId});
 
   @override
   ConsumerState<TrainingPage> createState() => _TrainingPageState();
@@ -20,7 +19,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   @override
   void initState() {
     super.initState();
-
+    debugPrint(
+        'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
     Future.microtask(() async {
       final notifier = ref.read(trainingProvider.notifier);
 
@@ -105,7 +105,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("トレーニングモード : ${widget.mode}"),
             Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
