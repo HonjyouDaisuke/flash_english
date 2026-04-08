@@ -1,3 +1,4 @@
+import 'package:flash_english/presentation/controllers/game_controller.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
@@ -21,13 +22,13 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     super.initState();
     debugPrint(
         'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
+
     Future.microtask(() async {
-      final notifier = ref.read(trainingProvider.notifier);
-
-      await notifier.load();
-
+      await ref.read(gameControllerProvider.notifier).start();
       // 👇 初回だけ手動トリガー
       if (!mounted) return;
+
+      final notifier = ref.read(trainingProvider.notifier);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _startAutoFlip(notifier);
@@ -73,7 +74,11 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
+    final game = ref.watch(gameControllerProvider);
+
     final notifier = ref.read(trainingProvider.notifier);
+    final gameController = ref.read(gameControllerProvider.notifier);
+
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 

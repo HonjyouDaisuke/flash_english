@@ -30,7 +30,7 @@ final GoRouter appRouter = GoRouter(
                 routes: [
                   GoRoute(
                       path: 'unit',
-                      builder: (context, state) => const UnitSelectPage(
+                      builder: (context, state) => UnitSelectPage(
                             categoryId: 1,
                           ),
                       routes: [
