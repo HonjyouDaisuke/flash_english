@@ -1,5 +1,6 @@
 import 'package:flash_english/presentation/controllers/game_controller.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
+import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +97,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         });
       }
     });
-    if (state.isLoading || state.questions.isEmpty) {
+    if (game.phase == GamePhase.loading ||
+        state.isLoading ||
+        state.questions.isEmpty) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
@@ -145,7 +148,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onError,
                   ),
                   onPressed: () {
-                    ref.read(trainingProvider.notifier).answer(false);
+                    gameController.answer(false);
                   },
                 ),
               ],
@@ -171,19 +174,25 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onTertiary,
                   ),
                   onPressed: () {
-                    ref.read(trainingProvider.notifier).answer(true);
+                    gameController.answer(true);
                   },
                 ),
               ],
               const SizedBox(width: 20),
               IconButton.filled(
-                icon: const Icon(Icons.fast_forward),
-                style: IconButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  foregroundColor: cs.onPrimary,
-                ),
-                onPressed: notifier.next,
-              ),
+                  icon: const Icon(Icons.fast_forward),
+                  style: IconButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    foregroundColor: cs.onPrimary,
+                  ),
+                  onPressed: () {
+                    final trainingNotifier =
+                        ref.read(trainingProvider.notifier);
+
+                    trainingNotifier.next(); // ⭐️ まず進める
+                    gameController.nextOrFinish();
+                    // notifier.next,
+                  }),
             ]),
           ],
         ),

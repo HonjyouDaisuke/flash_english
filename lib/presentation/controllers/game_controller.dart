@@ -1,5 +1,6 @@
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final gameControllerProvider =
@@ -51,20 +52,24 @@ class GameController extends StateNotifier<GameState> {
     await ref.read(trainingProvider.notifier).answer(isCorrect);
 
     // ③ 次へ or 終了
-    await _nextOrFinish();
+    await nextOrFinish();
   }
 
-  Future<void> _nextOrFinish() async {
+  Future<void> nextOrFinish() async {
     await Future.delayed(const Duration(milliseconds: 700));
-
+    debugPrint("nextOrFinish called");
     final trainingState = ref.read(trainingProvider);
 
     final isLast =
         trainingState.currentIndex >= trainingState.questions.length - 1;
 
     if (isLast) {
+      debugPrint("nextOrFinish 終了へ行きます。");
+
       _finish();
     } else {
+      debugPrint(
+          "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
       state = state.copyWith(
         phase: GamePhase.playing,
         currentIndex: trainingState.currentIndex,
