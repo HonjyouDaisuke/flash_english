@@ -30,15 +30,16 @@ class GameController extends StateNotifier<GameState> {
   }
 
   // ▶ 回答
-  Future<void> answer(bool isCorrect) async {
+  Future<void> answer(int id, bool isCorrect) async {
     if (state.phase != GamePhase.playing) return;
-
     // ① 自分の状態更新
     final newCorrect = isCorrect ? state.correctCount + 1 : state.correctCount;
 
     final newCombo = isCorrect ? state.combo + 1 : 0;
 
     final newMaxCombo = newCombo > state.maxCombo ? newCombo : state.maxCombo;
+    // final updatedAnswerSets = [...state.answers, answersSet];
+    updateAnswers(id, isCorrect);
 
     state = state.copyWith(
       phase: GamePhase.feedback,
@@ -46,6 +47,7 @@ class GameController extends StateNotifier<GameState> {
       combo: newCombo,
       maxCombo: newMaxCombo,
       isCorrect: isCorrect,
+      // answers: updatedAnswerSets,
     );
 
     // ② 既存Providerに保存させる（DB）
@@ -55,15 +57,86 @@ class GameController extends StateNotifier<GameState> {
     await nextOrFinish();
   }
 
+  void updateAnswers(id, bool isCorrect) {
+    final result = isCorrect ? AnswerResult.correct : AnswerResult.wrong;
+    final answersSet = AnswersSet(id: id, result: result);
+    bool isExitst = false;
+    int index = -1;
+    for (final answer in state.answers) {
+      index++;
+      if (answer.id != id) continue;
+      isExitst = true;
+      break;
+    }
+    if (isExitst) {
+      debugPrint("updateAnswers: 上書きします。id: $id, result: $result");
+      state.answers[index] = answersSet;
+      return;
+    }
+    final updatedAnswerSets = [...state.answers, answersSet];
+    state = state.copyWith(answers: updatedAnswerSets);
+  }
+
+  bool _isFinished() {
+    const result = false;
+
+    state.answers.length;
+    if (state.answers.length >= 10) {
+      return true;
+    }
+    return result;
+  }
+
+  void next() {
+    final trainingNotifier = ref.read(trainingProvider.notifier);
+
+    trainingNotifier.next(); // 表示を進める
+    nextOrFinish(); // ゲーム進行管理
+  }
+
+  int _getLowestId() {
+    int lowestId = 999;
+    for (final answer in state.answers) {
+      if (answer.id < lowestId) {
+        lowestId = answer.id;
+      }
+    }
+    return lowestId;
+  }
+
+  int _getNextEmptyId(int currentId) {
+    for (int i = currentId + 1; i < 10; i++) {
+      bool isExist = false;
+      for (final answer in state.answers) {
+        if (answer.id == i) {
+          isExist = true;
+          break;
+        }
+      }
+      if (!isExist) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  int _getNextId(int currentId) {
+    if (currentId >= 10) {
+      return _getLowestId();
+    }
+    return _getNextEmptyId(currentId);
+  }
+
   Future<void> nextOrFinish() async {
     await Future.delayed(const Duration(milliseconds: 700));
     debugPrint("nextOrFinish called");
     final trainingState = ref.read(trainingProvider);
 
-    final isLast =
-        trainingState.currentIndex >= trainingState.questions.length - 1;
-
-    if (isLast) {
+    state.printAnswers();
+    // final isLast =
+    //     trainingState.currentIndex >= trainingState.questions.length - 1;
+    final isFinihed = _isFinished();
+    if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
 
       _finish();

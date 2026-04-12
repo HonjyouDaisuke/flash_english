@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_english/application/usecases/initialize_app_usecase.dart';
 import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
@@ -16,7 +17,13 @@ void main() async {
   final seedRepository = SeedRepositoryImpl(dataSource);
   final initializeUseCase = InitializeAppUseCase(seedRepository);
 
+  debugPrint("① Firebase前");
+  await Firebase.initializeApp();
+  debugPrint("② Firebase後");
+
   await initializeUseCase.execute();
+  debugPrint("③ initialize後");
+
   runApp(
     ProviderScope(
       overrides: [

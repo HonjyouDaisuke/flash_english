@@ -1,6 +1,8 @@
 import 'dart:collection';
 
 import 'package:flash_english/presentation/pages/category_select_page.dart';
+import 'package:flash_english/presentation/pages/login_page.dart';
+import 'package:flash_english/presentation/pages/unit_finish_page.dart';
 import 'package:flash_english/presentation/pages/unit_select_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,13 +14,18 @@ import '../presentation/pages/weak_menu_page.dart';
 import '../presentation/widgets/main_tab_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/training',
+  initialLocation: '/',
   routes: [
     ShellRoute(
       builder: (context, state, child) {
         return MainTabPage(child: child);
       },
       routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => const LoginPage(),
+        ),
+
         /// トレーニング
         GoRoute(
           path: '/training',
@@ -51,6 +58,9 @@ final GoRouter appRouter = GoRouter(
               path: 'shuffle',
               builder: (context, state) => const TrainingPage(),
             ),
+            GoRoute(
+                path: 'unit-finish',
+                builder: (context, state) => const UnitFinishPage()),
           ],
         ),
 

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum GamePhase {
   ready,
   loading,
@@ -13,6 +15,16 @@ enum AnswerResult {
   skip,
 }
 
+class AnswersSet {
+  final int id;
+  final AnswerResult result;
+
+  AnswersSet({
+    required this.id,
+    required this.result,
+  });
+}
+
 class GameState {
   final GamePhase phase;
   final int correctCount;
@@ -22,7 +34,7 @@ class GameState {
   final int stars;
   final bool isCorrect;
   final bool isNewRecord;
-  final List<AnswerResult> answers;
+  final List<AnswersSet> answers;
 
   const GameState({
     required this.phase,
@@ -49,6 +61,12 @@ class GameState {
       answers: [],
     );
   }
+  GameState printAnswers() {
+    for (final answer in answers) {
+      debugPrint("id: ${answer.id}, result: ${answer.result}");
+    }
+    return this;
+  }
 
   GameState copyWith({
     GamePhase? phase,
@@ -59,7 +77,7 @@ class GameState {
     int? stars,
     bool? isCorrect,
     bool? isNewRecord,
-    List<AnswerResult>? answers,
+    List<AnswersSet>? answers,
   }) {
     return GameState(
       phase: phase ?? this.phase,

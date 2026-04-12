@@ -5,6 +5,7 @@ import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
   final int? categoryId;
@@ -17,6 +18,7 @@ class TrainingPage extends ConsumerStatefulWidget {
 
 class _TrainingPageState extends ConsumerState<TrainingPage> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
+  static const waitingTime = Duration(seconds: 1);
   bool _isSyncing = false;
   @override
   void initState() {
@@ -50,7 +52,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       return;
     }
 
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(waitingTime);
 
     if (!mounted) return;
     final beforeFlip = ref.read(trainingProvider);
@@ -94,6 +96,14 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       if (prev?.isFront != next.isFront) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _syncCard(next.isFront);
+        });
+      }
+    });
+    ref.listen(gameControllerProvider, (prev, next) {
+      if (prev?.phase != GamePhase.finished &&
+          next.phase == GamePhase.finished) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/training/unit-finish');
         });
       }
     });
@@ -148,7 +158,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onError,
                   ),
                   onPressed: () {
-                    gameController.answer(false);
+                    gameController.answer(state.currentIndex, false);
                   },
                 ),
               ],
@@ -174,7 +184,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onTertiary,
                   ),
                   onPressed: () {
-                    gameController.answer(true);
+                    gameController.answer(state.currentIndex, true);
                   },
                 ),
               ],
@@ -186,12 +196,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onPrimary,
                   ),
                   onPressed: () {
-                    final trainingNotifier =
-                        ref.read(trainingProvider.notifier);
-
-                    trainingNotifier.next(); // ⭐️ まず進める
-                    gameController.nextOrFinish();
-                    // notifier.next,
+                    gameController.next();
                   }),
             ]),
           ],
