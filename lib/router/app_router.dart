@@ -23,7 +23,7 @@ final GoRouter appRouter = GoRouter(
       routes: [
         GoRoute(
           path: '/',
-          builder: (context, state) => const LoginPage(),
+          builder: (context, state) => LoginPage(),
         ),
 
         /// トレーニング

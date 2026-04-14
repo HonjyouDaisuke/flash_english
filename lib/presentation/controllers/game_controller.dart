@@ -1,3 +1,7 @@
+import 'package:flash_english/application/usecases/save_study_log_usecase.dart';
+import 'package:flash_english/domain/entities/study_log.dart';
+import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/presentation/providers/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +14,11 @@ final gameControllerProvider =
 
 class GameController extends StateNotifier<GameState> {
   final Ref ref;
-
-  GameController(this.ref) : super(GameState.initial());
+  final SaveStudyLogUseCase saveStudyLogUseCase;
+  GameController(this.ref)
+      : saveStudyLogUseCase =
+            SaveStudyLogUseCase(ref.read(studyLogRepositoryProvider)),
+        super(GameState.initial());
 
   // ▶ スタート
   Future<void> start() async {
@@ -54,7 +61,7 @@ class GameController extends StateNotifier<GameState> {
     await ref.read(trainingProvider.notifier).answer(isCorrect);
 
     // ③ 次へ or 終了
-    await nextOrFinish();
+    await nextOrFinish(isCorrect);
   }
 
   void updateAnswers(id, bool isCorrect) {
@@ -91,7 +98,7 @@ class GameController extends StateNotifier<GameState> {
     final trainingNotifier = ref.read(trainingProvider.notifier);
 
     trainingNotifier.next(); // 表示を進める
-    nextOrFinish(); // ゲーム進行管理
+    nextOrFinish(false); // ゲーム進行管理
   }
 
   int _getLowestId() {
@@ -127,10 +134,19 @@ class GameController extends StateNotifier<GameState> {
     return _getNextEmptyId(currentId);
   }
 
-  Future<void> nextOrFinish() async {
+  Future<void> nextOrFinish(bool isCorrect) async {
     await Future.delayed(const Duration(milliseconds: 700));
     debugPrint("nextOrFinish called");
     final trainingState = ref.read(trainingProvider);
+    final studyLog = StudyLog(
+      categoryId: 1, // TODO: カテゴリID
+      unitId: 1, // TODO: ユニットID
+      questionId: state.currentIndex, // TODO: 問題ID
+      isCorrect: isCorrect,
+      sessionId: 1, // TODO: セッションID
+      durationSeconds: 60, // TODO: 勉強時間
+      createdAt: DateTime.now(), // TODO: 作成日時
+    );
 
     state.printAnswers();
     // final isLast =
@@ -138,11 +154,22 @@ class GameController extends StateNotifier<GameState> {
     final isFinihed = _isFinished();
     if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
-
+      debugPrint(
+          "DBに保存します： 正解？ ${state.isCorrect}, questionId: ${state.currentIndex}");
+      final success = await saveStudyLogUseCase.execute(studyLog);
+      debugPrint("保存したよ。$success");
       _finish();
     } else {
       debugPrint(
           "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
+      // study_logをDBに保存するAPIを叩く
+      debugPrint(
+          "DBに保存します： 正解？ ${state.isCorrect}, questionId: ${state.currentIndex}");
+      final success = await saveStudyLogUseCase.execute(studyLog);
+      debugPrint("保存したよ。$success");
+      // Future.delayed(const Duration(milliseconds: 300), () {
+      //   state = state.copyWith(phase: GamePhase.finished);
+      // });
       state = state.copyWith(
         phase: GamePhase.playing,
         currentIndex: trainingState.currentIndex,
@@ -152,7 +179,7 @@ class GameController extends StateNotifier<GameState> {
 
   // ▶ 終了処理
   void _finish() {
-    final stars = _calculateStars(state.correctCount);
+    final stars = UnitScore(state.correctCount).stars;
     final isNew = _isNewRecord(stars);
 
     state = state.copyWith(
@@ -170,16 +197,6 @@ class GameController extends StateNotifier<GameState> {
   Future<void> retry() async {
     state = GameState.initial();
     await start();
-  }
-
-  // ▶ ★計算
-  int _calculateStars(int correct) {
-    if (correct == 10) return 5;
-    if (correct >= 7) return 4;
-    if (correct >= 5) return 3;
-    if (correct >= 3) return 2;
-    if (correct >= 1) return 1;
-    return 0;
   }
 
   // ▶ ベスト判定（仮）

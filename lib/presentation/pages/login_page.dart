@@ -1,29 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash_english/application/usecases/login_usecase.dart';
+import 'package:flash_english/infrastructure/api/api_client.dart';
+import 'package:flash_english/infrastructure/authentication/auth_backend.dart';
+import 'package:flash_english/infrastructure/storage/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  late final tokenStorage = TokenStorage();
+  late final apiClient = ApiClient(tokenStorage);
+  late final authBackend = AuthBackend(apiClient);
+  late final loginUseCase = LoginUseCase(
+    authBackend: authBackend,
+    tokenStorage: tokenStorage,
+  );
+
+  LoginPage({super.key});
 
   Future<void> _login(BuildContext context) async {
-    try {
-      final userCredential = await signInWithGoogle();
-
-      if (userCredential == null || userCredential.user == null) {
-        debugPrint("ログインキャンセル or 失敗");
-        return;
+    final success = await loginUseCase.login(context);
+    if (success) {
+      if (context.mounted) {
+        context.go('/training');
       }
-
-      debugPrint("ログイン成功: ${userCredential.user!.email}");
-
-      if (!context.mounted) return;
-
-      context.go('/training');
-    } on FirebaseAuthException catch (e) {
-      debugPrint("Firebaseエラー: ${e.code}");
-    } catch (e) {
-      debugPrint("その他エラー: $e");
+    } else {
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('ログインに失敗しました')),
+      );
     }
   }
 
@@ -39,19 +46,4 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<UserCredential?> signInWithGoogle() async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-  if (googleUser == null) return null;
-
-  final googleAuth = await googleUser.authentication;
-
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth.accessToken,
-    idToken: googleAuth.idToken,
-  );
-
-  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
