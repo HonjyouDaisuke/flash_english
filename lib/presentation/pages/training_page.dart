@@ -1,6 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_english/presentation/controllers/game_controller.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';

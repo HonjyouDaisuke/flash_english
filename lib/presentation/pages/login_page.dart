@@ -1,13 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_english/application/usecases/login_usecase.dart';
 import 'package:flash_english/infrastructure/api/api_client.dart';
 import 'package:flash_english/infrastructure/authentication/auth_backend.dart';
 import 'package:flash_english/infrastructure/storage/token_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:go_router/go_router.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class LoginPage extends StatelessWidget {
   late final tokenStorage = TokenStorage();

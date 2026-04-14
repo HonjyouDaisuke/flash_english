@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flash_english/infrastructure/api/api_client.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class AuthBackend {
   final ApiClient _apiClient;

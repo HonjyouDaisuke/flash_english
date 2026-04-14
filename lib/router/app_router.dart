@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flash_english/presentation/pages/category_select_page.dart';
 import 'package:flash_english/presentation/pages/login_page.dart';
 import 'package:flash_english/presentation/pages/unit_finish_page.dart';
