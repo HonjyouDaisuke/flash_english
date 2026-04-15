@@ -21,7 +21,9 @@ class CategorySelectPage extends StatelessWidget {
                   child: const Text('中学１年生レベル'),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.push('/training/category/unit?categoryId=2');
+                  },
                   child: const Text('中学2年生レベル'),
                 ),
                 ElevatedButton(

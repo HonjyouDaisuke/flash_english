@@ -18,7 +18,8 @@ class UnitFinishPage extends ConsumerWidget {
         game.answers.where((a) => a.result == AnswerResult.correct).length;
     final wrong = total - correct;
 
-    final accuracy = (correct / total * 100).toStringAsFixed(1);
+    final accuracy =
+        total > 0 ? (correct / total * 100).toStringAsFixed(1) : '0.0';
     final stars = game.stars;
 
     return Scaffold(

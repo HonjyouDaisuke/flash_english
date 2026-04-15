@@ -12,6 +12,8 @@ class TokenStorage {
 
     if (refreshToken != null) {
       await _storage.write(key: _refreshKey, value: refreshToken);
+    }else {
+     await _storage.delete(key: _refreshKey);
     }
   }
 

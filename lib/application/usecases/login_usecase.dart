@@ -30,7 +30,7 @@ class LoginUseCase {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<bool> login(BuildContext context) async {
+  Future<bool> login() async {
     try {
       final userCredential = await signInWithGoogle();
 

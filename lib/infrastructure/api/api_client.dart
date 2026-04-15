@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../storage/token_storage.dart';
 
 class ApiClient {
   final TokenStorage _storage;
-
+  static const _timeout = Duration(seconds: 30);
   ApiClient(this._storage);
 
   Future<http.Response> post(
@@ -13,16 +12,17 @@ class ApiClient {
     Map<String, dynamic>? body,
   }) async {
     final token = await _storage.getAccessToken();
-    debugPrint("API TOKEN: $token");
 
-    return http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/json',
-        if (token != null) 'Authorization': 'Bearer $token',
-      },
-      body: jsonEncode(body),
-    );
+    return http
+        .post(
+          Uri.parse(url),
+          headers: {
+            'Content-Type': 'application/json',
+            if (token != null) 'Authorization': 'Bearer $token',
+          },
+          body: jsonEncode(body),
+        )
+        .timeout(_timeout);
   }
 
   Future<http.Response> get(String url) async {
@@ -33,6 +33,6 @@ class ApiClient {
       headers: {
         if (token != null) 'Authorization': 'Bearer $token',
       },
-    );
+    ).timeout(_timeout);
   }
 }

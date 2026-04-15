@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 class LoginPage extends StatelessWidget {
   late final tokenStorage = TokenStorage();
   late final apiClient = ApiClient(tokenStorage);
-  late final authBackend = AuthBackend(apiClient);
+  late final authBackend = AuthBackend(apiClient, 'http://10.0.2.2:8888');
   late final loginUseCase = LoginUseCase(
     authBackend: authBackend,
     tokenStorage: tokenStorage,
@@ -17,7 +17,7 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   Future<void> _login(BuildContext context) async {
-    final success = await loginUseCase.login(context);
+    final success = await loginUseCase.login();
     if (success) {
       if (context.mounted) {
         context.go('/training');

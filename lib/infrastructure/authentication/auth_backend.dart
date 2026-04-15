@@ -4,17 +4,14 @@ import 'package:flutter/material.dart';
 
 class AuthBackend {
   final ApiClient _apiClient;
+  final String _baseUrl;
 
-  AuthBackend(this._apiClient);
+  AuthBackend(this._apiClient, this._baseUrl);
   Future<Map<String, dynamic>?> callBackend(String idToken) async {
-    final response = await _apiClient.post(
-        'http://10.0.2.2:8888/flash_english_backend/api/auth/google',
-        body: {
-          'id_token': idToken,
-        });
-
-    debugPrint("status: ${response.statusCode}");
-    debugPrint("body: ${response.body}");
+    final response = await _apiClient
+        .post('$_baseUrl/flash_english_backend/api/auth/google', body: {
+      'id_token': idToken,
+    });
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);

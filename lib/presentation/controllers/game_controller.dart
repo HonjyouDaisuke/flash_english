@@ -19,7 +19,7 @@ class GameController extends StateNotifier<GameState> {
       : saveStudyLogUseCase =
             SaveStudyLogUseCase(ref.read(studyLogRepositoryProvider)),
         super(GameState.initial());
-
+  bool _isDisposed = false;
   // ▶ スタート
   Future<void> start() async {
     state = state.copyWith(phase: GamePhase.loading);
@@ -68,7 +68,7 @@ class GameController extends StateNotifier<GameState> {
     final result = isCorrect ? AnswerResult.correct : AnswerResult.wrong;
     final answersSet = AnswersSet(id: id, result: result);
     final existingIndex = state.answers.indexWhere((a) => a.id == id);
-    
+
     if (existingIndex != -1) {
       debugPrint("updateAnswers: 上書きします。id: $id, result: $result");
       final updatedAnswers = [...state.answers];
@@ -137,9 +137,9 @@ class GameController extends StateNotifier<GameState> {
     final studyLog = StudyLog(
       categoryId: 1, // TODO: カテゴリID
       unitId: 1, // TODO: ユニットID
-      questionId: state.currentIndex, // TODO: 問題ID
+      questionId: trainingState.current.id ?? 0, // TODO: 問題ID
       isCorrect: isCorrect,
-      sessionId: 1, // TODO: セッションID
+      sessionId: trainingState.sessionId ?? 1, // TODO: セッションID
       durationSeconds: 60, // TODO: 勉強時間
       createdAt: DateTime.now(), // TODO: 作成日時
     );
@@ -173,6 +173,12 @@ class GameController extends StateNotifier<GameState> {
     }
   }
 
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
+  }
+
   // ▶ 終了処理
   void _finish() {
     final stars = UnitScore(state.correctCount).stars;
@@ -185,6 +191,7 @@ class GameController extends StateNotifier<GameState> {
     );
 
     Future.delayed(const Duration(milliseconds: 300), () {
+      if (_isDisposed) return;
       state = state.copyWith(phase: GamePhase.finished);
     });
   }
