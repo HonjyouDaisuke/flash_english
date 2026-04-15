@@ -1,14 +1,16 @@
-import 'package:flash_english/domain/enums/training_mode.dart';
+import 'package:flash_english/presentation/controllers/game_controller.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
+import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
-  final TrainingMode mode;
-
-  const TrainingPage({super.key, required this.mode});
+  final int? categoryId;
+  final int? unitId;
+  const TrainingPage({super.key, this.categoryId, this.unitId});
 
   @override
   ConsumerState<TrainingPage> createState() => _TrainingPageState();
@@ -16,18 +18,20 @@ class TrainingPage extends ConsumerStatefulWidget {
 
 class _TrainingPageState extends ConsumerState<TrainingPage> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
+  static const waitingTime = Duration(seconds: 1);
   bool _isSyncing = false;
   @override
   void initState() {
     super.initState();
+    debugPrint(
+        'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
 
     Future.microtask(() async {
-      final notifier = ref.read(trainingProvider.notifier);
-
-      await notifier.load();
-
+      await ref.read(gameControllerProvider.notifier).start();
       // 👇 初回だけ手動トリガー
       if (!mounted) return;
+
+      final notifier = ref.read(trainingProvider.notifier);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _startAutoFlip(notifier);
@@ -48,7 +52,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       return;
     }
 
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(waitingTime);
 
     if (!mounted) return;
     final beforeFlip = ref.read(trainingProvider);
@@ -73,7 +77,11 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
+    final game = ref.watch(gameControllerProvider);
+
     final notifier = ref.read(trainingProvider.notifier);
+    final gameController = ref.read(gameControllerProvider.notifier);
+
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
@@ -91,7 +99,17 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         });
       }
     });
-    if (state.isLoading || state.questions.isEmpty) {
+    ref.listen(gameControllerProvider, (prev, next) {
+      if (prev?.phase != GamePhase.finished &&
+          next.phase == GamePhase.finished) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          context.go('/training/unit-finish');
+        });
+      }
+    });
+    if (game.phase == GamePhase.loading ||
+        state.isLoading ||
+        state.questions.isEmpty) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
@@ -105,7 +123,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("トレーニングモード : ${widget.mode}"),
             Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
@@ -141,7 +158,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onError,
                   ),
                   onPressed: () {
-                    ref.read(trainingProvider.notifier).answer(false);
+                    gameController.answer(state.currentIndex, false);
                   },
                 ),
               ],
@@ -167,19 +184,20 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onTertiary,
                   ),
                   onPressed: () {
-                    ref.read(trainingProvider.notifier).answer(true);
+                    gameController.answer(state.currentIndex, true);
                   },
                 ),
               ],
               const SizedBox(width: 20),
               IconButton.filled(
-                icon: const Icon(Icons.fast_forward),
-                style: IconButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  foregroundColor: cs.onPrimary,
-                ),
-                onPressed: notifier.next,
-              ),
+                  icon: const Icon(Icons.fast_forward),
+                  style: IconButton.styleFrom(
+                    backgroundColor: cs.primary,
+                    foregroundColor: cs.onPrimary,
+                  ),
+                  onPressed: () {
+                    gameController.next();
+                  }),
             ]),
           ],
         ),

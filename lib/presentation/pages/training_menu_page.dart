@@ -34,7 +34,7 @@ class TrainingMenuPage extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    context.push('/training/shuffle');
+                    context.push('/training/category');
                   },
                   child: const Text('シャッフル'),
                 ),

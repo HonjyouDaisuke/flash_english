@@ -1,4 +1,7 @@
-import 'package:flash_english/domain/enums/training_mode.dart';
+import 'package:flash_english/presentation/pages/category_select_page.dart';
+import 'package:flash_english/presentation/pages/login_page.dart';
+import 'package:flash_english/presentation/pages/unit_finish_page.dart';
+import 'package:flash_english/presentation/pages/unit_select_page.dart';
 import 'package:go_router/go_router.dart';
 
 import '../presentation/pages/training_menu_page.dart';
@@ -9,28 +12,53 @@ import '../presentation/pages/weak_menu_page.dart';
 import '../presentation/widgets/main_tab_page.dart';
 
 final GoRouter appRouter = GoRouter(
-  initialLocation: '/training',
+  initialLocation: '/',
   routes: [
     ShellRoute(
       builder: (context, state, child) {
         return MainTabPage(child: child);
       },
       routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => LoginPage(),
+        ),
+
         /// トレーニング
         GoRoute(
           path: '/training',
           builder: (context, state) => const TrainingMenuPage(),
           routes: [
             GoRoute(
-              path: 'normal',
-              builder: (context, state) =>
-                  const TrainingPage(mode: TrainingMode.level1),
-            ),
+                path: 'category',
+                builder: (context, state) => const CategorySelectPage(),
+                routes: [
+                  GoRoute(
+                      path: 'unit',
+                      builder: (context, state) => UnitSelectPage(
+                            categoryId: 1,
+                          ),
+                      routes: [
+                        GoRoute(
+                          path: 'training',
+                          builder: (context, state) {
+                            final categoryId = int.parse(
+                                state.uri.queryParameters['categoryId'] ?? '0');
+                            final unitId = int.parse(
+                                state.uri.queryParameters['unitId'] ?? '0');
+                            return TrainingPage(
+                                categoryId: categoryId, unitId: unitId);
+                          },
+                        ),
+                      ]),
+                ]),
             GoRoute(
               path: 'shuffle',
-              builder: (context, state) =>
-                  const TrainingPage(mode: TrainingMode.shuffle),
+              builder: (context, state) => const TrainingPage(),
             ),
+            GoRoute(
+                path: 'unit-finish',
+                builder: (context, state) => const UnitFinishPage()),
           ],
         ),
 
