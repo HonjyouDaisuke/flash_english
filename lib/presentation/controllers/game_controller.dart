@@ -64,24 +64,20 @@ class GameController extends StateNotifier<GameState> {
     await nextOrFinish(isCorrect);
   }
 
-  void updateAnswers(id, bool isCorrect) {
+  void updateAnswers(int id, bool isCorrect) {
     final result = isCorrect ? AnswerResult.correct : AnswerResult.wrong;
     final answersSet = AnswersSet(id: id, result: result);
-    bool isExitst = false;
-    int index = -1;
-    for (final answer in state.answers) {
-      index++;
-      if (answer.id != id) continue;
-      isExitst = true;
-      break;
-    }
-    if (isExitst) {
+    final existingIndex = state.answers.indexWhere((a) => a.id == id);
+    
+    if (existingIndex != -1) {
       debugPrint("updateAnswers: 上書きします。id: $id, result: $result");
-      state.answers[index] = answersSet;
-      return;
+      final updatedAnswers = [...state.answers];
+      updatedAnswers[existingIndex] = answersSet;
+      state = state.copyWith(answers: updatedAnswers);
+    } else {
+      final updatedAnswerSets = [...state.answers, answersSet];
+      state = state.copyWith(answers: updatedAnswerSets);
     }
-    final updatedAnswerSets = [...state.answers, answersSet];
-    state = state.copyWith(answers: updatedAnswerSets);
   }
 
   bool _isFinished() {
