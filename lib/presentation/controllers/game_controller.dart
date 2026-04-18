@@ -4,7 +4,7 @@ import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
-import 'package:flash_english/presentation/providers/unit_score_Repository_provider.dart';
+import 'package:flash_english/presentation/providers/unit_score_repository_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
