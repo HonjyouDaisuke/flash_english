@@ -21,20 +21,21 @@ void main() {
 
     for (final (input, expected) in cases) {
       test('正解数: $input → ★: $expected', () {
-        final result = UnitScore(input).stars;
+        UnitScore a = UnitScore(categoryId: 1, unitId: 1, score: input);
+        final result = a.stars;
         expect(result, expected);
       });
     }
   });
   test('isPerfect は correctCount が 10 のとき true', () {
-    expect(UnitScore(10).isPerfect, true);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 10).isPerfect, true);
   });
   test('isPerfect は correctCount が 10 以外のとき false', () {
-    expect(UnitScore(9).isPerfect, false);
-    expect(UnitScore(0).isPerfect, false);
-    expect(UnitScore(5).isPerfect, false);
-    expect(UnitScore(-1).isPerfect, false);
-    expect(UnitScore(11).isPerfect, false);
-    expect(UnitScore(8).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 9).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 0).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 5).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: -1).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 11).isPerfect, false);
+    expect(UnitScore(categoryId: 1, unitId: 1, score: 8).isPerfect, false);
   });
 }

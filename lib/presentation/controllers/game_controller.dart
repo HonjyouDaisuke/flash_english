@@ -1,8 +1,10 @@
 import 'package:flash_english/application/usecases/save_study_log_usecase.dart';
+import 'package:flash_english/application/usecases/save_unit_score_usecase.dart';
 import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
+import 'package:flash_english/presentation/providers/unit_score_repository_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,9 +17,13 @@ final gameControllerProvider =
 class GameController extends StateNotifier<GameState> {
   final Ref ref;
   final SaveStudyLogUseCase saveStudyLogUseCase;
+  final SaveUnitScoreUseCase saveUnitScoreUseCase;
+
   GameController(this.ref)
       : saveStudyLogUseCase =
             SaveStudyLogUseCase(ref.read(studyLogRepositoryProvider)),
+        saveUnitScoreUseCase =
+            SaveUnitScoreUseCase(ref.read(unitScoreRepositoryProvider)),
         super(GameState.initial());
   bool _isDisposed = false;
   // ▶ スタート
@@ -180,8 +186,14 @@ class GameController extends StateNotifier<GameState> {
   }
 
   // ▶ 終了処理
-  void _finish() {
-    final stars = UnitScore(state.correctCount).stars;
+  Future<void> _finish() async {
+    final score = state.correctCount;
+    final unitScore = UnitScore(
+      categoryId: state.categoryId,
+      unitId: state.unitId,
+      score: score,
+    );
+    final stars = unitScore.stars;
     final isNew = _isNewRecord(stars);
 
     state = state.copyWith(
@@ -189,6 +201,11 @@ class GameController extends StateNotifier<GameState> {
       stars: stars,
       isNewRecord: isNew,
     );
+
+    // DB保存
+    debugPrint("unit score DBに保存します： 正解？ ${state.isCorrect}");
+    final success = await saveUnitScoreUseCase.saveAPI(unitScore);
+    debugPrint("保存したよ。$success");
 
     Future.delayed(const Duration(milliseconds: 300), () {
       if (_isDisposed) return;

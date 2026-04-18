@@ -63,6 +63,17 @@ class AppDatabase {
       )
     ''');
 
+    // 👇 ユニットスコアテーブル追加
+    await db.execute('''
+      CREATE TABLE unit_scores (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_id INTEGER NOT NULL,
+        unit_id INTEGER NOT NULL,
+        score INTEGER NOT NULL,
+        UNIQUE(category_id, unit_id)
+      )
+    ''');
+
     // settingsテーブル
     await db.execute('''
       CREATE TABLE settings (
