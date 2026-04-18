@@ -27,6 +27,8 @@ class AnswersSet {
 
 class GameState {
   final GamePhase phase;
+  final int categoryId;
+  final int unitId;
   final int correctCount;
   final int currentIndex;
   final int combo;
@@ -38,6 +40,8 @@ class GameState {
 
   const GameState({
     required this.phase,
+    required this.categoryId,
+    required this.unitId,
     required this.correctCount,
     required this.currentIndex,
     required this.combo,
@@ -51,6 +55,8 @@ class GameState {
   factory GameState.initial() {
     return const GameState(
       phase: GamePhase.ready,
+      categoryId: 1,
+      unitId: 1,
       correctCount: 0,
       currentIndex: 0,
       combo: 0,
@@ -70,6 +76,8 @@ class GameState {
 
   GameState copyWith({
     GamePhase? phase,
+    int? categoryId,
+    int? unitId,
     int? correctCount,
     int? currentIndex,
     int? combo,
@@ -81,6 +89,8 @@ class GameState {
   }) {
     return GameState(
       phase: phase ?? this.phase,
+      categoryId: categoryId ?? this.categoryId,
+      unitId: unitId ?? this.unitId,
       correctCount: correctCount ?? this.correctCount,
       currentIndex: currentIndex ?? this.currentIndex,
       combo: combo ?? this.combo,
