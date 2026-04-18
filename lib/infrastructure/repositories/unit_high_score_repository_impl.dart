@@ -2,11 +2,13 @@ import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/domain/repositories/unit_score_repository.dart';
 import 'package:flash_english/infrastructure/api/api_client.dart';
 import 'package:flash_english/infrastructure/datasources/local/unit_score_local_data_source.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flutter/material.dart';
 
 class UnitScoreRepositoryImpl implements UnitScoreRepository {
   final UnitScoreLocalDataSource dataSource;
   final ApiClient _apiClient;
+  final db = AppDatabase.instance;
 
   UnitScoreRepositoryImpl(this.dataSource, this._apiClient);
 
@@ -37,7 +39,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
   @override
   Future<bool> saveAPI(UnitScore score) async {
     try {
-      await _apiClient.post(
+      final response = await _apiClient.post(
         'http://10.0.2.2:8888/flash_english_backend/api/unit-high-scores',
         body: {
           'category_id': score.categoryId,
@@ -45,9 +47,13 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
           'score': score.score,
         },
       );
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        debugPrint("Error saving unit score: status ${response.statusCode}");
+        return false;
+      }
       return true;
     } catch (e) {
-      debugPrint("Error saving study log: $e");
+      debugPrint("Error saving unit score: $e");
       return false;
     }
   }

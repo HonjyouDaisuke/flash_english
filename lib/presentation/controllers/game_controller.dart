@@ -189,8 +189,8 @@ class GameController extends StateNotifier<GameState> {
   Future<void> _finish() async {
     final score = state.correctCount;
     final unitScore = UnitScore(
-      categoryId: state.categoryId, // TODO: カテゴリID
-      unitId: 1, // TODO: ユニットID
+      categoryId: state.categoryId,
+      unitId: state.unitId,
       score: score,
     );
     final stars = unitScore.stars;

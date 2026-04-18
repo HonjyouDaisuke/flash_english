@@ -10,6 +10,10 @@ class UnitScoreLocalDataSource {
   }
 
   Future<void> saveScore(Map<String, dynamic> map) async {
-    await db.insert('unit_scores', map);
+    await db.insert(
+      'unit_scores',
+      map,
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 }
