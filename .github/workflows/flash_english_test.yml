@@ -20,7 +20,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.22.0" # 使ってるバージョンに合わせて
+          channel: stable
 
       # 依存関係取得
       - name: Install dependencies
