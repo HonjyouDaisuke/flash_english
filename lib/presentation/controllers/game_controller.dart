@@ -8,6 +8,7 @@ import 'package:flash_english/presentation/providers/unit_score_repository_provi
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 final gameControllerProvider =
     StateNotifierProvider.autoDispose<GameController, GameState>((ref) {
@@ -192,6 +193,7 @@ class GameController extends StateNotifier<GameState> {
       categoryId: state.categoryId,
       unitId: state.unitId,
       score: score,
+      achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
     );
     final stars = unitScore.stars;
     final isNew = _isNewRecord(stars);

@@ -1,49 +1,64 @@
+import 'package:flash_english/application/usecases/get_unit_score_usecase.dart';
+import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/infrastructure/api/api_client.dart';
+import 'package:flash_english/infrastructure/datasources/local/unit_score_local_data_source.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
+import 'package:flash_english/infrastructure/repositories/unit_high_score_repository_impl.dart';
+import 'package:flash_english/infrastructure/storage/token_storage.dart';
+import 'package:flash_english/presentation/providers/get_unit_score_usecase_provider.dart';
+import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UnitSelectPage extends StatelessWidget {
+class UnitSelectPage extends ConsumerWidget {
   final int categoryId;
   final units = List.generate(10, (index) => index + 1);
   UnitSelectPage({super.key, required this.categoryId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final useCase = ref.watch(getUnitScoreUseCaseProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('ユニット選択')),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5, // ← 横5列
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 12,
-          childAspectRatio: 3.0,
-        ),
-        itemCount: units.length,
-        itemBuilder: (context, index) {
-          final unitId = units[index];
-
-          return InkWell(
-            onTap: () {
-              context.push(
-                '/training/category/unit/training?categoryId=$categoryId&unitId=$unitId',
+      body: FutureBuilder<List<UnitScore>?>(
+          future: useCase.getAllAPI(categoryId),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            },
-            borderRadius: BorderRadius.circular(16),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+            }
+            final scores = snapshot.data!;
+
+            return GridView.builder(
+              padding: const EdgeInsets.all(16),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5, // ← 横5列
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 2.5,
               ),
-              elevation: 4,
-              child: Center(
-                child: Text(
-                  'ユニット$unitId',
-                  style: const TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-          );
-        },
-      ),
+              itemCount: units.length,
+              itemBuilder: (context, index) {
+                final unitId = units[index];
+                // unitId に一致するスコアを探す
+                final unitScore =
+                    scores.where((e) => e.unitId == unitId).isNotEmpty
+                        ? scores.firstWhere((e) => e.unitId == unitId)
+                        : null;
+                int stars = unitScore == null ? 0 : unitScore.stars;
+                String achievedAt =
+                    unitScore == null ? "-" : unitScore.achievedAt;
+                return UnitCard(
+                  categoryId: categoryId,
+                  unitId: unitId,
+                  stars: stars,
+                  dateText: achievedAt,
+                );
+              },
+            );
+          }),
     );
   }
 }

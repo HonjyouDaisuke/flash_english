@@ -2,11 +2,13 @@ class UnitScore {
   final int categoryId;
   final int unitId;
   final int score;
+  final String achievedAt;
 
   UnitScore({
     required this.categoryId,
     required this.unitId,
     required this.score,
+    required this.achievedAt,
   });
 
   int get stars {
@@ -20,4 +22,13 @@ class UnitScore {
   }
 
   bool get isPerfect => score == 10;
+
+  factory UnitScore.fromJson(Map<String, dynamic> json) {
+    return UnitScore(
+      categoryId: json['category_id'],
+      unitId: json['unit_id'],
+      score: json['high_score'],
+      achievedAt: json['achieved_at'],
+    );
+  }
 }
