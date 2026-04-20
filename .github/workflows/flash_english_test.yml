@@ -31,8 +31,8 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
 
       # 静的解析
-      #- name: Analyze
-      #  run: flutter analyze
+      - name: Analyze
+        run: flutter analyze
 
       # テスト実行（ここが本命）
       - name: Run tests

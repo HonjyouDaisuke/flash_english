@@ -62,7 +62,6 @@ class LoginUseCase {
       await _tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
-      final token = await _tokenStorage.getAccessToken();
       return true;
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebaseエラー: ${e.code}");

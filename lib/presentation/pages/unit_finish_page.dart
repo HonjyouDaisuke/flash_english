@@ -114,12 +114,4 @@ class UnitFinishPage extends ConsumerWidget {
       ],
     );
   }
-
-  int _calcStar(String accuracyStr) {
-    final accuracy = double.parse(accuracyStr);
-    if (accuracy >= 90) return 3;
-    if (accuracy >= 70) return 2;
-    if (accuracy >= 50) return 1;
-    return 0;
-  }
 }

@@ -104,38 +104,39 @@ class GameController extends StateNotifier<GameState> {
     nextOrFinish(false); // ゲーム進行管理
   }
 
-  int _getLowestId() {
-    int lowestId = 999;
-    for (final answer in state.answers) {
-      if (answer.id < lowestId) {
-        lowestId = answer.id;
-      }
-    }
-    return lowestId;
-  }
+  // TODO: 次の問題へアルゴリズム
+  // int _getLowestId() {
+  //   int lowestId = 999;
+  //   for (final answer in state.answers) {
+  //     if (answer.id < lowestId) {
+  //       lowestId = answer.id;
+  //     }
+  //   }
+  //   return lowestId;
+  // }
 
-  int _getNextEmptyId(int currentId) {
-    for (int i = currentId + 1; i < 10; i++) {
-      bool isExist = false;
-      for (final answer in state.answers) {
-        if (answer.id == i) {
-          isExist = true;
-          break;
-        }
-      }
-      if (!isExist) {
-        return i;
-      }
-    }
-    return -1;
-  }
+  // int _getNextEmptyId(int currentId) {
+  //   for (int i = currentId + 1; i < 10; i++) {
+  //     bool isExist = false;
+  //     for (final answer in state.answers) {
+  //       if (answer.id == i) {
+  //         isExist = true;
+  //         break;
+  //       }
+  //     }
+  //     if (!isExist) {
+  //       return i;
+  //     }
+  //   }
+  //   return -1;
+  // }
 
-  int _getNextId(int currentId) {
-    if (currentId >= 10) {
-      return _getLowestId();
-    }
-    return _getNextEmptyId(currentId);
-  }
+  // int _getNextId(int currentId) {
+  //   if (currentId >= 10) {
+  //     return _getLowestId();
+  //   }
+  //   return _getNextEmptyId(currentId);
+  // }
 
   Future<void> nextOrFinish(bool isCorrect) async {
     await Future.delayed(const Duration(milliseconds: 700));
@@ -224,7 +225,7 @@ class GameController extends StateNotifier<GameState> {
   // ▶ ベスト判定（仮）
   bool _isNewRecord(int stars) {
     // TODO: DB連携
-    final best = 3;
+    const best = 3;
     return stars > best;
   }
 }

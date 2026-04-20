@@ -1,10 +1,4 @@
-import 'package:flash_english/application/usecases/get_unit_score_usecase.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
-import 'package:flash_english/infrastructure/api/api_client.dart';
-import 'package:flash_english/infrastructure/datasources/local/unit_score_local_data_source.dart';
-import 'package:flash_english/infrastructure/persistence/app_database.dart';
-import 'package:flash_english/infrastructure/repositories/unit_high_score_repository_impl.dart';
-import 'package:flash_english/infrastructure/storage/token_storage.dart';
 import 'package:flash_english/presentation/providers/get_unit_score_usecase_provider.dart';
 import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
