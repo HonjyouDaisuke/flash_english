@@ -39,8 +39,7 @@ class LoginUseCase {
         return false;
       }
       final idToken = await userCredential.user!.getIdToken();
-      debugPrint("ログイン成功: ${userCredential.user!.email}");
-      debugPrint("ID Token: $idToken");
+      debugPrint("ログイン成功");
       if (idToken == null) {
         debugPrint("IDトークンの取得に失敗");
         return false;
@@ -63,8 +62,6 @@ class LoginUseCase {
       await _tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
-      final token = await _tokenStorage.getAccessToken();
-      debugPrint("保存されたアクセストークン: $token");
       return true;
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebaseエラー: ${e.code}");

@@ -1,7 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TokenStorage {
-  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage;
+
+  TokenStorage({
+    FlutterSecureStorage? storage,
+  }) : _storage = storage ?? const FlutterSecureStorage();
 
   static const _accessKey = 'access_token';
   static const _refreshKey = 'refresh_token';
@@ -12,8 +16,8 @@ class TokenStorage {
 
     if (refreshToken != null) {
       await _storage.write(key: _refreshKey, value: refreshToken);
-    }else {
-     await _storage.delete(key: _refreshKey);
+    } else {
+      await _storage.delete(key: _refreshKey);
     }
   }
 

@@ -70,6 +70,7 @@ class AppDatabase {
         category_id INTEGER NOT NULL,
         unit_id INTEGER NOT NULL,
         score INTEGER NOT NULL,
+        achieved_at TEXT NOT NULL,
         UNIQUE(category_id, unit_id)
       )
     ''');
