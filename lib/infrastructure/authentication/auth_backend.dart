@@ -12,7 +12,12 @@ class AuthBackend {
         .post('$_baseUrl/flash_english_backend/api/auth/google', body: {
       'id_token': idToken,
     });
-
+    debugPrint("statusCode = ${response.statusCode}");
+    assert(() {
+      // ローカルデバッグ時のみ本文を出力（リリースには含めない）
+      debugPrint("body = ${response.body}");
+      return true;
+    }());
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     }

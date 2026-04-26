@@ -25,10 +25,10 @@ class UnitScore {
 
   factory UnitScore.fromJson(Map<String, dynamic> json) {
     return UnitScore(
-      categoryId: json['category_id'],
-      unitId: json['unit_id'],
-      score: json['high_score'],
-      achievedAt: json['achieved_at'],
+      categoryId: (json['category_id'] as num?)?.toInt() ?? 0,
+      unitId: (json['unit_id'] as num?)?.toInt() ?? 0,
+      score: (json['high_score'] as num?)?.toInt() ?? 0,
+      achievedAt: (json['achieved_at'] as String?) ?? '',
     );
   }
 }
