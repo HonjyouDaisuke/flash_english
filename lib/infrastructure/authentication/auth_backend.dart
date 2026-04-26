@@ -12,7 +12,8 @@ class AuthBackend {
         .post('$_baseUrl/flash_english_backend/api/auth/google', body: {
       'id_token': idToken,
     });
-
+    debugPrint("statusCode = ${response.statusCode}");
+    debugPrint("body = ${response.body}");
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     }

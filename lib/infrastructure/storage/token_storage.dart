@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class TokenStorage {
@@ -12,6 +13,8 @@ class TokenStorage {
 
   Future<void> saveTokens(
       {required String accessToken, String? refreshToken}) async {
+    debugPrint("token saves...");
+
     await _storage.write(key: _accessKey, value: accessToken);
 
     if (refreshToken != null) {
@@ -19,6 +22,7 @@ class TokenStorage {
     } else {
       await _storage.delete(key: _refreshKey);
     }
+    debugPrint("token saves...OK");
   }
 
   Future<String?> getAccessToken() async {
