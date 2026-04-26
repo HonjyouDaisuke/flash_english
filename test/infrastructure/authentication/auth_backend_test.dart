@@ -10,6 +10,9 @@ import 'package:flash_english/infrastructure/api/api_client.dart';
 class MockApiClient extends Mock implements ApiClient {}
 
 void main() {
+  setUpAll(() {
+    registerFallbackValue(<String, dynamic>{});
+  });
   late MockApiClient apiClient;
   late AuthBackend authBackend;
 
