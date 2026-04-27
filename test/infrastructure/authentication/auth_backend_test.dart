@@ -20,7 +20,7 @@ void main() {
 
   setUp(() {
     apiClient = MockApiClient();
-    authBackend = AuthBackend(apiClient, baseUrl);
+    authBackend = AuthBackend(apiClient);
   });
 
   group('AuthBackend', () {

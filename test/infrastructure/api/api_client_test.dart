@@ -14,7 +14,11 @@ void main() {
 
   setUp(() {
     storage = MockTokenStorage();
-    apiClient = ApiClient(storage);
+
+    apiClient = ApiClient(
+      storage,
+      'https://example.com',
+    );
   });
 
   group('ApiClient', () {

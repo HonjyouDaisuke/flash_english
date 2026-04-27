@@ -28,7 +28,7 @@ class UnitSelectPage extends ConsumerWidget {
             return GridView.builder(
               padding: const EdgeInsets.all(16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 5, // ← 横5列
+                crossAxisCount: 4, // ← 横5列
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
                 childAspectRatio: 2.5,

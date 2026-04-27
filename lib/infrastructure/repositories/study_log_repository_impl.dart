@@ -47,7 +47,7 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
   Future<bool> save(StudyLog log) async {
     try {
       await _apiClient.post(
-        'http://10.0.2.2:8888/flash_english_backend/api/study-log',
+        '/flash_english_backend/api/study-log',
         body: {
           'category_id': log.categoryId,
           'unit_id': log.unitId,
