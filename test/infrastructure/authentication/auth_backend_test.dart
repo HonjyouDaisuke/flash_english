@@ -16,11 +16,9 @@ void main() {
   late MockApiClient apiClient;
   late AuthBackend authBackend;
 
-  const baseUrl = 'https://example.com';
-
   setUp(() {
     apiClient = MockApiClient();
-    authBackend = AuthBackend(apiClient, baseUrl);
+    authBackend = AuthBackend(apiClient);
   });
 
   group('AuthBackend', () {
@@ -32,7 +30,7 @@ void main() {
 
       when(
         () => apiClient.post(
-          '$baseUrl/flash_english_backend/api/auth/google',
+          '/flash_english_backend/api/auth/google',
           body: {
             'id_token': 'firebase_token',
           },
@@ -51,7 +49,7 @@ void main() {
     test('statusCode 401 の場合 null を返す', () async {
       when(
         () => apiClient.post(
-          '$baseUrl/flash_english_backend/api/auth/google',
+          '/flash_english_backend/api/auth/google',
           body: {
             'id_token': 'bad_token',
           },
@@ -68,7 +66,7 @@ void main() {
     test('statusCode 500 の場合 null を返す', () async {
       when(
         () => apiClient.post(
-          '$baseUrl/flash_english_backend/api/auth/google',
+          '/flash_english_backend/api/auth/google',
           body: {
             'id_token': 'firebase_token',
           },
@@ -96,7 +94,7 @@ void main() {
 
       verify(
         () => apiClient.post(
-          '$baseUrl/flash_english_backend/api/auth/google',
+          '/flash_english_backend/api/auth/google',
           body: {
             'id_token': 'token123',
           },

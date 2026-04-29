@@ -37,11 +37,11 @@ class UnitCard extends StatelessWidget {
               Text(
                 'Unit $unitId',
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (i) {
@@ -49,7 +49,7 @@ class UnitCard extends StatelessWidget {
                   return Icon(
                     i < star ? Icons.star : Icons.star_border,
                     color: i < star ? Colors.amber : Colors.grey,
-                    size: 18,
+                    size: 16,
                   );
                 }),
               ),

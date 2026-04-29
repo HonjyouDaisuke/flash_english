@@ -4,18 +4,24 @@ import '../storage/token_storage.dart';
 
 class ApiClient {
   final TokenStorage _storage;
+  final String baseUrl;
+
   static const _timeout = Duration(seconds: 30);
-  ApiClient(this._storage);
+
+  ApiClient(
+    this._storage,
+    this.baseUrl,
+  );
 
   Future<http.Response> post(
-    String url, {
+    String path, {
     Map<String, dynamic>? body,
   }) async {
     final token = await _storage.getAccessToken();
 
     return http
         .post(
-          Uri.parse(url),
+          Uri.parse(_buildUrl(path)),
           headers: {
             'Content-Type': 'application/json',
             if (token != null) 'Authorization': 'Bearer $token',
@@ -25,14 +31,28 @@ class ApiClient {
         .timeout(_timeout);
   }
 
-  Future<http.Response> get(String url) async {
+  Future<http.Response> get(String path) async {
     final token = await _storage.getAccessToken();
 
     return http.get(
-      Uri.parse(url),
+      Uri.parse(_buildUrl(path)),
       headers: {
         if (token != null) 'Authorization': 'Bearer $token',
       },
     ).timeout(_timeout);
+  }
+
+  String _buildUrl(String path) {
+    if (path.startsWith('http')) {
+      return path;
+    }
+
+    final cleanBase = baseUrl.endsWith('/')
+        ? baseUrl.substring(0, baseUrl.length - 1)
+        : baseUrl;
+
+    final cleanPath = path.startsWith('/') ? path : '/$path';
+
+    return '$cleanBase$cleanPath';
   }
 }

@@ -39,33 +39,27 @@ class LoginUseCase {
         return false;
       }
       final idToken = await userCredential.user!.getIdToken();
-      debugPrint("ログイン成功!!");
       if (idToken == null) {
         debugPrint("IDトークンの取得に失敗");
         return false;
       }
-      debugPrint("ログイン成功1");
       final result = await _authBackend.callBackend(idToken);
       if (result == null || !result.containsKey('access_token')) {
         debugPrint("バックエンドからのアクセストークンの取得に失敗");
         return false;
       }
-      debugPrint("ログイン成功2");
 
       final accessToken = result['access_token'];
       final refreshToken = result['refresh_token'];
-      debugPrint("ログイン成功3!");
 
       if (accessToken == null || refreshToken == null) {
         debugPrint("token取得失敗");
         return false;
       }
-      debugPrint("ログイン成功4");
 
       // 🔥 ここが超重要
       await _tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
-      debugPrint("ログイン成功5");
 
       return true;
     } on FirebaseAuthException catch (e) {

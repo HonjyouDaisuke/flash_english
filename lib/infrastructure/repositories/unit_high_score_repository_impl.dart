@@ -46,7 +46,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
       debugPrint(
           "achieved_at = ${DateFormat('yyyy/MM/dd').format(DateTime.now())}");
       final response = await _apiClient.post(
-        'http://10.0.2.2:8888/flash_english_backend/api/save-unit-high-scores',
+        '/flash_english_backend/api/save-unit-high-scores',
         body: {
           'category_id': score.categoryId,
           'unit_id': score.unitId,
@@ -69,7 +69,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
   Future<List<UnitScore>?> getAllAPI(int categoryId) async {
     try {
       final response = await _apiClient.post(
-        'http://10.0.2.2:8888/flash_english_backend/api/getall-unit-high-scores',
+        '/flash_english_backend/api/getall-unit-high-scores',
         body: {
           'category_id': categoryId,
         },

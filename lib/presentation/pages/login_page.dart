@@ -1,43 +1,46 @@
-import 'package:flash_english/application/usecases/login_usecase.dart';
-import 'package:flash_english/infrastructure/api/api_client.dart';
-import 'package:flash_english/infrastructure/authentication/auth_backend.dart';
-import 'package:flash_english/infrastructure/storage/token_storage.dart';
+import 'package:flash_english/core/providers/api_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
-  late final tokenStorage = TokenStorage();
-  late final apiClient = ApiClient(tokenStorage);
-  late final authBackend =
-      AuthBackend(apiClient, 'http://10.0.2.2:8888'); //10.0.2.2:8888
-  late final loginUseCase = LoginUseCase(
-    authBackend: authBackend,
-    tokenStorage: tokenStorage,
-  );
+class LoginPage extends ConsumerWidget {
+  const LoginPage({super.key});
 
-  LoginPage({super.key});
+  Future<void> _login(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final loginUseCase = ref.read(loginUseCaseProvider);
 
-  Future<void> _login(BuildContext context) async {
     final success = await loginUseCase.login();
+
     if (success) {
       if (context.mounted) {
         context.go('/training');
       }
     } else {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('ログインに失敗しました')),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'ログインに失敗しました',
+            ),
+          ),
+        );
+      }
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     return Scaffold(
       appBar: AppBar(title: const Text("ログイン")),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => _login(context),
+          onPressed: () => _login(context, ref),
           child: const Text("Googleでログイン"),
         ),
       ),
