@@ -8,7 +8,7 @@ class CategorySelectPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppBar(title: const Text('ユニット選択')),
+        AppBar(title: const Text('カテゴリー選択')),
         Expanded(
           child: Center(
             child: Column(
