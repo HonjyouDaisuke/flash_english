@@ -1,4 +1,4 @@
 {
   "ENV": "prod",
-  "BASE_URL": "https://kobe-football.sakura.ne.jp/flash_english_backend/"
+  "BASE_URL": "https://kobe-football.sakura.ne.jp/"
 }
