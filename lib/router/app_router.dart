@@ -36,8 +36,10 @@ final GoRouter appRouter = GoRouter(
                   GoRoute(
                       path: 'unit',
                       builder: (context, state) => UnitSelectPage(
-                            categoryId: int.parse(
-                                state.uri.queryParameters['categoryId'] ?? '0'),
+                            categoryId: int.tryParse(
+                                  state.uri.queryParameters['categoryId'] ?? '',
+                                ) ??
+                                0,
                           ),
                       routes: [
                         GoRoute(
