@@ -85,12 +85,36 @@ class UnitFinishPage extends ConsumerWidget {
 
             const Spacer(),
 
-            /// ボタン
-            ElevatedButton(
-              onPressed: () {
-                context.go('/'); // ホームへ
-              },
-              child: const Text('ホームへ戻る'),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.go('/training');
+                    },
+                    child: const Text('メニュー'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () {
+                      context.go('/training/category');
+                    },
+                    child: const Text('カテゴリー'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      context.go(
+                          '/training/category/unit?categoryId=${game.categoryId}');
+                    },
+                    child: const Text('ユニット選択'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
