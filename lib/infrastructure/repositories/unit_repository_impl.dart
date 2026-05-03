@@ -17,7 +17,7 @@ class UnitRepositoryImpl implements UnitRepository {
       whereArgs: [categoryId],
       orderBy: 'unit_no',
     );
-    debugPrint(result.toString());
+    return result
     return result
         .map(
           (map) => UnitMapper.fromMap(map),
