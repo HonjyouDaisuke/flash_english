@@ -49,7 +49,7 @@ class CategorySelectPage extends ConsumerWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         context.push(
-                          '/training/category/unit?categoryId=${category.categoryNo}',
+                          '/training/category/unit?categoryNo=${category.categoryNo}',
                         );
                       },
                       child: Text(

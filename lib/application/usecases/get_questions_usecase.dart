@@ -6,7 +6,7 @@ class GetQuestionsUseCase {
 
   GetQuestionsUseCase(this.repository);
 
-  Future<List<Question>> execute(int categoryId, int unitId) {
-    return repository.getQuestions(categoryId, unitId);
+  Future<List<Question>> execute(int categoryNo, int unitNo) {
+    return repository.getQuestions(categoryNo, unitNo);
   }
 }

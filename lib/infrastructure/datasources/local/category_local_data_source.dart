@@ -9,10 +9,10 @@ class CategoryLocalDataSource {
 
     return data
         .map((e) => Category(
-              categoryId: e['category_id'],
-              categoryNo: e['category_no'],
-              categoryName: e['category_name'],
-              categoryDescription: e['category_description'],
+              categoryId: e['category_id'] as int,
+              categoryNo: e['category_no'] as int,
+              categoryName: e['category_name'] as String,
+              categoryDescription: e['category_description'] as String,
             ))
         .toList();
   }

@@ -1,8 +1,8 @@
 class StudyLog {
   final int? id;
-  final int categoryId;
-  final int unitId;
-  final int questionId;
+  final int categoryNo;
+  final int unitNo;
+  final int questionNo;
   final bool isCorrect;
   final int sessionId;
   final int durationSeconds;
@@ -10,9 +10,9 @@ class StudyLog {
 
   StudyLog({
     this.id,
-    required this.categoryId,
-    required this.unitId,
-    required this.questionId,
+    required this.categoryNo,
+    required this.unitNo,
+    required this.questionNo,
     required this.isCorrect,
     required this.sessionId,
     required this.durationSeconds,

@@ -21,8 +21,8 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
 
     return maps
         .map((m) => UnitScore(
-              categoryId: (m['category_id'] ?? 0) as int,
-              unitId: (m['unit_id'] ?? 0) as int,
+              categoryNo: (m['category_no'] ?? 0) as int,
+              unitNo: (m['unit_no'] ?? 0) as int,
               score: (m['score'] ?? 0) as int,
               achievedAt: m['achieved_at'] as String,
             ))
@@ -32,8 +32,8 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
   @override
   Future<void> saveScore(UnitScore score) async {
     final map = {
-      'category_id': score.categoryId,
-      'unit_id': score.unitId,
+      'category_no': score.categoryNo,
+      'unit_no': score.unitNo,
       'score': score.score,
     };
 
@@ -48,8 +48,8 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
       final response = await _apiClient.post(
         '/flash_english_backend/api/save-unit-high-scores',
         body: {
-          'category_id': score.categoryId,
-          'unit_id': score.unitId,
+          'category_no': score.categoryNo,
+          'unit_no': score.unitNo,
           'score': score.score,
           'achieved_at': DateFormat('yyyy/MM/dd').format(DateTime.now()),
         },
@@ -66,15 +66,15 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
   }
 
   @override
-  Future<List<UnitScore>?> getAllAPI(int categoryId) async {
+  Future<List<UnitScore>?> getAllAPI(int categoryNo) async {
     try {
       final response = await _apiClient.post(
         '/flash_english_backend/api/getall-unit-high-scores',
         body: {
-          'category_id': categoryId,
+          'category_no': categoryNo,
         },
       );
-      debugPrint("------------------------- categoryId = $categoryId");
+      debugPrint("------------------------- categoryNo = $categoryNo");
       debugPrint(response.body);
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint("Error get All unit score: status ${response.statusCode}");

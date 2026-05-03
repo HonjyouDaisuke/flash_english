@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UnitSelectPage extends ConsumerWidget {
-  final int categoryId;
+  final int categoryNo;
   final units = List.generate(10, (index) => index + 1);
-  UnitSelectPage({super.key, required this.categoryId});
+  UnitSelectPage({super.key, required this.categoryNo});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -20,7 +20,7 @@ class UnitSelectPage extends ConsumerWidget {
       appBar: AppBar(title: const Text('ユニット選択')),
       body: FutureBuilder(
           future: Future.wait(
-              [unitUseCase(categoryId), scoreUseCase.getAllAPI(categoryId)]),
+              [unitUseCase(categoryNo), scoreUseCase.getAllAPI(categoryNo)]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
@@ -53,17 +53,17 @@ class UnitSelectPage extends ConsumerWidget {
               itemCount: units.length,
               itemBuilder: (context, index) {
                 final unit = units[index];
-                // unitId に一致するスコアを探す
+                // unitNo に一致するスコアを探す
                 final unitScore =
-                    scores.where((e) => e.unitId == unit.unitId).isNotEmpty
-                        ? scores.firstWhere((e) => e.unitId == unit.unitId)
+                    scores.where((e) => e.unitNo == unit.unitNo).isNotEmpty
+                        ? scores.firstWhere((e) => e.unitNo == unit.unitNo)
                         : null;
                 int stars = unitScore == null ? 0 : unitScore.stars;
                 String achievedAt =
                     unitScore == null ? "-" : unitScore.achievedAt;
                 return UnitCard(
-                  categoryId: categoryId,
-                  unitId: unit.unitId,
+                  categoryNo: categoryNo,
+                  unitNo: unit.unitNo,
                   unitName: unit.unitName,
                   unitDesc: unit.unitDescription,
                   stars: stars,

@@ -9,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
-  final int? categoryId;
-  final int? unitId;
-  const TrainingPage({super.key, this.categoryId, this.unitId});
+  final int? categoryNo;
+  final int? unitNo;
+  const TrainingPage({super.key, this.categoryNo, this.unitNo});
 
   @override
   ConsumerState<TrainingPage> createState() => _TrainingPageState();
@@ -26,12 +26,12 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   void initState() {
     super.initState();
     debugPrint(
-        'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
+        'TrainingPage initState: categoryNo=${widget.categoryNo}, unitNo=${widget.unitNo}');
 
     Future.microtask(() async {
       await ref
           .read(gameControllerProvider.notifier)
-          .start(categoryId: widget.categoryId!, unitId: widget.unitId!);
+          .start(categoryNo: widget.categoryNo!, unitNo: widget.unitNo!);
       // 👇 初回だけ手動トリガー
       if (!mounted) return;
 
@@ -119,7 +119,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     }
     final q = state.current;
     final unitDescAnsync = ref.watch(unitDescriptionProvider(
-        (categoryId: widget.categoryId!, unitId: widget.unitId!)));
+        (categoryNo: widget.categoryNo!, unitNo: widget.unitNo!)));
     return Scaffold(
       appBar: AppBar(
         title: unitDescAnsync.when(

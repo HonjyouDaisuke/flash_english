@@ -109,7 +109,7 @@ class UnitFinishPage extends ConsumerWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       context.go(
-                          '/training/category/unit?categoryId=${game.categoryId}');
+                          '/training/category/unit?categoryNo=${game.categoryNo}');
                     },
                     child: const Text('ユニット選択'),
                   ),

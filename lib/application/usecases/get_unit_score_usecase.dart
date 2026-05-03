@@ -6,7 +6,7 @@ class GetUnitScoreUseCase {
 
   GetUnitScoreUseCase(this.repository);
 
-  Future<List<UnitScore>?> getAllAPI(int categoryId) async {
-    return await repository.getAllAPI(categoryId);
+  Future<List<UnitScore>?> getAllAPI(int categoryNo) async {
+    return await repository.getAllAPI(categoryNo);
   }
 }

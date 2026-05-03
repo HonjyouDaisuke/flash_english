@@ -7,10 +7,10 @@ class GetUnitsUseCase {
   GetUnitsUseCase(this.repository);
 
   Future<List<Unit>> call(
-    int categoryId,
+    int categoryNo,
   ) {
     return repository.getByCategory(
-      categoryId,
+      categoryNo,
     );
   }
 }

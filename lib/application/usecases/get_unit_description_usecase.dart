@@ -5,7 +5,7 @@ class GetUnitDescriptionUseCase {
 
   GetUnitDescriptionUseCase(this.repository);
 
-  Future<String> execute(int categoryId, int unitId) {
-    return repository.getUnitDescription(categoryId, unitId);
+  Future<String> execute(int categoryNo, int unitNo) {
+    return repository.getUnitDescription(categoryNo, unitNo);
   }
 }

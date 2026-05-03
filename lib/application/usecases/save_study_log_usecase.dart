@@ -8,9 +8,9 @@ class SaveStudyLogUseCase {
 
   Future<bool> execute(StudyLog log) async {
     final studyLog = StudyLog(
-      categoryId: log.categoryId,
-      unitId: log.unitId,
-      questionId: log.questionId,
+      categoryNo: log.categoryNo,
+      unitNo: log.unitNo,
+      questionNo: log.questionNo,
       isCorrect: log.isCorrect,
       sessionId: log.sessionId,
       durationSeconds: log.durationSeconds,

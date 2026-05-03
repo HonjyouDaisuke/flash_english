@@ -5,12 +5,12 @@ import 'package:flash_english/infrastructure/persistence/mappers/question_mapper
 
 class QuestionRepositoryImpl implements QuestionRepository {
   @override
-  Future<List<Question>> getQuestions(int categoryId, int unitNo) async {
+  Future<List<Question>> getQuestions(int categoryNo, int unitNo) async {
     final db = await AppDatabase.instance.database;
 
     final result = await db.query('questions',
         where: 'category_no = ? AND unit_no = ?',
-        whereArgs: [categoryId, unitNo],
+        whereArgs: [categoryNo, unitNo],
         orderBy: 'question_id');
 
     return result.map((map) => QuestionMapper.fromMap(map)).toList();

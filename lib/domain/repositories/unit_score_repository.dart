@@ -4,5 +4,5 @@ abstract class UnitScoreRepository {
   Future<List<UnitScore>> getAllScores();
   Future<void> saveScore(UnitScore score);
   Future<bool> saveAPI(UnitScore score);
-  Future<List<UnitScore>?> getAllAPI(int categoryId);
+  Future<List<UnitScore>?> getAllAPI(int categoryNo);
 }

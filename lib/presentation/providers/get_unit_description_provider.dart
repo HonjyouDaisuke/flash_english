@@ -7,8 +7,8 @@ import 'unit_repository_provider.dart';
 final unitDescriptionProvider = FutureProvider.family<
     String,
     ({
-      int categoryId,
-      int unitId,
+      int categoryNo,
+      int unitNo,
     })>((ref, param) async {
   final useCase = GetUnitDescriptionUseCase(
     ref.read(
@@ -17,7 +17,7 @@ final unitDescriptionProvider = FutureProvider.family<
   );
 
   return useCase.execute(
-    param.categoryId,
-    param.unitId,
+    param.categoryNo,
+    param.unitNo,
   );
 });

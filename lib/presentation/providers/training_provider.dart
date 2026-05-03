@@ -80,10 +80,10 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     this._saveAnswer,
   ) : super(const TrainingState());
 
-  Future<void> load(int categoryId, int unitId) async {
+  Future<void> load(int categoryNo, int unitNo) async {
     debugPrint("🔥 LOAD START");
 
-    final q = await _usecase.execute(categoryId, unitId);
+    final q = await _usecase.execute(categoryNo, unitNo);
     debugPrint("✅ QUESTIONS: ${q.length}");
 
     final sessionId = await _startSession.execute();
@@ -172,14 +172,9 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
     if (state.sessionId == null) return;
 
-    await _saveAnswer.execute(
     final questionId = q.questionId;
-    if (questionId == null) return;
     await _saveAnswer.execute(
-      questionId: questionId,
-      isCorrect: isCorrect,
-      sessionId: state.sessionId!,
-    );
+      questionNo: questionId,
       isCorrect: isCorrect,
       sessionId: state.sessionId!,
     );

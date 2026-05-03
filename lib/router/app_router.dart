@@ -36,8 +36,8 @@ final GoRouter appRouter = GoRouter(
                   GoRoute(
                       path: 'unit',
                       builder: (context, state) => UnitSelectPage(
-                            categoryId: int.tryParse(
-                                  state.uri.queryParameters['categoryId'] ?? '',
+                            categoryNo: int.tryParse(
+                                  state.uri.queryParameters['categoryNo'] ?? '',
                                 ) ??
                                 0,
                           ),
@@ -45,12 +45,12 @@ final GoRouter appRouter = GoRouter(
                         GoRoute(
                           path: 'training',
                           builder: (context, state) {
-                            final categoryId = int.parse(
-                                state.uri.queryParameters['categoryId'] ?? '0');
-                            final unitId = int.parse(
-                                state.uri.queryParameters['unitId'] ?? '0');
+                            final categoryNo = int.parse(
+                                state.uri.queryParameters['categoryNo'] ?? '0');
+                            final unitNo = int.parse(
+                                state.uri.queryParameters['unitNo'] ?? '0');
                             return TrainingPage(
-                                categoryId: categoryId, unitId: unitId);
+                                categoryNo: categoryNo, unitNo: unitNo);
                           },
                         ),
                       ]),
