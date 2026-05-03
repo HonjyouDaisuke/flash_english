@@ -17,9 +17,9 @@ class QuestionMapper {
   static Question fromMap(Map<String, dynamic> map) {
     return Question(
       questionId: map['question_id'],
-      categoryNo: map['category_no'],
-      unitNo: map['unit_no'],
-      number: map['number'],
+      categoryNo: map['category_no'] as int,
+      unitNo: map['unit_no'] as int,
+      number: map['number'] as int,
       japanese: map['japanese'],
       english: map['english'],
       japaneseAudio: map['japanese_audio'] ?? map['japaneseAudio'],
