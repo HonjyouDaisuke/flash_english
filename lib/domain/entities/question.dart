@@ -1,5 +1,5 @@
 class Question {
-  final int? questionId;
+  final int questionId;
   final int categoryNo;
   final int unitNo;
   final int number;
