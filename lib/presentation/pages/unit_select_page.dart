@@ -22,6 +22,18 @@ class UnitSelectPage extends ConsumerWidget {
           future: Future.wait(
               [unitUseCase(categoryId), scoreUseCase.getAllAPI(categoryId)]),
           builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.error_outline, color: Colors.red),
+                    const SizedBox(height: 8),
+                    Text('エラーが発生しました: ${snapshot.error}'),
+                  ],
+                ),
+              );
+            }
             if (!snapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
