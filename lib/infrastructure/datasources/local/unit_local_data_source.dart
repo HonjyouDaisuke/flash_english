@@ -9,11 +9,11 @@ class UnitLocalDataSource {
 
     return data
         .map((e) => Unit(
-              unitId: e['unit_id'],
-              categoryNo: e['category_no'],
-              unitNo: e['unit_no'],
-              unitName: e['unit_name'],
-              unitDescription: e['unit_description'],
+              unitId: e['unit_id'] as int,
+              categoryNo: e['category_no'] as int,
+              unitNo: e['unit_no'] as int,
+              unitName: e['unit_name'] as String,
+              unitDescription: e['unit_description'] as String,
             ))
         .toList();
   }
