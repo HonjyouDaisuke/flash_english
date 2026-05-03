@@ -35,6 +35,11 @@ class UnitRepositoryImpl implements UnitRepository {
       whereArgs: [categoryId, unitId],
     );
     final units = result.map((map) => UnitMapper.fromMap(map)).toList();
+    if (units.isEmpty) {
+      throw StateError(
+        'Unit not found: categoryId=$categoryId, unitId=$unitId',
+      );
+    }
     return "${units[0].unitName} : ${units[0].unitDescription}";
   }
 }
