@@ -6,8 +6,10 @@ void main() {
   final useCase = CheckAnswerUseCase();
 
   final question = Question(
-    id: 1,
-    category: 'カテゴリ',
+    questionId: 1,
+    categoryNo: 2,
+    unitNo: 1,
+    number: 1,
     japanese: "私はコーヒーが好きです",
     english: "I like coffee",
     japaneseAudio: "",

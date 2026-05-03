@@ -1,0 +1,1002 @@
+[
+    {
+        "question_id": 1,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 1,
+        "japanese": "これは良い本です。",
+        "english": "This is a good book.",
+        "japanese_audio": "audio/sound_01_01_01_ja.wav",
+        "english_audio": "audio/sound_01_01_01_en.wav"
+    },
+    {
+        "question_id": 2,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 2,
+        "japanese": "この辞書は良い",
+        "english": "This dictionary is good.",
+        "japanese_audio": "audio/sound_01_01_02_ja.wav",
+        "english_audio": "audio/sound_01_01_02_en.wav"
+    },
+    {
+        "question_id": 3,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 3,
+        "japanese": "あれは面白い本ですか？ーはい、そうです。",
+        "english": "Is that an interesting book? - Yes, it is.",
+        "japanese_audio": "audio/sound_01_01_03_ja.wav",
+        "english_audio": "audio/sound_01_01_03_en.wav"
+    },
+    {
+        "question_id": 4,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 4,
+        "japanese": "あの本は面白いですか？ーいえ、面白くありません。",
+        "english": "Is that book interesting? - No, it isn't.",
+        "japanese_audio": "audio/sound_01_01_04_ja.wav",
+        "english_audio": "audio/sound_01_01_04_en.wav"
+    },
+    {
+        "question_id": 5,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 5,
+        "japanese": "これは正しくない。",
+        "english": "This is not right.",
+        "japanese_audio": "audio/sound_01_01_05_ja.wav",
+        "english_audio": "audio/sound_01_01_05_en.wav"
+    },
+    {
+        "question_id": 6,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 6,
+        "japanese": "あれは本物の花ではない。",
+        "english": "That is not a real flower.",
+        "japanese_audio": "audio/sound_01_01_06_ja.wav",
+        "english_audio": "audio/sound_01_01_06_en.wav"
+    },
+    {
+        "question_id": 7,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 7,
+        "japanese": "このスープはあまり美味しくない。",
+        "english": "This soup is not very tasty.",
+        "japanese_audio": "audio/sound_01_01_07_ja.wav",
+        "english_audio": "audio/sound_01_01_07_en.wav"
+    },
+    {
+        "question_id": 8,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 8,
+        "japanese": "これは塩ですか、それとも砂糖ですか？ー砂糖です。",
+        "english": "Is this salt or sugar? - It is sugar.",
+        "japanese_audio": "audio/sound_01_01_08_ja.wav",
+        "english_audio": "audio/sound_01_01_08_en.wav"
+    },
+    {
+        "question_id": 9,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 9,
+        "japanese": "あの女性はフランス人ですか、それともイタリア人ですか？ーフランス人です。",
+        "english": "Is that woman French or Italian? - She is French.",
+        "japanese_audio": "audio/sound_01_01_09_ja.wav",
+        "english_audio": "audio/sound_01_01_09_en.wav"
+    },
+    {
+        "question_id": 10,
+        "category_no": 1,
+        "unit_no": 1,
+        "number": 10,
+        "japanese": "あの男性は日本人ですか、それとも中国人ですか？ー日本人です。",
+        "english": "Is that man Japanese or Chinese? - He is Japanese.",
+        "japanese_audio": "audio/sound_01_01_10_ja.wav",
+        "english_audio": "audio/sound_01_01_10_en.wav"
+    },
+    {
+        "question_id": 11,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 1,
+        "japanese": "これらは子供向けの本です",
+        "english": "These are books for children.",
+        "japanese_audio": "audio/sound_01_02_01_ja.wav",
+        "english_audio": "audio/sound_01_02_01_en.wav"
+    },
+    {
+        "question_id": 12,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 2,
+        "japanese": "あれらは本当の花ですか？-いいえ違います。",
+        "english": "Are those real flowers? - No, they aren't.",
+        "japanese_audio": "audio/sound_01_02_02_ja.wav",
+        "english_audio": "audio/sound_01_02_02_en.wav"
+    },
+    {
+        "question_id": 13,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 3,
+        "japanese": "この少年たちは中学生です。",
+        "english": "These boys are junior high school students.",
+        "japanese_audio": "audio/sound_01_02_03_ja.wav",
+        "english_audio": "audio/sound_01_02_03_en.wav"
+    },
+    {
+        "question_id": 14,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 4,
+        "japanese": "あの少女たちは高校生ですか？－はい、そうです。",
+        "english": "Are those girls high school students? - Yes, they are.",
+        "japanese_audio": "audio/sound_01_02_04_ja.wav",
+        "english_audio": "audio/sound_01_02_04_en.wav"
+    },
+    {
+        "question_id": 15,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 5,
+        "japanese": "これらの車はとても高い。",
+        "english": "These car are very expensive.",
+        "japanese_audio": "audio/sound_01_02_05_ja.wav",
+        "english_audio": "audio/sound_01_02_05_en.wav"
+    },
+    {
+        "question_id": 16,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 6,
+        "japanese": "あれらの家は新しくない。",
+        "english": "Those houses are not new.",
+        "japanese_audio": "audio/sound_01_02_06_ja.wav",
+        "english_audio": "audio/sound_01_02_06_en.wav"
+    },
+    {
+        "question_id": 17,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 7,
+        "japanese": "これらは本ですか、それとも雑誌ですか？－雑誌です。",
+        "english": "Are these books or magazines? - They are magazines.",
+        "japanese_audio": "audio/sound_01_02_07_ja.wav",
+        "english_audio": "audio/sound_01_02_07_en.wav"
+    },
+    {
+        "question_id": 18,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 8,
+        "japanese": "あれらの車は新しいですか、それとも古いですか？－新しいです。",
+        "english": "Are those cars new or old? - They are new.",
+        "japanese_audio": "audio/sound_01_02_08_ja.wav",
+        "english_audio": "audio/sound_01_02_08_en.wav"
+    },
+    {
+        "question_id": 19,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 9,
+        "japanese": "この男性たちはアメリカ人ですか、それともドイツ人ですか？－ドイツ人です。",
+        "english": "Are these men American or German? - They are German.",
+        "japanese_audio": "audio/sound_01_02_09_ja.wav",
+        "english_audio": "audio/sound_01_02_09_en.wav"
+    },
+    {
+        "question_id": 20,
+        "category_no": 1,
+        "unit_no": 2,
+        "number": 10,
+        "japanese": "あの女性たちは日本人ですか、それとも韓国人ですか？－韓国人です。",
+        "english": "Are those women Japanese or Korean? - They are Korean.",
+        "japanese_audio": "audio/sound_01_02_10_ja.wav",
+        "english_audio": "audio/sound_01_02_10_en.wav"
+    },
+    {
+        "question_id": 21,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 1,
+        "japanese": "これは何ですか？－カメラです。",
+        "english": "What is this? - It is a camera.",
+        "japanese_audio": "audio/sound_01_03_01_ja.wav",
+        "english_audio": "audio/sound_01_03_01_en.wav"
+    },
+    {
+        "question_id": 22,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 2,
+        "japanese": "あれは何ですか？－灰皿です。",
+        "english": "What is that? - It is an ashtray.",
+        "japanese_audio": "audio/sound_01_03_02_ja.wav",
+        "english_audio": "audio/sound_01_03_02_en.wav"
+    },
+    {
+        "question_id": 23,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 3,
+        "japanese": "これは何ですか？－置時計です。",
+        "english": "What is this? - It's a clock.",
+        "japanese_audio": "audio/sound_01_03_03_ja.wav",
+        "english_audio": "audio/sound_01_03_03_en.wav"
+    },
+    {
+        "question_id": 24,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 4,
+        "japanese": "あれは何ですか？－枕です。",
+        "english": "What is that? - It's a pillow.",
+        "japanese_audio": "audio/sound_01_03_04_ja.wav",
+        "english_audio": "audio/sound_01_03_04_en.wav"
+    },
+    {
+        "question_id": 25,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 5,
+        "japanese": "これらは何ですか？－フランスの雑誌です。",
+        "english": "What are these? - They are French magazines.",
+        "japanese_audio": "audio/sound_01_03_05_ja.wav",
+        "english_audio": "audio/sound_01_03_05_en.wav"
+    },
+    {
+        "question_id": 26,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 6,
+        "japanese": "あの鳥たちは何ですか？－雀です。",
+        "english": "What are those birds? - They are sparrows.",
+        "japanese_audio": "audio/sound_01_03_06_ja.wav",
+        "english_audio": "audio/sound_01_03_06_en.wav"
+    },
+    {
+        "question_id": 27,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 7,
+        "japanese": "あれらは何ですか？－古い切手です。",
+        "english": "What are those? - They are old stamps.",
+        "japanese_audio": "audio/sound_01_03_07_ja.wav",
+        "english_audio": "audio/sound_01_03_07_en.wav"
+    },
+    {
+        "question_id": 28,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 8,
+        "japanese": "あの男の人たちは何ですか？－景観です。",
+        "english": "What are those men? - THey are policemen.",
+        "japanese_audio": "audio/sound_01_03_08_ja.wav",
+        "english_audio": "audio/sound_01_03_08_en.wav"
+    },
+    {
+        "question_id": 29,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 9,
+        "japanese": "あの女性たちは何ですか？－秘書です。",
+        "english": "What are those women? - They are secretaries.",
+        "japanese_audio": "audio/sound_01_03_09_ja.wav",
+        "english_audio": "audio/sound_01_03_09_en.wav"
+    },
+    {
+        "question_id": 30,
+        "category_no": 1,
+        "unit_no": 3,
+        "number": 10,
+        "japanese": "あの人たちは何ですか？ー弁護士です。",
+        "english": "What are those people? - They are lawyers.",
+        "japanese_audio": "audio/sound_01_03_10_ja.wav",
+        "english_audio": "audio/sound_01_03_10_en.wav"
+    },
+    {
+        "question_id": 31,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 1,
+        "japanese": "私は学生です。",
+        "english": "I am a student.",
+        "japanese_audio": "audio/sound_01_04_01_ja.wav",
+        "english_audio": "audio/sound_01_04_01_en.wav"
+    },
+    {
+        "question_id": 32,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 2,
+        "japanese": "あなたは教師ですか？",
+        "english": "Are you a teacher?",
+        "japanese_audio": "audio/sound_01_04_02_ja.wav",
+        "english_audio": "audio/sound_01_04_02_en.wav"
+    },
+    {
+        "question_id": 33,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 3,
+        "japanese": "彼は弁護士です。",
+        "english": "He is a lawyer.",
+        "japanese_audio": "audio/sound_01_04_03_ja.wav",
+        "english_audio": "audio/sound_01_04_03_en.wav"
+    },
+    {
+        "question_id": 34,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 4,
+        "japanese": "彼女は看護師ですか？ーいいえ、違います。",
+        "english": "Is she a nurse? - No, she isn't.",
+        "japanese_audio": "audio/sound_01_04_04_ja.wav",
+        "english_audio": "audio/sound_01_04_04_en.wav"
+    },
+    {
+        "question_id": 35,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 5,
+        "japanese": "私達は日本人です。",
+        "english": "We are Japanese.",
+        "japanese_audio": "audio/sound_01_04_05_ja.wav",
+        "english_audio": "audio/sound_01_04_05_en.wav"
+    },
+    {
+        "question_id": 36,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 6,
+        "japanese": "あなた方は学生ですか？",
+        "english": "Are you students?",
+        "japanese_audio": "audio/sound_01_04_06_ja.wav",
+        "english_audio": "audio/sound_01_04_06_en.wav"
+    },
+    {
+        "question_id": 37,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 7,
+        "japanese": "彼らは警官です。",
+        "english": "They are policemen.",
+        "japanese_audio": "audio/sound_01_04_07_ja.wav",
+        "english_audio": "audio/sound_01_04_07_en.wav"
+    },
+    {
+        "question_id": 38,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 8,
+        "japanese": "彼女たちは高校生ですか？ーいいえ、違います。",
+        "english": "Are they high school students? - No, they aren't.",
+        "japanese_audio": "audio/sound_01_04_08_ja.wav",
+        "english_audio": "audio/sound_01_04_08_en.wav"
+    },
+    {
+        "question_id": 39,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 9,
+        "japanese": "あなた方は幸せですか？ーはい、幸せです。",
+        "english": "Are you happy? - Yes, we are.",
+        "japanese_audio": "audio/sound_01_04_09_ja.wav",
+        "english_audio": "audio/sound_01_04_09_en.wav"
+    },
+    {
+        "question_id": 40,
+        "category_no": 1,
+        "unit_no": 4,
+        "number": 10,
+        "japanese": "彼は親切です。",
+        "english": "He is kind.",
+        "japanese_audio": "audio/sound_01_04_10_ja.wav",
+        "english_audio": "audio/sound_01_04_10_en.wav"
+    },
+    {
+        "question_id": 41,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 1,
+        "japanese": "彼女は私の先生です。",
+        "english": "She is my teacher.",
+        "japanese_audio": "audio/sound_01_05_01_ja.wav",
+        "english_audio": "audio/sound_01_05_01_en.wav"
+    },
+    {
+        "question_id": 42,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 2,
+        "japanese": "あの猫たちはあなたのペットですか？",
+        "english": "Is that cat your pet?",
+        "japanese_audio": "audio/sound_01_05_02_ja.wav",
+        "english_audio": "audio/sound_01_05_02_en.wav"
+    },
+    {
+        "question_id": 43,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 3,
+        "japanese": "この子達は彼女の生徒です。",
+        "english": "These children are her students.",
+        "japanese_audio": "audio/sound_01_05_03_ja.wav",
+        "english_audio": "audio/sound_01_05_03_en.wav"
+    },
+    {
+        "question_id": 44,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 4,
+        "japanese": "あの少女たちは私の娘です。",
+        "english": "Those girls are his doughters",
+        "japanese_audio": "audio/sound_01_05_04_ja.wav",
+        "english_audio": "audio/sound_01_05_04_en.wav"
+    },
+    {
+        "question_id": 45,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 5,
+        "japanese": "これは私たちの車です。",
+        "english": "This is our car.",
+        "japanese_audio": "audio/sound_01_05_05_ja.wav",
+        "english_audio": "audio/sound_01_05_05_en.wav"
+    },
+    {
+        "question_id": 46,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 6,
+        "japanese": "あれはあなた方の教室ですか？",
+        "english": "Is that your classroom?",
+        "japanese_audio": "audio/sound_01_05_06_ja.wav",
+        "english_audio": "audio/sound_01_05_06_en.wav"
+    },
+    {
+        "question_id": 47,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 7,
+        "japanese": "あれは彼らの家ですか？",
+        "english": "Is that Their house?",
+        "japanese_audio": "audio/sound_01_05_07_ja.wav",
+        "english_audio": "audio/sound_01_05_07_en.wav"
+    },
+    {
+        "question_id": 48,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 8,
+        "japanese": "私の息子は大学生です。",
+        "english": "My son is a college student.",
+        "japanese_audio": "audio/sound_01_05_08_ja.wav",
+        "english_audio": "audio/sound_01_05_08_en.wav"
+    },
+    {
+        "question_id": 49,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 9,
+        "japanese": "あなたの奥さんは看護師ですか？",
+        "english": "Is your wife a nurse?",
+        "japanese_audio": "audio/sound_01_05_09_ja.wav",
+        "english_audio": "audio/sound_01_05_09_en.wav"
+    },
+    {
+        "question_id": 50,
+        "category_no": 1,
+        "unit_no": 5,
+        "number": 10,
+        "japanese": "彼女の目は青いですか？ーいいえ、違います。",
+        "english": "Are her eyes blue? - No, they aren't",
+        "japanese_audio": "audio/sound_01_05_10_ja.wav",
+        "english_audio": "audio/sound_01_05_10_en.wav"
+    },
+    {
+        "question_id": 51,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 1,
+        "japanese": "この女の子は誰ですか？ー僕の妹です。",
+        "english": "Who is this girl? - She is my sister.",
+        "japanese_audio": "audio/sound_01_06_01_ja.wav",
+        "english_audio": "audio/sound_01_06_01_en.wav"
+    },
+    {
+        "question_id": 52,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 2,
+        "japanese": "あの男の子は誰ですか？ーロバートです。",
+        "english": "Who is that boy? - He is Robert.",
+        "japanese_audio": "audio/sound_01_06_02_ja.wav",
+        "english_audio": "audio/sound_01_06_02_en.wav"
+    },
+    {
+        "question_id": 53,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 3,
+        "japanese": "あの男の人たちは誰ですか？ー僕の父と兄です。",
+        "english": "Who are those men? - They are my father and brother.",
+        "japanese_audio": "audio/sound_01_06_03_ja.wav",
+        "english_audio": "audio/sound_01_06_03_en.wav"
+    },
+    {
+        "question_id": 54,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 4,
+        "japanese": "あの女の人たちは誰ですか？ー私の母と姉です。",
+        "english": "Who are those women? - They are my mother and sister.",
+        "japanese_audio": "audio/sound_01_06_04_ja.wav",
+        "english_audio": "audio/sound_01_06_04_en.wav"
+    },
+    {
+        "question_id": 55,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 5,
+        "japanese": "あの背の高い男の人は誰ですか？ーブラウンさんです。",
+        "english": "Who is that tall man? - He is Me.Brown",
+        "japanese_audio": "audio/sound_01_06_05_ja.wav",
+        "english_audio": "audio/sound_01_06_05_en.wav"
+    },
+    {
+        "question_id": 56,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 6,
+        "japanese": "あの綺麗な女の人は誰ですか？ースミスさんです。",
+        "english": "Who is that beautiful woman? - She is Ms. Smith.",
+        "japanese_audio": "audio/sound_01_06_06_ja.wav",
+        "english_audio": "audio/sound_01_06_06_en.wav"
+    },
+    {
+        "question_id": 57,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 7,
+        "japanese": "あんたは誰？ージョン・グリーンです。",
+        "english": "Who are you? - I am John Green.",
+        "japanese_audio": "audio/sound_01_06_07_ja.wav",
+        "english_audio": "audio/sound_01_06_07_en.wav"
+    },
+    {
+        "question_id": 58,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 8,
+        "japanese": "私は誰？ーあんたは私の娘だよ。",
+        "english": "Who am I? - You are my daughter.",
+        "japanese_audio": "audio/sound_01_06_08_ja.wav",
+        "english_audio": "audio/sound_01_06_08_en.wav"
+    },
+    {
+        "question_id": 59,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 9,
+        "japanese": "彼らは誰なの？ー僕の友達だよ。",
+        "english": "Who are they? - They are my friends.",
+        "japanese_audio": "audio/sound_01_06_09_ja.wav",
+        "english_audio": "audio/sound_01_06_09_en.wav"
+    },
+    {
+        "question_id": 60,
+        "category_no": 1,
+        "unit_no": 6,
+        "number": 10,
+        "japanese": "彼女たちは誰ですか？ー私の生徒です。",
+        "english": "Who are they? - They are my students.",
+        "japanese_audio": "audio/sound_01_06_10_ja.wav",
+        "english_audio": "audio/sound_01_06_10_en.wav"
+    },
+    {
+        "question_id": 61,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 1,
+        "japanese": "私は車を2台持っています。",
+        "english": "I have two cars.",
+        "japanese_audio": "audio/sound_01_07_01_ja.wav",
+        "english_audio": "audio/sound_01_07_01_en.wav"
+    },
+    {
+        "question_id": 62,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 2,
+        "japanese": "あなたはピアノを持っていますか？ーいいえ、持っていません。",
+        "english": "Do you have a piano? - No, I don't",
+        "japanese_audio": "audio/sound_01_07_02_ja.wav",
+        "english_audio": "audio/sound_01_07_02_en.wav"
+    },
+    {
+        "question_id": 63,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 3,
+        "japanese": "彼はたくさんの本を持っている。",
+        "english": "He has many books.",
+        "japanese_audio": "audio/sound_01_07_03_ja.wav",
+        "english_audio": "audio/sound_01_07_03_en.wav"
+    },
+    {
+        "question_id": 64,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 4,
+        "japanese": "私は野球が好きです。",
+        "english": "I like baseball.",
+        "japanese_audio": "audio/sound_01_07_04_ja.wav",
+        "english_audio": "audio/sound_01_07_04_en.wav"
+    },
+    {
+        "question_id": 65,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 5,
+        "japanese": "あなたは動物が好きですか？ーはい、好きです。",
+        "english": "Do you like animals? - Yes, I do.",
+        "japanese_audio": "audio/sound_01_07_05_ja.wav",
+        "english_audio": "audio/sound_01_07_05_en.wav"
+    },
+    {
+        "question_id": 66,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 6,
+        "japanese": "トムはサッカーが好きです。彼の弟もサッカーが好きです。",
+        "english": "Tom likes soccer. His brother likes it, too.",
+        "japanese_audio": "audio/sound_01_07_06_ja.wav",
+        "english_audio": "audio/sound_01_07_06_en.wav"
+    },
+    {
+        "question_id": 67,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 7,
+        "japanese": "あなたは英語を話しますか？",
+        "english": "Do you speak English?",
+        "japanese_audio": "audio/sound_01_07_07_ja.wav",
+        "english_audio": "audio/sound_01_07_07_en.wav"
+    },
+    {
+        "question_id": 68,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 8,
+        "japanese": "彼らは日本語を上手に話します。",
+        "english": "They speak Japanese well.",
+        "japanese_audio": "audio/sound_01_07_08_ja.wav",
+        "english_audio": "audio/sound_01_07_08_en.wav"
+    },
+    {
+        "question_id": 69,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 9,
+        "japanese": "あなたのお父さんは学校で何を教えますか？ー数学を教えます。",
+        "english": "What does your father teach at school? - He etches mathematics.",
+        "japanese_audio": "audio/sound_01_07_09_ja.wav",
+        "english_audio": "audio/sound_01_07_09_en.wav"
+    },
+    {
+        "question_id": 70,
+        "category_no": 1,
+        "unit_no": 7,
+        "number": 10,
+        "japanese": "彼は毎日野球をします。",
+        "english": "He plays baseball every day.",
+        "japanese_audio": "audio/sound_01_07_10_ja.wav",
+        "english_audio": "audio/sound_01_07_10_en.wav"
+    },
+    {
+        "question_id": 71,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 1,
+        "japanese": "あなたはカバンの中に本を何冊持っていますか？",
+        "english": "How many books do you have in your bag?",
+        "japanese_audio": "audio/sound_01_08_01_ja.wav",
+        "english_audio": "audio/sound_01_08_01_en.wav"
+    },
+    {
+        "question_id": 72,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 2,
+        "japanese": "あなたのおじさんは車を何台持っていますか？",
+        "english": "How many cars does your uncle have?",
+        "japanese_audio": "audio/sound_01_08_02_ja.wav",
+        "english_audio": "audio/sound_01_08_02_en.wav"
+    },
+    {
+        "question_id": 73,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 3,
+        "japanese": "彼にはいとこが何人いますか？",
+        "english": "How many cousins does he have?",
+        "japanese_audio": "audio/sound_01_08_03_ja.wav",
+        "english_audio": "audio/sound_01_08_03_en.wav"
+    },
+    {
+        "question_id": 74,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 4,
+        "japanese": "あなたは毎日ミルクをどれだけ飲みますか？",
+        "english": "How much milk do you drink every day?",
+        "japanese_audio": "audio/sound_01_08_04_ja.wav",
+        "english_audio": "audio/sound_01_08_04_en.wav"
+    },
+    {
+        "question_id": 75,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 5,
+        "japanese": "彼女はお金がいくら必要なのですか？",
+        "english": "How much money does she need?",
+        "japanese_audio": "audio/sound_01_08_05_ja.wav",
+        "english_audio": "audio/sound_01_08_05_en.wav"
+    },
+    {
+        "question_id": 76,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 6,
+        "japanese": "彼はいくつの言葉を話しますか？ー3ヶ国語を話します。",
+        "english": "How many languages does he speak? - He speaks three languages.",
+        "japanese_audio": "audio/sound_01_08_06_ja.wav",
+        "english_audio": "audio/sound_01_08_06_en.wav"
+    },
+    {
+        "question_id": 77,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 7,
+        "japanese": "このクラスには何人の生徒がいますか？ー40人です。",
+        "english": "How many students does this class have? - It has forty students.",
+        "japanese_audio": "audio/sound_01_08_07_ja.wav",
+        "english_audio": "audio/sound_01_08_07_en.wav"
+    },
+    {
+        "question_id": 78,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 8,
+        "japanese": "エミリーには何人の兄弟姉妹がいますか？ー兄が一人に妹が二人います。",
+        "english": "How many brothers and sisters does Emily have?",
+        "japanese_audio": "audio/sound_01_08_08_ja.wav",
+        "english_audio": "audio/sound_01_08_08_en.wav"
+    },
+    {
+        "question_id": 79,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 9,
+        "japanese": "彼は毎日コーヒーをどのくらい飲みますか？ー5、６杯飲みます。",
+        "english": "How much coffee does he drink every day?",
+        "japanese_audio": "audio/sound_01_08_09_ja.wav",
+        "english_audio": "audio/sound_01_08_09_en.wav"
+    },
+    {
+        "question_id": 80,
+        "category_no": 1,
+        "unit_no": 8,
+        "number": 10,
+        "japanese": "あなたのお兄さんは友達が何人くらいいますか？ーわかりません。兄には友達が大勢います。",
+        "english": "Hou many friends does your brother have? - I don't know. He has many friends.",
+        "japanese_audio": "audio/sound_01_08_10_ja.wav",
+        "english_audio": "audio/sound_01_08_10_en.wav"
+    },
+    {
+        "question_id": 81,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 1,
+        "japanese": "私は彼のことを知っています。",
+        "english": "I know him.",
+        "japanese_audio": "audio/sound_01_09_01_ja.wav",
+        "english_audio": "audio/sound_01_09_01_en.wav"
+    },
+    {
+        "question_id": 82,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 2,
+        "japanese": "あなたは彼女が好きですか？",
+        "english": "Do you like her?",
+        "japanese_audio": "audio/sound_01_09_02_ja.wav",
+        "english_audio": "audio/sound_01_09_02_en.wav"
+    },
+    {
+        "question_id": 83,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 3,
+        "japanese": "彼女は毎日彼らに会います。",
+        "english": "She sees them every day.",
+        "japanese_audio": "audio/sound_01_09_03_ja.wav",
+        "english_audio": "audio/sound_01_09_03_en.wav"
+    },
+    {
+        "question_id": 84,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 4,
+        "japanese": "彼女たちは私のことをよく知っています。",
+        "english": "They know me well.",
+        "japanese_audio": "audio/sound_01_09_04_ja.wav",
+        "english_audio": "audio/sound_01_09_04_en.wav"
+    },
+    {
+        "question_id": 85,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 5,
+        "japanese": "私は彼女たちがあまり好きではありません。",
+        "english": "I don't like them very much.",
+        "japanese_audio": "audio/sound_01_09_05_ja.wav",
+        "english_audio": "audio/sound_01_09_05_en.wav"
+    },
+    {
+        "question_id": 86,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 6,
+        "japanese": "彼は私たちのことが好きですか？",
+        "english": "Does he like us?",
+        "japanese_audio": "audio/sound_01_09_06_ja.wav",
+        "english_audio": "audio/sound_01_09_06_en.wav"
+    },
+    {
+        "question_id": 87,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 7,
+        "japanese": "あなたのお父さんは私のことを知っていますか？",
+        "english": "Does your father know me?",
+        "japanese_audio": "audio/sound_01_09_07_ja.wav",
+        "english_audio": "audio/sound_01_09_07_en.wav"
+    },
+    {
+        "question_id": 88,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 8,
+        "japanese": "私の母はあなたたちが大好きです。",
+        "english": "My mother likes.you a lot.",
+        "japanese_audio": "audio/sound_01_09_08_ja.wav",
+        "english_audio": "audio/sound_01_09_08_en.wav"
+    },
+    {
+        "question_id": 89,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 9,
+        "japanese": "あなたの息子さんはよく彼と遊びますか？",
+        "english": "Does your son often play with him.",
+        "japanese_audio": "audio/sound_01_09_09_ja.wav",
+        "english_audio": "audio/sound_01_09_09_en.wav"
+    },
+    {
+        "question_id": 90,
+        "category_no": 1,
+        "unit_no": 9,
+        "number": 10,
+        "japanese": "彼女は時々彼らのためにピアノを弾きます。",
+        "english": "She sometimes plays the piano for them.",
+        "japanese_audio": "audio/sound_01_09_10_ja.wav",
+        "english_audio": "audio/sound_01_09_10_en.wav"
+    },
+    {
+        "question_id": 91,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 1,
+        "japanese": "この自転車は僕のものです。",
+        "english": "This bicycle is mine.",
+        "japanese_audio": "audio/sound_01_10_01_ja.wav",
+        "english_audio": "audio/sound_01_10_01_en.wav"
+    },
+    {
+        "question_id": 92,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 2,
+        "japanese": "あの大きな家はあなたのですか？",
+        "english": "Is that big house yours?",
+        "japanese_audio": "audio/sound_01_10_02_ja.wav",
+        "english_audio": "audio/sound_01_10_02_en.wav"
+    },
+    {
+        "question_id": 93,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 3,
+        "japanese": "kあの女のカメラは新しい。彼のもまた新しい。",
+        "english": "Her camera is new. His is new, too.",
+        "japanese_audio": "audio/sound_01_10_03_ja.wav",
+        "english_audio": "audio/sound_01_10_03_en.wav"
+    },
+    {
+        "question_id": 94,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 4,
+        "japanese": "このノートはあなたのですか、それとおも彼女のものですか？",
+        "english": "is this notebook yours or hers?",
+        "japanese_audio": "audio/sound_01_10_04_ja.wav",
+        "english_audio": "audio/sound_01_10_04_en.wav"
+    },
+    {
+        "question_id": 95,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 5,
+        "japanese": "彼らの学校は古い。私たちのは新しい。",
+        "english": "Their school is old. Ours is new.",
+        "japanese_audio": "audio/sound_01_10_05_ja.wav",
+        "english_audio": "audio/sound_01_10_05_en.wav"
+    },
+    {
+        "question_id": 96,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 6,
+        "japanese": "この教室はあなたたちのですか？",
+        "english": "Is this classroom yours?",
+        "japanese_audio": "audio/sound_01_10_06_ja.wav",
+        "english_audio": "audio/sound_01_10_06_en.wav"
+    },
+    {
+        "question_id": 97,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 7,
+        "japanese": "あの大きな部屋は彼らのものです。",
+        "english": "That big room is theirs.",
+        "japanese_audio": "audio/sound_01_10_07_ja.wav",
+        "english_audio": "audio/sound_01_10_07_en.wav"
+    },
+    {
+        "question_id": 98,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 8,
+        "japanese": "この小さな猫はあなたのお姉さんのペットですか？",
+        "english": "Is this small cat your sister's pet?",
+        "japanese_audio": "audio/sound_01_10_08_ja.wav",
+        "english_audio": "audio/sound_01_10_08_en.wav"
+    },
+    {
+        "question_id": 99,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 9,
+        "japanese": "あの本は彼のですか、彼女のですか？",
+        "english": "Is that book his or hers?",
+        "japanese_audio": "audio/sound_01_10_09_ja.wav",
+        "english_audio": "audio/sound_01_10_09_en.wav"
+    },
+    {
+        "question_id": 100,
+        "category_no": 1,
+        "unit_no": 10,
+        "number": 10,
+        "japanese": "あれらの花は彼女たちのものですか？",
+        "english": "Are those flowers theirs?",
+        "japanese_audio": "audio/sound_01_10_10_ja.wav",
+        "english_audio": "audio/sound_01_10_10_en.wav"
+    }
+]

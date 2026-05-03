@@ -3,8 +3,10 @@ import 'package:flash_english/domain/entities/question.dart';
 class QuestionMapper {
   static Map<String, dynamic> toMap(Question q) {
     return {
-      'id': q.id,
-      'category': q.category,
+      'question_id': q.questionId,
+      'category_no': q.categoryNo,
+      'unit_no': q.unitNo,
+      'number': q.number,
       'japanese': q.japanese,
       'english': q.english,
       'japanese_audio': q.japaneseAudio,
@@ -14,8 +16,10 @@ class QuestionMapper {
 
   static Question fromMap(Map<String, dynamic> map) {
     return Question(
-      id: map['id'],
-      category: map['category'],
+      questionId: map['question_id'],
+      categoryNo: map['category_no'],
+      unitNo: map['unit_no'],
+      number: map['number'],
       japanese: map['japanese'],
       english: map['english'],
       japaneseAudio: map['japanese_audio'] ?? map['japaneseAudio'],

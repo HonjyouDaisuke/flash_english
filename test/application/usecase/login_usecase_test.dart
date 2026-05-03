@@ -16,16 +16,10 @@ class MockUser extends Mock implements User {}
 void main() {
   late MockAuthBackend authBackend;
   late MockTokenStorage tokenStorage;
-  late LoginUseCase useCase;
 
   setUp(() {
     authBackend = MockAuthBackend();
     tokenStorage = MockTokenStorage();
-
-    useCase = LoginUseCase(
-      authBackend: authBackend,
-      tokenStorage: tokenStorage,
-    );
   });
 
   group('LoginUseCase.login', () {

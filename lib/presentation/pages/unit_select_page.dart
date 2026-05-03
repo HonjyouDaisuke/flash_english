@@ -1,5 +1,7 @@
+import 'package:flash_english/domain/entities/unit.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/get_unit_score_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_units_usecase_provider.dart';
 import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,42 +13,47 @@ class UnitSelectPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final useCase = ref.watch(getUnitScoreUseCaseProvider);
+    final scoreUseCase = ref.watch(getUnitScoreUseCaseProvider);
+    final unitUseCase = ref.watch(getUnitsUseCaseProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('ユニット選択')),
-      body: FutureBuilder<List<UnitScore>?>(
-          future: useCase.getAllAPI(categoryId),
+      body: FutureBuilder(
+          future: Future.wait(
+              [unitUseCase(categoryId), scoreUseCase.getAllAPI(categoryId)]),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            final scores = snapshot.data!;
+            final units = snapshot.data![0] as List<Unit>;
+            final scores = snapshot.data![1] as List<UnitScore>;
 
             return GridView.builder(
               padding: const EdgeInsets.all(16),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4, // ← 横4列
+                crossAxisCount: 4,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
                 childAspectRatio: 2.5,
               ),
               itemCount: units.length,
               itemBuilder: (context, index) {
-                final unitId = units[index];
+                final unit = units[index];
                 // unitId に一致するスコアを探す
                 final unitScore =
-                    scores.where((e) => e.unitId == unitId).isNotEmpty
-                        ? scores.firstWhere((e) => e.unitId == unitId)
+                    scores.where((e) => e.unitId == unit.unitId).isNotEmpty
+                        ? scores.firstWhere((e) => e.unitId == unit.unitId)
                         : null;
                 int stars = unitScore == null ? 0 : unitScore.stars;
                 String achievedAt =
                     unitScore == null ? "-" : unitScore.achievedAt;
                 return UnitCard(
                   categoryId: categoryId,
-                  unitId: unitId,
+                  unitId: unit.unitId,
+                  unitName: unit.unitName,
+                  unitDesc: unit.unitDescription,
                   stars: stars,
                   dateText: achievedAt,
                 );

@@ -28,16 +28,21 @@ class GameController extends StateNotifier<GameState> {
         super(GameState.initial());
   bool _isDisposed = false;
   // ▶ スタート
-  Future<void> start() async {
+  Future<void> start({
+    required int categoryId,
+    required int unitId,
+  }) async {
     state = state.copyWith(phase: GamePhase.loading);
 
     // 既存Providerで問題ロード
-    await ref.read(trainingProvider.notifier).load();
+    await ref.read(trainingProvider.notifier).load(categoryId, unitId);
 
     state = state.copyWith(
       phase: GamePhase.playing,
       currentIndex: 0,
       correctCount: 0,
+      categoryId: categoryId,
+      unitId: unitId,
       combo: 0,
       maxCombo: 0,
     );
@@ -143,11 +148,11 @@ class GameController extends StateNotifier<GameState> {
     debugPrint("nextOrFinish called");
     final trainingState = ref.read(trainingProvider);
     final studyLog = StudyLog(
-      categoryId: 1, // TODO: カテゴリID
-      unitId: 1, // TODO: ユニットID
-      questionId: trainingState.current.id ?? 0, // TODO: 問題ID
+      categoryId: state.categoryId,
+      unitId: state.unitId,
+      questionId: trainingState.current.questionId ?? 0,
       isCorrect: isCorrect,
-      sessionId: trainingState.sessionId ?? 1, // TODO: セッションID
+      sessionId: trainingState.sessionId ?? 1,
       durationSeconds: 60, // TODO: 勉強時間
       createdAt: DateTime.now(), // TODO: 作成日時
     );
@@ -217,9 +222,12 @@ class GameController extends StateNotifier<GameState> {
   }
 
   // ▶ リトライ
-  Future<void> retry() async {
+  Future<void> retry({
+    required int categoryId,
+    required int unitId,
+  }) async {
     state = GameState.initial();
-    await start();
+    await start(categoryId: categoryId, unitId: unitId);
   }
 
   // ▶ ベスト判定（仮）

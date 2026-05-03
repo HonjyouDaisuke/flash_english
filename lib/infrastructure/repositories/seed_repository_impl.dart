@@ -1,5 +1,11 @@
+import 'package:flash_english/domain/entities/category.dart';
+import 'package:flash_english/domain/entities/unit.dart';
+import 'package:flash_english/infrastructure/datasources/local/category_local_data_source.dart';
 import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
+import 'package:flash_english/infrastructure/datasources/local/unit_local_data_source.dart';
+import 'package:flash_english/infrastructure/persistence/mappers/category_mapper.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/question_mapper.dart';
+import 'package:flash_english/infrastructure/persistence/mappers/unit_mapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_english/domain/repositories/seed_repository.dart';
 import 'package:sqflite/sqflite.dart';
@@ -7,9 +13,12 @@ import '../persistence/app_database.dart';
 import 'package:flash_english/domain/entities/question.dart';
 
 class SeedRepositoryImpl implements SeedRepository {
-  final QuestionLocalDataSource dataSource;
+  final QuestionLocalDataSource questionDataSource;
+  final UnitLocalDataSource unitDataSource;
+  final CategoryLocalDataSource categoryDataSource;
 
-  SeedRepositoryImpl(this.dataSource);
+  SeedRepositoryImpl(
+      this.questionDataSource, this.unitDataSource, this.categoryDataSource);
 
   @override
   Future<bool> needsSeeding(DatabaseExecutor db) async {
@@ -29,12 +38,26 @@ class SeedRepositoryImpl implements SeedRepository {
   @override
   Future<void> seed(DatabaseExecutor db) async {
     debugPrint("シードデータを投入します...");
-    final List<Question> questions = await dataSource.loadQuestions();
-    debugPrint("✅ シードデータを読み込みました: ${questions.length}件");
+    final List<Category> categories = await categoryDataSource.loadCategories();
+    debugPrint("✅ categoriesデータを読み込みました: ${categories.length}件");
+    for (final c in categories) {
+      await db.insert('categories', CategoryMapper.toMap(c));
+    }
+    debugPrint("✅ categoriesデータを投入しました");
+
+    final List<Unit> units = await unitDataSource.loadUnits();
+    debugPrint("✅ Unitsデータを読み込みました: ${units.length}件");
+    for (final u in units) {
+      await db.insert('units', UnitMapper.toMap(u));
+    }
+    debugPrint("✅ Unitsデータを投入しました");
+
+    final List<Question> questions = await questionDataSource.loadQuestions();
+    debugPrint("✅ Questionsデータを読み込みました: ${questions.length}件");
     for (final q in questions) {
       await db.insert('questions', QuestionMapper.toMap(q));
     }
-    debugPrint("✅ シードデータを投入しました");
+    debugPrint("✅ Questionsデータを投入しました");
   }
 
   Future<void> safeDelete(DatabaseExecutor txn, String table) async {

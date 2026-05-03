@@ -28,10 +28,34 @@ class AppDatabase {
 
   /// テーブル作成
   Future<void> createDB(DatabaseExecutor db, int version) async {
+    // categoriesテーブル
+    await db.execute('''
+      CREATE TABLE categories (
+        category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_no INTEGER ,
+        category_name TEXT,
+        category_description Text
+      )
+    ''');
+
+    // unitsテーブル
+    await db.execute('''
+      CREATE TABLE units (
+        unit_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_no INTEGER ,
+        unit_no INTEGER ,
+        unit_name TEXT,
+        unit_description Text
+      )
+    ''');
+
     // questionsテーブル
     await db.execute('''
       CREATE TABLE questions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_no INTEGER ,
+        unit_no INTEGER ,
+        number INTEGER ,
         japanese TEXT NOT NULL,
         english TEXT NOT NULL,
         audioPath TEXT,
@@ -67,11 +91,11 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE unit_scores (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        category_id INTEGER NOT NULL,
-        unit_id INTEGER NOT NULL,
+        category_no INTEGER NOT NULL,
+        unit_no INTEGER NOT NULL,
         score INTEGER NOT NULL,
         achieved_at TEXT NOT NULL,
-        UNIQUE(category_id, unit_id)
+        UNIQUE(category_no, unit_no)
       )
     ''');
 

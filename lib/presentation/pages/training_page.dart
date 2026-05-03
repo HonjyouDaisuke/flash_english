@@ -1,4 +1,5 @@
 import 'package:flash_english/presentation/controllers/game_controller.dart';
+import 'package:flash_english/presentation/providers/get_unit_description_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
@@ -20,6 +21,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   static const waitingTime = Duration(seconds: 1);
   bool _isSyncing = false;
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +29,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
 
     Future.microtask(() async {
-      await ref.read(gameControllerProvider.notifier).start();
+      await ref
+          .read(gameControllerProvider.notifier)
+          .start(categoryId: widget.categoryId!, unitId: widget.unitId!);
       // 👇 初回だけ手動トリガー
       if (!mounted) return;
 
@@ -81,7 +85,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
 
     final notifier = ref.read(trainingProvider.notifier);
     final gameController = ref.read(gameControllerProvider.notifier);
-
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
@@ -115,9 +118,16 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       );
     }
     final q = state.current;
-
+    final unitDescAnsync = ref.watch(unitDescriptionProvider(
+        (categoryId: widget.categoryId!, unitId: widget.unitId!)));
     return Scaffold(
-      appBar: AppBar(title: const Text('FlashEnglish')),
+      appBar: AppBar(
+        title: unitDescAnsync.when(
+          data: (desc) => Text(desc),
+          loading: () => const Text('Loading...'),
+          error: (_, __) => const Text('Error...'),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

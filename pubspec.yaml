@@ -74,7 +74,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/flash_english_questions.json
+    - assets/question_tbl.json
+    - assets/unit_tbl.json
+    - assets/category_tbl.json
     - assets/audio/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
