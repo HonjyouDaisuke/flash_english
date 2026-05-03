@@ -150,7 +150,7 @@ class GameController extends StateNotifier<GameState> {
     final studyLog = StudyLog(
       categoryNo: state.categoryNo,
       unitNo: state.unitNo,
-      questionNo: trainingState.current.number ?? 0,
+      questionNo: trainingState.current.number,
       isCorrect: isCorrect,
       sessionId: trainingState.sessionId ?? 1,
       durationSeconds: 60, // TODO: 勉強時間
