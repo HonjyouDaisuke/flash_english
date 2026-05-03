@@ -2,15 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class UnitCard extends StatelessWidget {
-  final int categoryId;
-  final int unitId;
+  final int categoryNo;
+  final int unitNo;
+  final String unitName;
+  final String unitDesc;
   final int stars;
   final String dateText;
 
   const UnitCard({
     super.key,
-    required this.categoryId,
-    required this.unitId,
+    required this.categoryNo,
+    required this.unitNo,
+    required this.unitName,
+    required this.unitDesc,
     required this.stars,
     required this.dateText,
   });
@@ -20,7 +24,7 @@ class UnitCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.push(
-          '/training/category/unit/training?categoryId=$categoryId&unitId=$unitId',
+          '/training/category/unit/training?categoryNo=$categoryNo&unitNo=$unitNo',
         );
       },
       borderRadius: BorderRadius.circular(16),
@@ -35,7 +39,7 @@ class UnitCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Unit $unitId',
+                unitName,
                 style: const TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,

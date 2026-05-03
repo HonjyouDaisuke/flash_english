@@ -6,12 +6,12 @@ class SaveAnswerUseCase {
   SaveAnswerUseCase(this.repository);
 
   Future<void> execute({
-    required int questionId,
+    required int questionNo,
     required bool isCorrect,
     required int sessionId,
   }) {
     return repository.saveAnswer(
-      questionId: questionId,
+      questionId: questionNo,
       isCorrect: isCorrect,
       sessionId: sessionId,
     );

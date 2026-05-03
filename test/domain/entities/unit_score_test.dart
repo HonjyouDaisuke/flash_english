@@ -23,8 +23,8 @@ void main() {
     for (final (input, expected) in cases) {
       test('正解数: $input → ★: $expected', () {
         final a = UnitScore(
-          categoryId: 1,
-          unitId: 1,
+          categoryNo: 1,
+          unitNo: 1,
           score: input,
           achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
         );
@@ -36,8 +36,8 @@ void main() {
     test('isPerfect は score が 10 のとき true', () {
       expect(
         UnitScore(
-          categoryId: 1,
-          unitId: 1,
+          categoryNo: 1,
+          unitNo: 1,
           score: 10,
           achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
         ).isPerfect,
@@ -51,8 +51,8 @@ void main() {
       for (final value in values) {
         expect(
           UnitScore(
-            categoryId: 1,
-            unitId: 1,
+            categoryNo: 1,
+            unitNo: 1,
             score: value,
             achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
           ).isPerfect,
@@ -65,47 +65,47 @@ void main() {
   group('UnitScore.fromJson', () {
     test('正常値を変換できる', () {
       final json = {
-        'category_id': 3,
-        'unit_id': 7,
+        'category_no': 3,
+        'unit_no': 7,
         'high_score': 9,
         'achieved_at': '2026/04/29',
       };
 
       final result = UnitScore.fromJson(json);
 
-      expect(result.categoryId, 3);
-      expect(result.unitId, 7);
+      expect(result.categoryNo, 3);
+      expect(result.unitNo, 7);
       expect(result.score, 9);
       expect(result.achievedAt, '2026/04/29');
     });
 
     test('double型の数値も int に変換できる', () {
       final json = {
-        'category_id': 1.0,
-        'unit_id': 2.0,
+        'category_no': 1.0,
+        'unit_no': 2.0,
         'high_score': 10.0,
         'achieved_at': '2026/04/29',
       };
 
       final result = UnitScore.fromJson(json);
 
-      expect(result.categoryId, 1);
-      expect(result.unitId, 2);
+      expect(result.categoryNo, 1);
+      expect(result.unitNo, 2);
       expect(result.score, 10);
     });
 
     test('null の場合はデフォルト値になる', () {
       final json = {
-        'category_id': null,
-        'unit_id': null,
+        'category_no': null,
+        'unit_no': null,
         'high_score': null,
         'achieved_at': null,
       };
 
       final result = UnitScore.fromJson(json);
 
-      expect(result.categoryId, 0);
-      expect(result.unitId, 0);
+      expect(result.categoryNo, 0);
+      expect(result.unitNo, 0);
       expect(result.score, 0);
       expect(result.achievedAt, '');
     });
@@ -115,16 +115,16 @@ void main() {
 
       final result = UnitScore.fromJson(json);
 
-      expect(result.categoryId, 0);
-      expect(result.unitId, 0);
+      expect(result.categoryNo, 0);
+      expect(result.unitNo, 0);
       expect(result.score, 0);
       expect(result.achievedAt, '');
     });
 
     test('fromJson 後も stars が正しく計算される', () {
       final json = {
-        'category_id': 1,
-        'unit_id': 1,
+        'category_no': 1,
+        'unit_no': 1,
         'high_score': 7,
         'achieved_at': '2026/04/29',
       };
@@ -136,8 +136,8 @@ void main() {
 
     test('fromJson 後も isPerfect が正しく計算される', () {
       final json = {
-        'category_id': 1,
-        'unit_id': 1,
+        'category_no': 1,
+        'unit_no': 1,
         'high_score': 10,
         'achieved_at': '2026/04/29',
       };

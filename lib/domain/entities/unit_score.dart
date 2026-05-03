@@ -1,12 +1,12 @@
 class UnitScore {
-  final int categoryId;
-  final int unitId;
+  final int categoryNo;
+  final int unitNo;
   final int score;
   final String achievedAt;
 
   UnitScore({
-    required this.categoryId,
-    required this.unitId,
+    required this.categoryNo,
+    required this.unitNo,
     required this.score,
     required this.achievedAt,
   });
@@ -25,8 +25,8 @@ class UnitScore {
 
   factory UnitScore.fromJson(Map<String, dynamic> json) {
     return UnitScore(
-      categoryId: (json['category_id'] as num?)?.toInt() ?? 0,
-      unitId: (json['unit_id'] as num?)?.toInt() ?? 0,
+      categoryNo: (json['category_no'] as num?)?.toInt() ?? 0,
+      unitNo: (json['unit_no'] as num?)?.toInt() ?? 0,
       score: (json['high_score'] as num?)?.toInt() ?? 0,
       achievedAt: (json['achieved_at'] as String?) ?? '',
     );

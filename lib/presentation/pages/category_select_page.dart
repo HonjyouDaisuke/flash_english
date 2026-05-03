@@ -1,42 +1,68 @@
+import 'package:flash_english/presentation/providers/categories_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class CategorySelectPage extends StatelessWidget {
-  const CategorySelectPage({super.key});
+class CategorySelectPage extends ConsumerWidget {
+  const CategorySelectPage({
+    super.key,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        AppBar(title: const Text('カテゴリー選択')),
-        Expanded(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/training/category/unit?categoryId=1');
-                  },
-                  child: const Text('中学１年生レベル'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/training/category/unit?categoryId=2');
-                  },
-                  child: const Text('中学2年生レベル'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/training/shuffle');
-                  },
-                  child: const Text('シャッフル'),
-                ),
-              ],
-            ),
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final categoriesAsync = ref.watch(
+      categoriesProvider,
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'カテゴリー選択',
+        ),
+      ),
+      body: categoriesAsync.when(
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        error: (
+          error,
+          stack,
+        ) =>
+            Center(
+          child: Text(
+            'エラー: $error',
           ),
         ),
-      ],
+        data: (categories) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: categories.map(
+                (category) {
+                  return Padding(
+                    padding: const EdgeInsets.all(
+                      8,
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        context.push(
+                          '/training/category/unit?categoryNo=${category.categoryNo}',
+                        );
+                      },
+                      child: Text(
+                        category.categoryName,
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

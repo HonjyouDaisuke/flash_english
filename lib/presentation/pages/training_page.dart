@@ -1,4 +1,5 @@
 import 'package:flash_english/presentation/controllers/game_controller.dart';
+import 'package:flash_english/presentation/providers/get_unit_description_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
@@ -8,9 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class TrainingPage extends ConsumerStatefulWidget {
-  final int? categoryId;
-  final int? unitId;
-  const TrainingPage({super.key, this.categoryId, this.unitId});
+  final int? categoryNo;
+  final int? unitNo;
+  const TrainingPage({super.key, this.categoryNo, this.unitNo});
 
   @override
   ConsumerState<TrainingPage> createState() => _TrainingPageState();
@@ -20,14 +21,17 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   static const waitingTime = Duration(seconds: 1);
   bool _isSyncing = false;
+
   @override
   void initState() {
     super.initState();
     debugPrint(
-        'TrainingPage initState: categoryId=${widget.categoryId}, unitId=${widget.unitId}');
+        'TrainingPage initState: categoryNo=${widget.categoryNo}, unitNo=${widget.unitNo}');
 
     Future.microtask(() async {
-      await ref.read(gameControllerProvider.notifier).start();
+      await ref
+          .read(gameControllerProvider.notifier)
+          .start(categoryNo: widget.categoryNo!, unitNo: widget.unitNo!);
       // 👇 初回だけ手動トリガー
       if (!mounted) return;
 
@@ -81,7 +85,6 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
 
     final notifier = ref.read(trainingProvider.notifier);
     final gameController = ref.read(gameControllerProvider.notifier);
-
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
@@ -115,9 +118,16 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       );
     }
     final q = state.current;
-
+    final unitDescAnsync = ref.watch(unitDescriptionProvider(
+        (categoryNo: widget.categoryNo!, unitNo: widget.unitNo!)));
     return Scaffold(
-      appBar: AppBar(title: const Text('FlashEnglish')),
+      appBar: AppBar(
+        title: unitDescAnsync.when(
+          data: (desc) => Text(desc),
+          loading: () => const Text('Loading...'),
+          error: (_, __) => const Text('Error...'),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

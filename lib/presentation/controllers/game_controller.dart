@@ -28,16 +28,21 @@ class GameController extends StateNotifier<GameState> {
         super(GameState.initial());
   bool _isDisposed = false;
   // ▶ スタート
-  Future<void> start() async {
+  Future<void> start({
+    required int categoryNo,
+    required int unitNo,
+  }) async {
     state = state.copyWith(phase: GamePhase.loading);
 
     // 既存Providerで問題ロード
-    await ref.read(trainingProvider.notifier).load();
+    await ref.read(trainingProvider.notifier).load(categoryNo, unitNo);
 
     state = state.copyWith(
       phase: GamePhase.playing,
       currentIndex: 0,
       correctCount: 0,
+      categoryNo: categoryNo,
+      unitNo: unitNo,
       combo: 0,
       maxCombo: 0,
     );
@@ -143,11 +148,11 @@ class GameController extends StateNotifier<GameState> {
     debugPrint("nextOrFinish called");
     final trainingState = ref.read(trainingProvider);
     final studyLog = StudyLog(
-      categoryId: 1, // TODO: カテゴリID
-      unitId: 1, // TODO: ユニットID
-      questionId: trainingState.current.id ?? 0, // TODO: 問題ID
+      categoryNo: state.categoryNo,
+      unitNo: state.unitNo,
+      questionNo: trainingState.current.number,
       isCorrect: isCorrect,
-      sessionId: trainingState.sessionId ?? 1, // TODO: セッションID
+      sessionId: trainingState.sessionId ?? 1,
       durationSeconds: 60, // TODO: 勉強時間
       createdAt: DateTime.now(), // TODO: 作成日時
     );
@@ -159,7 +164,7 @@ class GameController extends StateNotifier<GameState> {
     if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
       debugPrint(
-          "DBに保存します： 正解？ ${state.isCorrect}, questionId: ${state.currentIndex}");
+          "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
       final success = await saveStudyLogUseCase.execute(studyLog);
       debugPrint("保存したよ。$success");
       _finish();
@@ -168,7 +173,7 @@ class GameController extends StateNotifier<GameState> {
           "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
       // study_logをDBに保存するAPIを叩く
       debugPrint(
-          "DBに保存します： 正解？ ${state.isCorrect}, questionId: ${state.currentIndex}");
+          "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
       final success = await saveStudyLogUseCase.execute(studyLog);
       debugPrint("保存したよ。$success");
       // Future.delayed(const Duration(milliseconds: 300), () {
@@ -191,8 +196,8 @@ class GameController extends StateNotifier<GameState> {
   Future<void> _finish() async {
     final score = state.correctCount;
     final unitScore = UnitScore(
-      categoryId: state.categoryId,
-      unitId: state.unitId,
+      categoryNo: state.categoryNo,
+      unitNo: state.unitNo,
       score: score,
       achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
     );
@@ -217,9 +222,12 @@ class GameController extends StateNotifier<GameState> {
   }
 
   // ▶ リトライ
-  Future<void> retry() async {
+  Future<void> retry({
+    required int categoryNo,
+    required int unitNo,
+  }) async {
     state = GameState.initial();
-    await start();
+    await start(categoryNo: categoryNo, unitNo: unitNo);
   }
 
   // ▶ ベスト判定（仮）

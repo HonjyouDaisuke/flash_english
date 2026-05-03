@@ -80,10 +80,10 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     this._saveAnswer,
   ) : super(const TrainingState());
 
-  Future<void> load() async {
+  Future<void> load(int categoryNo, int unitNo) async {
     debugPrint("🔥 LOAD START");
 
-    final q = await _usecase.execute();
+    final q = await _usecase.execute(categoryNo, unitNo);
     debugPrint("✅ QUESTIONS: ${q.length}");
 
     final sessionId = await _startSession.execute();
@@ -116,11 +116,13 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   Future<void> playFront() async {
     final q = state.current;
+    debugPrint("日本語音声:${q.japaneseAudio}");
     await _audio.execute(q.japaneseAudio);
   }
 
   Future<void> playBack() async {
     final q = state.current;
+    debugPrint("英語音声:${q.englishAudio}");
     await _audio.execute(q.englishAudio);
   }
 
@@ -134,6 +136,7 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   Future<void> playFrontAndWait() async {
     final q = state.current;
+    debugPrint("日本語音声(待ち):${q.japaneseAudio}");
     await _audio.execute(q.japaneseAudio);
   }
 
@@ -169,8 +172,9 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
     if (state.sessionId == null) return;
 
+    final questionId = q.questionId;
     await _saveAnswer.execute(
-      questionId: q.id!,
+      questionNo: questionId,
       isCorrect: isCorrect,
       sessionId: state.sessionId!,
     );
