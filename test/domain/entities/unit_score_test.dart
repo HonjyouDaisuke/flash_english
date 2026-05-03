@@ -65,8 +65,8 @@ void main() {
   group('UnitScore.fromJson', () {
     test('正常値を変換できる', () {
       final json = {
-        'category_id': 3,
-        'unit_id': 7,
+        'category_no': 3,
+        'unit_no': 7,
         'high_score': 9,
         'achieved_at': '2026/04/29',
       };
@@ -81,8 +81,8 @@ void main() {
 
     test('double型の数値も int に変換できる', () {
       final json = {
-        'category_id': 1.0,
-        'unit_id': 2.0,
+        'category_no': 1.0,
+        'unit_no': 2.0,
         'high_score': 10.0,
         'achieved_at': '2026/04/29',
       };
@@ -96,8 +96,8 @@ void main() {
 
     test('null の場合はデフォルト値になる', () {
       final json = {
-        'category_id': null,
-        'unit_id': null,
+        'category_no': null,
+        'unit_no': null,
         'high_score': null,
         'achieved_at': null,
       };
@@ -123,8 +123,8 @@ void main() {
 
     test('fromJson 後も stars が正しく計算される', () {
       final json = {
-        'category_id': 1,
-        'unit_id': 1,
+        'category_no': 1,
+        'unit_no': 1,
         'high_score': 7,
         'achieved_at': '2026/04/29',
       };
@@ -136,8 +136,8 @@ void main() {
 
     test('fromJson 後も isPerfect が正しく計算される', () {
       final json = {
-        'category_id': 1,
-        'unit_id': 1,
+        'category_no': 1,
+        'unit_no': 1,
         'high_score': 10,
         'achieved_at': '2026/04/29',
       };
