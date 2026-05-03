@@ -173,7 +173,13 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     if (state.sessionId == null) return;
 
     await _saveAnswer.execute(
-      questionId: q.questionId!,
+    final questionId = q.questionId;
+    if (questionId == null) return;
+    await _saveAnswer.execute(
+      questionId: questionId,
+      isCorrect: isCorrect,
+      sessionId: state.sessionId!,
+    );
       isCorrect: isCorrect,
       sessionId: state.sessionId!,
     );
