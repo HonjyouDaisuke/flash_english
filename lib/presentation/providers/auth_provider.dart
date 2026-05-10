@@ -29,7 +29,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       return;
     }
 
-    final userId = JwtDecoder.decode(token)['sub'];
+    final decodedToken = JwtDecoder.decode(token);
+    final userId = decodedToken['sub'] as String?;
+
+    if (userId == null || userId.isEmpty) {
+      return;
+    }
 
     state = state.copyWith(
       token: token,
@@ -46,7 +51,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
       refreshToken: refreshToken,
     );
 
-    final userId = JwtDecoder.decode(accessToken)['sub'];
+    final decodedToken = JwtDecoder.decode(accessToken);
+    final userId = decodedToken['sub'] as String?;
+
+    if (userId == null || userId.isEmpty) {
+      return;
+    }
 
     state = state.copyWith(
       token: accessToken,

@@ -25,7 +25,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   void _debugPrint(AuthState auth) {
     if (auth.token != null) {
-      debugPrint('トークンあり: ${auth.token}');
+      debugPrint('トークンあり');
     } else {
       debugPrint('トークンなし');
     }
@@ -67,7 +67,14 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> _initialize() async {
-    await ref.read(appInitializeProvider).execute();
+    try {
+      await ref.read(appInitializeProvider).execute();
+    } catch (e) {
+      debugPrint('初期化失敗: $e');
+      if (!mounted) return;
+      _showErrorDialog();
+      return;
+    }
 
     final auth = ref.read(authProvider);
 
@@ -103,27 +110,27 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     // context.go('/login');
   }
 
-  // void _showErrorDialog() {
-  //   showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (_) {
-  //       return AlertDialog(
-  //         title: const Text('初期化エラー'),
-  //         content: const Text('アプリの初期化に失敗しました。'),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.pop(context);
-  //               _initialize();
-  //             },
-  //             child: const Text('再試行'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
+  void _showErrorDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: const Text('初期化エラー'),
+          content: const Text('アプリの初期化に失敗しました。'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                _initialize();
+              },
+              child: const Text('再試行'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -26,7 +26,7 @@ class PingRepositoryImpl implements PingRepository {
       }
       return true;
     } catch (e) {
-      debugPrint("Error saving unit score: $e");
+      debugPrint("Error pinging API: $e");
       return false;
     }
   }

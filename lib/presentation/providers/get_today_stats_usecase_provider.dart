@@ -4,8 +4,8 @@ import 'package:flash_english/presentation/providers/study_session_repository_pr
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getTodayStatsUseCaseProvider = Provider((ref) {
-  final logRepo = ref.read(studyLogRepositoryProvider);
-  final sessionRepo = ref.read(studySessionRepositoryProvider);
+  final logRepo = ref.watch(studyLogRepositoryProvider);
+  final sessionRepo = ref.watch(studySessionRepositoryProvider);
 
   return GetTodayStatsUseCase(
     logRepo,

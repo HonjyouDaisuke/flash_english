@@ -21,11 +21,13 @@ class AppInitializeUseCase {
   Future<void> execute() async {
     await _initializeAppUseCase.execute();
 
+    // オンラインかオフラインかを判定して状態を更新
     final isOnline = await _pingUseCase.ping();
     await _authNotifier.setIsOffline(!isOnline);
 
     await _authNotifier.loadToken();
 
+    // トークンの有無と有効期限をチェックして認証状態を更新
     final token = _authNotifier.token;
 
     if (token == null) {
@@ -33,9 +35,19 @@ class AppInitializeUseCase {
       return;
     }
 
-    if (isOnline) {
-      final isExpired = JwtDecoder.isExpired(token);
+    // トークンの有効期限をチェックして状態を更新
+    late final bool isExpired;
+    try {
+      isExpired = JwtDecoder.isExpired(token);
       _authNotifier.setIsExpired(isExpired);
+    } catch (e) {
+      debugPrint('トークン形式エラー: $e');
+      _authNotifier.setIsExpired(true);
+      _authNotifier.updateStatus(AuthStatus.nonToken);
+      return;
+    }
+
+    if (isOnline) {
       if (isExpired) {
         debugPrint('オンライン状態でトークンが期限切れ...');
         _authNotifier.updateStatus(AuthStatus.onlineAuthExpired);
@@ -46,7 +58,6 @@ class AppInitializeUseCase {
         return;
       }
     } else {
-      final isExpired = JwtDecoder.isExpired(token);
       if (isExpired) {
         debugPrint('オフライン状態でトークンが期限切れ...');
         _authNotifier.updateStatus(AuthStatus.offlineAuthExpired);
