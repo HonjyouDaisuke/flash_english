@@ -4,6 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final studyLogLocalDataSourceProvider =
     Provider<StudyLogLocalDataSource>((ref) {
-  final db = ref.read(databaseProvider);
+  final db = ref.read(databaseProvider).requireValue;
   return StudyLogLocalDataSource(db);
 });

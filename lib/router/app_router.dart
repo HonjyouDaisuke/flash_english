@@ -1,5 +1,6 @@
 import 'package:flash_english/presentation/pages/category_select_page.dart';
 import 'package:flash_english/presentation/pages/login_page.dart';
+import 'package:flash_english/presentation/pages/splash_page.dart';
 import 'package:flash_english/presentation/pages/unit_finish_page.dart';
 import 'package:flash_english/presentation/pages/unit_select_page.dart';
 import 'package:go_router/go_router.dart';
@@ -19,8 +20,15 @@ final GoRouter appRouter = GoRouter(
         return MainTabPage(child: child);
       },
       routes: [
+        // Root(Splash)
         GoRoute(
           path: '/',
+          builder: (context, state) => const SplashPage(),
+        ),
+
+        // ログイン
+        GoRoute(
+          path: '/login',
           builder: (context, state) => const LoginPage(),
         ),
 
