@@ -99,35 +99,31 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         debugPrint("Go to training page...");
         context.go('/training');
         break;
-      default:
-        debugPrint("Unknown status. Go to login page...");
-        context.go('/login');
-        break;
     }
     // context.go('/login');
   }
 
-  void _showErrorDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text('初期化エラー'),
-          content: const Text('アプリの初期化に失敗しました。'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _initialize();
-              },
-              child: const Text('再試行'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // void _showErrorDialog() {
+  //   showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (_) {
+  //       return AlertDialog(
+  //         title: const Text('初期化エラー'),
+  //         content: const Text('アプリの初期化に失敗しました。'),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               Navigator.pop(context);
+  //               _initialize();
+  //             },
+  //             child: const Text('再試行'),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

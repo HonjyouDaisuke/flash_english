@@ -16,6 +16,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   final TokenStorage storage;
 
   AuthNotifier(this.storage) : super(const AuthState());
+  String? get token => state.token;
+  String? get userId => state.userId;
   Future<void> loadToken() async {
     final token = await storage.getAccessToken();
 

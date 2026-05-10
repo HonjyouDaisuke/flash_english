@@ -26,7 +26,7 @@ class AppInitializeUseCase {
 
     await _authNotifier.loadToken();
 
-    final token = _authNotifier.state.token;
+    final token = _authNotifier.token;
 
     if (token == null) {
       _authNotifier.updateStatus(AuthStatus.nonToken);
