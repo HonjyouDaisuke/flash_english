@@ -6,11 +6,29 @@ class AppDatabase {
   static Database? _database;
 
   AppDatabase._init();
+  Future<void> init() async {
+    if (_database != null) {
+      return;
+    }
+
+    _database = await _initDB(
+      'app.db',
+    );
+  }
 
   /// DB取得（シングルトン）
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDB('app.db');
+  // Future<Database> get database async {
+  //   if (_database != null) return _database!;
+  //   _database = await _initDB('app.db');
+  //   return _database!;
+  // }
+  Database get database {
+    if (_database == null) {
+      throw Exception(
+        'Database not initialized',
+      );
+    }
+
     return _database!;
   }
 
@@ -18,7 +36,7 @@ class AppDatabase {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
     return await openDatabase(
       path,
       version: 2,
@@ -36,6 +54,23 @@ class AppDatabase {
         category_name TEXT,
         category_description Text
       )
+    ''');
+
+    // sync_queueテーブル
+    await db.execute('''
+      CREATE TABLE sync_queue (
+        event_id TEXT PRIMARY KEY,
+        user_id TEXT NOT NULL,
+        type TEXT NOT NULL,
+        payload TEXT NOT NULL,
+        status TEXT NOT NULL,
+        retry_count INTEGER NOT NULL DEFAULT 0,
+        created_at TEXT NOT NULL
+      )
+    ''');
+    await db.execute('''
+      CREATE INDEX idx_sync_queue_user_status
+      ON sync_queue(user_id, status);
     ''');
 
     // unitsテーブル

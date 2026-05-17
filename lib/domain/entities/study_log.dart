@@ -18,4 +18,17 @@ class StudyLog {
     required this.durationSeconds,
     required this.createdAt,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'category_no': categoryNo,
+      'unit_no': unitNo,
+      'question_no': questionNo,
+      'is_correct': isCorrect,
+      'session_id': sessionId,
+      'duration_seconds': durationSeconds,
+      'created_at': createdAt.toUtc().toIso8601String(),
+    };
+  }
 }

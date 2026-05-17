@@ -1,8 +1,13 @@
+import 'package:flash_english/application/usecases/enqueue_study_log_usecase.dart';
+import 'package:flash_english/application/usecases/enqueue_unit_score_usecase.dart';
 import 'package:flash_english/application/usecases/save_study_log_usecase.dart';
 import 'package:flash_english/application/usecases/save_unit_score_usecase.dart';
+import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/study_log_provider.dart';
+import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/providers/unit_score_repository_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
@@ -19,12 +24,20 @@ class GameController extends StateNotifier<GameState> {
   final Ref ref;
   final SaveStudyLogUseCase saveStudyLogUseCase;
   final SaveUnitScoreUseCase saveUnitScoreUseCase;
+  final EnqueueStudyLogUseCase enqueueStudyLogUseCase;
+  final EnqueueUnitScoreUseCase enqueueUnitScoreUseCase;
 
   GameController(this.ref)
       : saveStudyLogUseCase =
             SaveStudyLogUseCase(ref.read(studyLogRepositoryProvider)),
+        enqueueStudyLogUseCase = EnqueueStudyLogUseCase(ref.read(
+          syncQueueRepositoryProvider,
+        )),
         saveUnitScoreUseCase =
             SaveUnitScoreUseCase(ref.read(unitScoreRepositoryProvider)),
+        enqueueUnitScoreUseCase = EnqueueUnitScoreUseCase(ref.read(
+          syncQueueRepositoryProvider,
+        )),
         super(GameState.initial());
   bool _isDisposed = false;
   // ▶ スタート
@@ -160,22 +173,24 @@ class GameController extends StateNotifier<GameState> {
     state.printAnswers();
     // final isLast =
     //     trainingState.currentIndex >= trainingState.questions.length - 1;
+    await enqueueStudyLogUseCase.call(studyLog, ref.read(authProvider).userId!);
     final isFinihed = _isFinished();
     if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
-      debugPrint(
-          "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
-      final success = await saveStudyLogUseCase.execute(studyLog);
-      debugPrint("保存したよ。$success");
+      // debugPrint(
+      //     "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
+      //final success = await saveStudyLogUseCase.execute(studyLog);
+
+      //debugPrint("保存したよ。$success");
       _finish();
     } else {
       debugPrint(
           "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
-      // study_logをDBに保存するAPIを叩く
-      debugPrint(
-          "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
-      final success = await saveStudyLogUseCase.execute(studyLog);
-      debugPrint("保存したよ。$success");
+      // // study_logをDBに保存するAPIを叩く
+      // debugPrint(
+      //     "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
+      // final success = await saveStudyLogUseCase.execute(studyLog);
+      // debugPrint("保存したよ。$success");
       // Future.delayed(const Duration(milliseconds: 300), () {
       //   state = state.copyWith(phase: GamePhase.finished);
       // });
@@ -195,6 +210,7 @@ class GameController extends StateNotifier<GameState> {
   // ▶ 終了処理
   Future<void> _finish() async {
     final score = state.correctCount;
+    final auth = ref.read(authProvider);
     final unitScore = UnitScore(
       categoryNo: state.categoryNo,
       unitNo: state.unitNo,
@@ -212,13 +228,20 @@ class GameController extends StateNotifier<GameState> {
 
     // DB保存
     debugPrint("unit score DBに保存します： 正解？ ${state.isCorrect}");
-    final success = await saveUnitScoreUseCase.saveAPI(unitScore);
-    debugPrint("保存したよ。$success");
+    // final success = await saveUnitScoreUseCase.saveAPI(unitScore);
+    await enqueueUnitScoreUseCase.call(
+        unitScore, ref.read(authProvider).userId!);
+    // debugPrint("保存したよ。$success");
 
     Future.delayed(const Duration(milliseconds: 300), () {
       if (_isDisposed) return;
       state = state.copyWith(phase: GamePhase.finished);
     });
+
+    if (auth.status == AuthStatus.onlineAuthenticated) {
+      await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
+      debugPrint("ローカルのキューをサーバーに同期完了");
+    }
   }
 
   // ▶ リトライ

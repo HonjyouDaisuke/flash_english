@@ -4,6 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final unitScoreLocalDataSourceProvider =
     Provider<UnitScoreLocalDataSource>((ref) {
-  final db = ref.read(databaseProvider).requireValue;
+  final db = ref.read(databaseProvider);
   return UnitScoreLocalDataSource(db);
 });

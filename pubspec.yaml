@@ -50,6 +50,7 @@ dependencies:
   http: ^1.6.0
   intl: ^0.18.1
   jwt_decoder: ^2.0.1
+  uuid: ^4.5.3
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +89,7 @@ flutter:
     - assets/unit_tbl.json
     - assets/category_tbl.json
     - assets/audio/
+    - assets/images/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

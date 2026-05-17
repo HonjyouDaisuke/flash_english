@@ -7,8 +7,8 @@ class InitializeAppUseCase {
   InitializeAppUseCase(this.repository);
 
   Future<void> execute() async {
-    final db = await AppDatabase.instance.database;
-
+    await AppDatabase.instance.init();
+    final db = AppDatabase.instance.database;
     await db.transaction((txn) async {
       final needsSeed = await repository.needsSeeding(txn);
 

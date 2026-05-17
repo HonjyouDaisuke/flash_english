@@ -40,7 +40,7 @@ class UnitSelectPage extends ConsumerWidget {
               );
             }
             final units = snapshot.data![0] as List<Unit>;
-            final scores = snapshot.data![1] as List<UnitScore>;
+            final scores = (snapshot.data![1] as List<UnitScore>?) ?? [];
 
             return GridView.builder(
               padding: const EdgeInsets.all(16),

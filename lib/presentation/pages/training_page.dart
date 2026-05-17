@@ -1,4 +1,6 @@
+import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/presentation/controllers/game_controller.dart';
+import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/get_unit_description_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
@@ -82,7 +84,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
     final game = ref.watch(gameControllerProvider);
-
+    final auth = ref.read(authProvider);
     final notifier = ref.read(trainingProvider.notifier);
     final gameController = ref.read(gameControllerProvider.notifier);
     final theme = Theme.of(context);
@@ -122,12 +124,13 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         (categoryNo: widget.categoryNo!, unitNo: widget.unitNo!)));
     return Scaffold(
       appBar: AppBar(
-        title: unitDescAnsync.when(
-          data: (desc) => Text(desc),
-          loading: () => const Text('Loading...'),
-          error: (_, __) => const Text('Error...'),
+          title: unitDescAnsync.when(
+        data: (desc) => Text(
+          '$desc ${(auth.status == AuthStatus.offlineAuthExpired || auth.status == AuthStatus.offlineAuthenticated) ? "(オフライン)" : "(オンライン)"}',
         ),
-      ),
+        loading: () => const Text('Loading...'),
+        error: (_, __) => const Text('Error...'),
+      )),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
