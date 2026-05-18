@@ -21,7 +21,7 @@ class SyncQueueUseCase {
       return;
     }
 
-    final ids = items.map((e) => e.eventId!).toList();
+    final ids = items.map((e) => e.eventId).toList();
 
     await repository.markProcessing(ids);
 
