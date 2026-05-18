@@ -227,7 +227,8 @@ class GameController extends StateNotifier<GameState> {
     );
 
     // DB保存
-    debugPrint("unit score DBに保存します： 正解？ ${state.isCorrect}");
+    debugPrint("unit score を loaclDBに保存します");
+    await saveUnitScoreUseCase.saveLocal(unitScore);
     // final success = await saveUnitScoreUseCase.saveAPI(unitScore);
     await enqueueUnitScoreUseCase.call(
         unitScore, ref.read(authProvider).userId!);

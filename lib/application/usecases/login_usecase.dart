@@ -30,23 +30,23 @@ class LoginUseCase {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<bool> login() async {
+  Future<String?> login() async {
     try {
       final userCredential = await signInWithGoogle();
 
       if (userCredential == null || userCredential.user == null) {
         debugPrint("ログインキャンセル or 失敗");
-        return false;
+        return null;
       }
       final idToken = await userCredential.user!.getIdToken();
       if (idToken == null) {
         debugPrint("IDトークンの取得に失敗");
-        return false;
+        return null;
       }
       final result = await _authBackend.callBackend(idToken);
       if (result == null || !result.containsKey('access_token')) {
         debugPrint("バックエンドからのアクセストークンの取得に失敗");
-        return false;
+        return null;
       }
 
       final accessToken = result['access_token'];
@@ -54,20 +54,20 @@ class LoginUseCase {
 
       if (accessToken == null || refreshToken == null) {
         debugPrint("token取得失敗");
-        return false;
+        return null;
       }
 
       // 🔥 ここが超重要
       await _tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
-      return true;
+      return result['user_id'];
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebaseエラー: ${e.code}");
     } catch (e) {
       debugPrint("その他エラー: $e");
     }
 
-    return false;
+    return null;
   }
 }

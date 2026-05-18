@@ -1,4 +1,5 @@
 import 'package:flash_english/domain/entities/auth_status.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
@@ -68,6 +69,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> _initialize() async {
+    await AppDatabase.instance.init();
     try {
       await ref.read(appInitializeProvider).execute();
     } catch (e) {

@@ -15,15 +15,13 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   Future<void> _login() async {
     debugPrint("ログイン処理開始");
-
     final loginUseCase = ref.read(loginUseCaseProvider);
 
-    final success = await loginUseCase.login();
+    final loginUserId = await loginUseCase.login();
     if (!mounted) return;
-    if (success) {
-      await ref
-          .read(syncQueueUseCaseProvider)
-          .execute(ref.read(authProvider).userId!);
+    if (loginUserId != null) {
+      await ref.read(syncQueueUseCaseProvider).execute(loginUserId);
+
       debugPrint("ローカルのキューをサーバーに同期完了");
       if (!mounted) return;
       context.go('/training');
