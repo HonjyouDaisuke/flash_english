@@ -239,9 +239,13 @@ class GameController extends StateNotifier<GameState> {
       state = state.copyWith(phase: GamePhase.finished);
     });
 
-    if (auth.status == AuthStatus.onlineAuthenticated) {
-      await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
-      debugPrint("ローカルのキューをサーバーに同期完了");
+    if (auth.status == AuthStatus.onlineAuthenticated && auth.userId != null) {
+      try {
+        await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
+        debugPrint("ローカルのキューをサーバーに同期完了");
+      } catch (e) {
+        debugPrint("キュー同期失敗: $e");
+      }
     }
   }
 
