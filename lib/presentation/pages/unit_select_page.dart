@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_english/domain/entities/unit.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/get_unit_score_usecase_provider.dart';
@@ -22,8 +21,7 @@ class UnitSelectPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('ユニット選択')),
       body: FutureBuilder(
-          future: Future.wait(
-              [unitUseCase(categoryNo), scores]),
+          future: Future.wait([unitUseCase(categoryNo), scores]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
