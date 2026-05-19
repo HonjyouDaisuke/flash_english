@@ -145,7 +145,7 @@
         "unit_no": 2,
         "number": 5,
         "japanese": "これらの車はとても高い。",
-        "english": "These car are very expensive.",
+        "english": "These cars are very expensive.",
         "japanese_audio": "audio/sound_01_02_05_ja.wav",
         "english_audio": "audio/sound_01_02_05_en.wav"
     },
@@ -274,8 +274,8 @@
         "category_no": 1,
         "unit_no": 3,
         "number": 8,
-        "japanese": "あの男の人たちは何ですか？－景観です。",
-        "english": "What are those men? - THey are policemen.",
+        "japanese": "あの男の人たちは何ですか？－警官です。",
+        "english": "What are those men? - They are policemen.",
         "japanese_audio": "audio/sound_01_03_08_ja.wav",
         "english_audio": "audio/sound_01_03_08_en.wav"
     },
@@ -435,7 +435,7 @@
         "unit_no": 5,
         "number": 4,
         "japanese": "あの少女たちは私の娘です。",
-        "english": "Those girls are his doughters",
+        "english": "Those girls are his daughters.",
         "japanese_audio": "audio/sound_01_05_04_ja.wav",
         "english_audio": "audio/sound_01_05_04_en.wav"
     },
@@ -465,7 +465,7 @@
         "unit_no": 5,
         "number": 7,
         "japanese": "あれは彼らの家ですか？",
-        "english": "Is that Their house?",
+        "english": "Is that their house?",
         "japanese_audio": "audio/sound_01_05_07_ja.wav",
         "english_audio": "audio/sound_01_05_07_en.wav"
     },
@@ -545,7 +545,7 @@
         "unit_no": 6,
         "number": 5,
         "japanese": "あの背の高い男の人は誰ですか？ーブラウンさんです。",
-        "english": "Who is that tall man? - He is Me.Brown",
+        "english": "Who is that tall man? - He is Mr. Brown",
         "japanese_audio": "audio/sound_01_06_05_ja.wav",
         "english_audio": "audio/sound_01_06_05_en.wav"
     },
@@ -685,7 +685,7 @@
         "unit_no": 7,
         "number": 9,
         "japanese": "あなたのお父さんは学校で何を教えますか？ー数学を教えます。",
-        "english": "What does your father teach at school? - He etches mathematics.",
+        "english": "What does your father teach at school? - He teaches mathematics.",
         "japanese_audio": "audio/sound_01_07_09_ja.wav",
         "english_audio": "audio/sound_01_07_09_en.wav"
     },
@@ -795,7 +795,7 @@
         "unit_no": 8,
         "number": 10,
         "japanese": "あなたのお兄さんは友達が何人くらいいますか？ーわかりません。兄には友達が大勢います。",
-        "english": "Hou many friends does your brother have? - I don't know. He has many friends.",
+        "english": "How many friends does your brother have? - I don't know. He has many friends.",
         "japanese_audio": "audio/sound_01_08_10_ja.wav",
         "english_audio": "audio/sound_01_08_10_en.wav"
     },
@@ -875,7 +875,7 @@
         "unit_no": 9,
         "number": 8,
         "japanese": "私の母はあなたたちが大好きです。",
-        "english": "My mother likes.you a lot.",
+        "english": "My mother likes you a lot.",
         "japanese_audio": "audio/sound_01_09_08_ja.wav",
         "english_audio": "audio/sound_01_09_08_en.wav"
     },
@@ -885,7 +885,7 @@
         "unit_no": 9,
         "number": 9,
         "japanese": "あなたの息子さんはよく彼と遊びますか？",
-        "english": "Does your son often play with him.",
+        "english": "Does your son often play with him?",
         "japanese_audio": "audio/sound_01_09_09_ja.wav",
         "english_audio": "audio/sound_01_09_09_en.wav"
     },
@@ -924,7 +924,7 @@
         "category_no": 1,
         "unit_no": 10,
         "number": 3,
-        "japanese": "kあの女のカメラは新しい。彼のもまた新しい。",
+        "japanese": "あの女のカメラは新しい。彼のもまた新しい。",
         "english": "Her camera is new. His is new, too.",
         "japanese_audio": "audio/sound_01_10_03_ja.wav",
         "english_audio": "audio/sound_01_10_03_en.wav"
@@ -935,7 +935,7 @@
         "unit_no": 10,
         "number": 4,
         "japanese": "このノートはあなたのですか、それとおも彼女のものですか？",
-        "english": "is this notebook yours or hers?",
+        "english": "Is this notebook yours or hers?",
         "japanese_audio": "audio/sound_01_10_04_ja.wav",
         "english_audio": "audio/sound_01_10_04_en.wav"
     },
