@@ -88,6 +88,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
       debugPrint("ローカルのキューをサーバーに同期完了");
     }
+
+    if (!mounted) return;
+
     switch (auth.status) {
       case AuthStatus.unknown:
         debugPrint("Go to login page...");
