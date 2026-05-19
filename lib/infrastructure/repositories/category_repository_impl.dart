@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class CategoryRepositoryImpl implements CategoryRepository {
   @override
   Future<List<Category>> getAll() async {
-    final db = await AppDatabase.instance.database;
+    final db = AppDatabase.instance.database;
 
     final result = await db.query(
       'categories',

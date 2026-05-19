@@ -8,7 +8,7 @@
             #E1F5FE
         </item>
         <item name="android:windowSplashScreenAnimatedIcon">
-            @drawable/flash_english_logo
+            @drawable/flash_english_icon
         </item>
     </style>
 

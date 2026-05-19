@@ -8,7 +8,7 @@ class UnitRepositoryImpl implements UnitRepository {
   Future<List<Unit>> getByCategory(
     int categoryNo,
   ) async {
-    final db = await AppDatabase.instance.database;
+    final db = AppDatabase.instance.database;
 
     final result = await db.query(
       'units',
@@ -26,7 +26,7 @@ class UnitRepositoryImpl implements UnitRepository {
 
   @override
   Future<String> getUnitDescription(int categoryNo, int unitNo) async {
-    final db = await AppDatabase.instance.database;
+    final db = AppDatabase.instance.database;
 
     final result = await db.query(
       'units',

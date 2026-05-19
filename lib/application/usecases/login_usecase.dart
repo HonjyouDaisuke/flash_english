@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginUseCase {
-  final AuthBackend _authBackend;
-  final TokenStorage _tokenStorage;
+  final AuthBackend authBackend;
+  final TokenStorage tokenStorage;
 
-  // ✅ ここが重要（依存注入）
   LoginUseCase({
-    required AuthBackend authBackend,
-    required TokenStorage tokenStorage,
-  })  : _authBackend = authBackend,
-        _tokenStorage = tokenStorage;
+    required this.authBackend,
+    required this.tokenStorage,
+  });
 
   Future<UserCredential?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -30,44 +28,44 @@ class LoginUseCase {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<bool> login() async {
+  Future<String?> login() async {
     try {
       final userCredential = await signInWithGoogle();
 
       if (userCredential == null || userCredential.user == null) {
         debugPrint("ログインキャンセル or 失敗");
-        return false;
+        return null;
       }
       final idToken = await userCredential.user!.getIdToken();
       if (idToken == null) {
         debugPrint("IDトークンの取得に失敗");
-        return false;
+        return null;
       }
-      final result = await _authBackend.callBackend(idToken);
+      final result = await authBackend.callBackend(idToken);
       if (result == null || !result.containsKey('access_token')) {
         debugPrint("バックエンドからのアクセストークンの取得に失敗");
-        return false;
+        return null;
       }
 
       final accessToken = result['access_token'];
       final refreshToken = result['refresh_token'];
-
-      if (accessToken == null || refreshToken == null) {
+      final userId = result['user_id'];
+      if (accessToken == null || refreshToken == null || userId is! String) {
         debugPrint("token取得失敗");
-        return false;
+        return null;
       }
 
       // 🔥 ここが超重要
-      await _tokenStorage.saveTokens(
+      await tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
-      return true;
+      return userId;
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebaseエラー: ${e.code}");
     } catch (e) {
       debugPrint("その他エラー: $e");
     }
 
-    return false;
+    return null;
   }
 }

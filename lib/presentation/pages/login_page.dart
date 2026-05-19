@@ -1,23 +1,29 @@
 import 'package:flash_english/core/providers/api_providers.dart';
+import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LoginPage extends ConsumerWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
-  Future<void> _login(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
+  @override
+  ConsumerState<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends ConsumerState<LoginPage> {
+  Future<void> _login() async {
+    debugPrint("ログイン処理開始");
     final loginUseCase = ref.read(loginUseCaseProvider);
 
-    final success = await loginUseCase.login();
+    final loginUserId = await loginUseCase.login();
+    if (!mounted) return;
+    if (loginUserId != null) {
+      await ref.read(syncQueueUseCaseProvider).execute(loginUserId);
 
-    if (success) {
-      if (context.mounted) {
-        context.go('/training');
-      }
+      debugPrint("ローカルのキューをサーバーに同期完了");
+      if (!mounted) return;
+      context.go('/training');
     } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -32,15 +38,12 @@ class LoginPage extends ConsumerWidget {
   }
 
   @override
-  Widget build(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("ログイン")),
       body: Center(
         child: ElevatedButton(
-          onPressed: () => _login(context, ref),
+          onPressed: _login,
           child: const Text("Googleでログイン"),
         ),
       ),

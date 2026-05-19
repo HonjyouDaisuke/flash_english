@@ -73,7 +73,7 @@ class SeedRepositoryImpl implements SeedRepository {
 
   @override
   Future<void> reset() async {
-    final db = await AppDatabase.instance.database;
+    final db = AppDatabase.instance.database;
 
     await db.transaction((txn) async {
       await txn.execute('DROP TABLE IF EXISTS study_logs');

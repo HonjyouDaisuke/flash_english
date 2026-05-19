@@ -1,7 +1,9 @@
 import 'package:flash_english/domain/entities/auth_status.dart';
+import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -67,6 +69,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> _initialize() async {
+    await AppDatabase.instance.init();
     try {
       await ref.read(appInitializeProvider).execute();
     } catch (e) {
@@ -80,6 +83,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
     if (!mounted) return;
     _debugPrint(auth);
+
+    if (auth.status == AuthStatus.onlineAuthenticated) {
+      await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
+      debugPrint("ローカルのキューをサーバーに同期完了");
+    }
+
+    if (!mounted) return;
 
     switch (auth.status) {
       case AuthStatus.unknown:
@@ -134,16 +144,25 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    final screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FlutterLogo(size: 80),
-            SizedBox(height: 24),
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('FlashEnglish 起動中...'),
+            Image.asset(
+              'assets/images/flash_english_title.png',
+              width: screenWidth * 0.7,
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) {
+                debugPrint('画像エラー: $error');
+                return const Icon(Icons.error);
+              },
+            ),
+            const SizedBox(height: 24),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 16),
+            const Text('FlashEnglish 起動中...'),
           ],
         ),
       ),
