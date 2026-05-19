@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_english/domain/entities/unit.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/get_unit_score_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/get_units_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,12 +17,13 @@ class UnitSelectPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scoreUseCase = ref.watch(getUnitScoreUseCaseProvider);
     final unitUseCase = ref.watch(getUnitsUseCaseProvider);
-
+    final auth = ref.watch(authProvider);
+    final scores = scoreUseCase.getAll(categoryNo, auth);
     return Scaffold(
       appBar: AppBar(title: const Text('ユニット選択')),
       body: FutureBuilder(
           future: Future.wait(
-              [unitUseCase(categoryNo), scoreUseCase.getAllAPI(categoryNo)]),
+              [unitUseCase(categoryNo), scores]),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(

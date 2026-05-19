@@ -130,7 +130,7 @@ class AppDatabase {
 
     // 👇 ユニットスコアテーブル追加
     await db.execute('''
-      CREATE TABLE unit_scores (
+      CREATE TABLE IF NOT EXISTS unit_scores (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         category_no INTEGER NOT NULL,
         unit_no INTEGER NOT NULL,
@@ -175,7 +175,7 @@ class AppDatabase {
 
     if (oldVersion < 3) {
       await db.execute('''
-      CREATE TABLE unit_scores (
+      CREATE TABLE IF NOT EXISTS unit_scores (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         category_no INTEGER NOT NULL,
         unit_no INTEGER NOT NULL,

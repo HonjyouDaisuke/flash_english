@@ -31,11 +31,21 @@ class UnitScore {
       achievedAt: (json['achieved_at'] as String?) ?? '',
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       'category_no': categoryNo,
       'unit_no': unitNo,
       'high_score': score,
+      'achieved_at': achievedAt,
+    };
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'category_no': categoryNo,
+      'unit_no': unitNo,
+      'score': score,
       'achieved_at': achievedAt,
     };
   }
