@@ -5,15 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginUseCase {
-  final AuthBackend _authBackend;
-  final TokenStorage _tokenStorage;
+  final AuthBackend authBackend;
+  final TokenStorage tokenStorage;
 
-  // ✅ ここが重要（依存注入）
   LoginUseCase({
-    required AuthBackend authBackend,
-    required TokenStorage tokenStorage,
-  })  : _authBackend = authBackend,
-        _tokenStorage = tokenStorage;
+    required this.authBackend,
+    required this.tokenStorage,
+  });
 
   Future<UserCredential?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -43,7 +41,7 @@ class LoginUseCase {
         debugPrint("IDトークンの取得に失敗");
         return null;
       }
-      final result = await _authBackend.callBackend(idToken);
+      final result = await authBackend.callBackend(idToken);
       if (result == null || !result.containsKey('access_token')) {
         debugPrint("バックエンドからのアクセストークンの取得に失敗");
         return null;
@@ -58,7 +56,7 @@ class LoginUseCase {
       }
 
       // 🔥 ここが超重要
-      await _tokenStorage.saveTokens(
+      await tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
       return userId;

@@ -211,12 +211,9 @@ void main() {
 /// signInWithGoogle を差し替えるための Spy
 class _LoginUseCaseSpy extends LoginUseCase {
   _LoginUseCaseSpy({
-    required AuthBackend authBackend,
-    required TokenStorage tokenStorage,
-  }) : super(
-          authBackend: authBackend,
-          tokenStorage: tokenStorage,
-        );
+    required super.authBackend,
+    required super.tokenStorage,
+  });
 
   UserCredential? signInResult;
 
