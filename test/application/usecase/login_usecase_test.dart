@@ -23,7 +23,7 @@ void main() {
   });
 
   group('LoginUseCase.login', () {
-    test('Googleログインキャンセル時 false を返す', () async {
+    test('Googleログインキャンセル時 null を返す', () async {
       final spy = _LoginUseCaseSpy(
         authBackend: authBackend,
         tokenStorage: tokenStorage,
@@ -33,11 +33,12 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
+
       verifyNever(() => authBackend.callBackend(any()));
     });
 
-    test('user が null の場合 false を返す', () async {
+    test('user が null の場合 null を返す', () async {
       final credential = MockUserCredential();
 
       when(() => credential.user).thenReturn(null);
@@ -51,14 +52,15 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
 
-    test('idToken が null の場合 false を返す', () async {
+    test('idToken が null の場合 null を返す', () async {
       final credential = MockUserCredential();
       final user = MockUser();
 
       when(() => credential.user).thenReturn(user);
+
       when(() => user.getIdToken()).thenAnswer((_) async => null);
 
       final spy = _LoginUseCaseSpy(
@@ -70,15 +72,17 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
 
-    test('バックエンド結果が null の場合 false を返す', () async {
+    test('バックエンド結果が null の場合 null を返す', () async {
       final credential = MockUserCredential();
       final user = MockUser();
 
       when(() => credential.user).thenReturn(user);
+
       when(() => user.getIdToken()).thenAnswer((_) async => 'token');
+
       when(() => authBackend.callBackend('token'))
           .thenAnswer((_) async => null);
 
@@ -91,14 +95,15 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
 
-    test('access_token が無い場合 false を返す', () async {
+    test('access_token が無い場合 null を返す', () async {
       final credential = MockUserCredential();
       final user = MockUser();
 
       when(() => credential.user).thenReturn(user);
+
       when(() => user.getIdToken()).thenAnswer((_) async => 'token');
 
       when(() => authBackend.callBackend('token')).thenAnswer(
@@ -116,14 +121,15 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
 
-    test('refresh_token が null の場合 false を返す', () async {
+    test('refresh_token が null の場合 null を返す', () async {
       final credential = MockUserCredential();
       final user = MockUser();
 
       when(() => credential.user).thenReturn(user);
+
       when(() => user.getIdToken()).thenAnswer((_) async => 'token');
 
       when(() => authBackend.callBackend('token')).thenAnswer(
@@ -142,20 +148,22 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
 
-    test('正常系: token保存して true を返す', () async {
+    test('正常系: token保存して userId を返す', () async {
       final credential = MockUserCredential();
       final user = MockUser();
 
       when(() => credential.user).thenReturn(user);
+
       when(() => user.getIdToken()).thenAnswer((_) async => 'token');
 
       when(() => authBackend.callBackend('token')).thenAnswer(
         (_) async => {
           'access_token': 'access123',
           'refresh_token': 'refresh123',
+          'user_id': 'user123',
         },
       );
 
@@ -175,7 +183,7 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, true);
+      expect(result, 'user123');
 
       verify(
         () => tokenStorage.saveTokens(
@@ -185,7 +193,7 @@ void main() {
       ).called(1);
     });
 
-    test('例外発生時 false を返す', () async {
+    test('例外発生時 null を返す', () async {
       final spy = _LoginUseCaseSpy(
         authBackend: authBackend,
         tokenStorage: tokenStorage,
@@ -195,7 +203,7 @@ void main() {
 
       final result = await spy.login();
 
-      expect(result, false);
+      expect(result, isNull);
     });
   });
 }
@@ -203,11 +211,15 @@ void main() {
 /// signInWithGoogle を差し替えるための Spy
 class _LoginUseCaseSpy extends LoginUseCase {
   _LoginUseCaseSpy({
-    required super.authBackend,
-    required super.tokenStorage,
-  });
+    required AuthBackend authBackend,
+    required TokenStorage tokenStorage,
+  }) : super(
+          authBackend: authBackend,
+          tokenStorage: tokenStorage,
+        );
 
   UserCredential? signInResult;
+
   bool throwException = false;
 
   @override
@@ -215,6 +227,7 @@ class _LoginUseCaseSpy extends LoginUseCase {
     if (throwException) {
       throw Exception('login error');
     }
+
     return signInResult;
   }
 }
