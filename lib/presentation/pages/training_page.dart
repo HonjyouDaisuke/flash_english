@@ -84,7 +84,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
   Widget build(BuildContext context) {
     final state = ref.watch(trainingProvider);
     final game = ref.watch(gameControllerProvider);
-    final auth = ref.read(authProvider);
+    final auth = ref.watch(authProvider);
     final notifier = ref.read(trainingProvider.notifier);
     final gameController = ref.read(gameControllerProvider.notifier);
     final theme = Theme.of(context);

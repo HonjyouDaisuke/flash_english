@@ -51,8 +51,8 @@ class LoginUseCase {
 
       final accessToken = result['access_token'];
       final refreshToken = result['refresh_token'];
-
-      if (accessToken == null || refreshToken == null) {
+      final userId = result['user_id'];
+      if (accessToken == null || refreshToken == null || userId is! String) {
         debugPrint("token取得失敗");
         return null;
       }
@@ -61,7 +61,7 @@ class LoginUseCase {
       await _tokenStorage.saveTokens(
           accessToken: accessToken, refreshToken: refreshToken);
 
-      return result['user_id'];
+      return userId;
     } on FirebaseAuthException catch (e) {
       debugPrint("Firebaseエラー: ${e.code}");
     } catch (e) {

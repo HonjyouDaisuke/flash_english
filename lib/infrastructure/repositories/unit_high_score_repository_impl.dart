@@ -57,12 +57,13 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
       );
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint("Error saving unit score: status ${response.statusCode}");
-        return false;
+        throw Exception(
+            "Error get All unit score: status ${response.statusCode}");
       }
       return true;
     } catch (e) {
       debugPrint("Error saving unit score: $e");
-      return false;
+      throw Exception("Error saving unit score: $e");
     }
   }
 

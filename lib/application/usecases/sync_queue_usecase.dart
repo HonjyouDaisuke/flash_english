@@ -34,7 +34,7 @@ class SyncQueueUseCase {
       );
       debugPrint('statusCode: ${response.statusCode}');
       debugPrint('body: ${response.body}');
-      if (response.statusCode != 200) {
+      if (response.statusCode < 200 || response.statusCode >= 300) {
         throw Exception('sync failed');
       }
       await repository.deleteByIds(ids);

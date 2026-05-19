@@ -49,11 +49,17 @@ class SyncQueueItem {
   }
 
   Map<String, dynamic> toJson() {
+    dynamic decodedPayload;
+    try {
+      decodedPayload = jsonDecode(payload);
+    } catch (_) {
+      decodedPayload = payload; // もしくは {} など運用方針に合わせる
+    }
     return {
       'event_id': eventId,
       'type': type,
       'user_id': userId,
-      'payload': jsonDecode(payload),
+      'payload': decodedPayload,
       'status': status.name,
       'retry_count': retryCount,
       'created_at': createdAt.toIso8601String(),

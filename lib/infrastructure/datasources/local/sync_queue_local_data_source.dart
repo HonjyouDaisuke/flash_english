@@ -43,6 +43,7 @@ class SyncQueueLocalDataSource {
     List<String> ids,
     String status,
   ) async {
+    if (ids.isEmpty) return;
     final placeholders = List.filled(ids.length, '?').join(',');
     await _database.update(
       'sync_queue',
