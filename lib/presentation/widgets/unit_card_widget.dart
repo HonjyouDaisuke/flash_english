@@ -22,7 +22,8 @@ class UnitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = UnitCardStyles.fromStars(stars);
+    final normalizedStars = stars.clamp(0, 5);
+    final style = UnitCardStyles.fromStars(normalizedStars);
     return InkWell(
       onTap: () {
         context.push(
@@ -56,7 +57,7 @@ class UnitCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (i) {
-                  final star = stars;
+                  final star = normalizedStars;
                   return Icon(
                     i < star ? Icons.star : Icons.star_border,
                     color: i < star ? style.starColor : Colors.grey,
