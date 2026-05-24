@@ -1,3 +1,4 @@
+import 'package:flash_english/presentation/theme/unit_card_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +22,8 @@ class UnitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final normalizedStars = stars.clamp(0, 5);
+    final style = UnitCardStyles.fromStars(normalizedStars);
     return InkWell(
       onTap: () {
         context.push(
@@ -29,8 +32,13 @@ class UnitCard extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(16),
       child: Card(
+        color: style.backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
+          side: BorderSide(
+            color: style.borderColor,
+            width: 2,
+          ),
         ),
         elevation: 4,
         child: Padding(
@@ -49,10 +57,10 @@ class UnitCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(5, (i) {
-                  final star = stars;
+                  final star = normalizedStars;
                   return Icon(
                     i < star ? Icons.star : Icons.star_border,
-                    color: i < star ? Colors.amber : Colors.grey,
+                    color: i < star ? style.starColor : Colors.grey,
                     size: 16,
                   );
                 }),
@@ -62,7 +70,7 @@ class UnitCard extends StatelessWidget {
                 dateText,
                 style: TextStyle(
                   fontSize: 11,
-                  color: Colors.grey.shade600,
+                  color: style.textColor,
                 ),
               ),
             ],
