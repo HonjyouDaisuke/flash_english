@@ -147,4 +147,123 @@ void main() {
       expect(result.isPerfect, true);
     });
   });
+
+  group('UnitScore.toJson', () {
+    test('正しく JSON に変換できる', () {
+      final unitScore = UnitScore(
+        categoryNo: 2,
+        unitNo: 5,
+        score: 8,
+        achievedAt: '2026/05/24',
+      );
+
+      final json = unitScore.toJson();
+
+      expect(json['category_no'], 2);
+      expect(json['unit_no'], 5);
+      expect(json['high_score'], 8);
+      expect(json['achieved_at'], '2026/05/24');
+    });
+  });
+
+  group('UnitScore.toMap', () {
+    test('正しく Map に変換できる', () {
+      final unitScore = UnitScore(
+        categoryNo: 3,
+        unitNo: 9,
+        score: 10,
+        achievedAt: '2026/05/24',
+      );
+
+      final map = unitScore.toMap();
+
+      expect(map['category_no'], 3);
+      expect(map['unit_no'], 9);
+      expect(map['score'], 10);
+      expect(map['achieved_at'], '2026/05/24');
+    });
+  });
+
+  group('UnitScore stars boundary', () {
+    test('score=6 は ★3', () {
+      final unitScore = UnitScore(
+        categoryNo: 1,
+        unitNo: 1,
+        score: 6,
+        achievedAt: '',
+      );
+
+      expect(unitScore.stars, 3);
+    });
+
+    test('score=7 は ★4', () {
+      final unitScore = UnitScore(
+        categoryNo: 1,
+        unitNo: 1,
+        score: 7,
+        achievedAt: '',
+      );
+
+      expect(unitScore.stars, 4);
+    });
+
+    test('score=9 は ★4', () {
+      final unitScore = UnitScore(
+        categoryNo: 1,
+        unitNo: 1,
+        score: 9,
+        achievedAt: '',
+      );
+
+      expect(unitScore.stars, 4);
+    });
+
+    test('score=10 は ★5', () {
+      final unitScore = UnitScore(
+        categoryNo: 1,
+        unitNo: 1,
+        score: 10,
+        achievedAt: '',
+      );
+
+      expect(unitScore.stars, 5);
+    });
+  });
+
+  group('UnitScore.fromJson invalid types', () {
+    test('型が不正な場合は例外が発生する', () {
+      final json = {
+        'category_no': 'abc',
+        'unit_no': 'def',
+        'high_score': 'ghi',
+        'achieved_at': 123,
+      };
+
+      expect(
+        () => UnitScore.fromJson(json),
+        throwsA(isA<TypeError>()),
+      );
+    });
+  });
+
+  group('UnitScore serialization round trip', () {
+    test('toJson → fromJson で値を維持できる', () {
+      final original = UnitScore(
+        categoryNo: 4,
+        unitNo: 2,
+        score: 9,
+        achievedAt: '2026/05/24',
+      );
+
+      final json = original.toJson();
+      final restored = UnitScore.fromJson(json);
+
+      expect(restored.categoryNo, original.categoryNo);
+      expect(restored.unitNo, original.unitNo);
+      expect(restored.score, original.score);
+      expect(restored.achievedAt, original.achievedAt);
+      expect(restored.stars, original.stars);
+      expect(restored.isPerfect, original.isPerfect);
+    });
+  });
 }
