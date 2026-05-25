@@ -10,6 +10,7 @@ import 'package:flash_english/presentation/providers/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/providers/unit_score_repository_provider.dart';
+import 'package:flash_english/presentation/providers/unit_scores_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -177,23 +178,12 @@ class GameController extends StateNotifier<GameState> {
     final isFinihed = _isFinished();
     if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
-      // debugPrint(
-      //     "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
-      //final success = await saveStudyLogUseCase.execute(studyLog);
 
-      //debugPrint("保存したよ。$success");
       _finish();
     } else {
       debugPrint(
           "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
-      // // study_logをDBに保存するAPIを叩く
-      // debugPrint(
-      //     "DBに保存します： 正解？ ${state.isCorrect}, questionNo: ${state.currentIndex}");
-      // final success = await saveStudyLogUseCase.execute(studyLog);
-      // debugPrint("保存したよ。$success");
-      // Future.delayed(const Duration(milliseconds: 300), () {
-      //   state = state.copyWith(phase: GamePhase.finished);
-      // });
+
       state = state.copyWith(
         phase: GamePhase.playing,
         currentIndex: trainingState.currentIndex,
@@ -229,15 +219,12 @@ class GameController extends StateNotifier<GameState> {
     // DB保存
     debugPrint("unit score を loaclDBに保存します");
     await saveUnitScoreUseCase.saveLocal(unitScore);
-    // final success = await saveUnitScoreUseCase.saveAPI(unitScore);
     await enqueueUnitScoreUseCase.call(
         unitScore, ref.read(authProvider).userId!);
-    // debugPrint("保存したよ。$success");
-
-    Future.delayed(const Duration(milliseconds: 300), () {
-      if (_isDisposed) return;
-      state = state.copyWith(phase: GamePhase.finished);
-    });
+    ref.invalidate(unitScoresProvider(state.categoryNo));
+    await Future.delayed(const Duration(milliseconds: 300));
+    if (_isDisposed) return;
+    state = state.copyWith(phase: GamePhase.finished);
 
     if (auth.status == AuthStatus.onlineAuthenticated && auth.userId != null) {
       try {

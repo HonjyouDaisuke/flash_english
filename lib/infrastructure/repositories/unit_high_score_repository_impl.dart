@@ -73,15 +73,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
     required AuthState authState,
   }) async {
     if (!authState.isOffline) {
-      try {
-        final scores = await getAllAPI(categoryNo);
-
-        await local.upsertAll(scores);
-
-        return scores;
-      } catch (e) {
-        debugPrint("API error: $e");
-      }
+      return local.getAll();
     }
 
     return local.getAll();
