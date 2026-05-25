@@ -179,7 +179,7 @@ class GameController extends StateNotifier<GameState> {
     if (isFinihed) {
       debugPrint("nextOrFinish 終了へ行きます。");
 
-      _finish();
+      await _finish();
     } else {
       debugPrint(
           "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
