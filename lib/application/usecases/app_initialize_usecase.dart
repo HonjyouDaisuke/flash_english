@@ -12,7 +12,6 @@ class AppInitializeUseCase {
   final PingUseCase _pingUseCase;
   final AuthNotifier _authNotifier;
   final UserSettingsSeedUseCase _userSettingsSeedUseCase;
-  final SyncQueueUseCase _syncQueueUseCase;
 
   AppInitializeUseCase({
     required InitializeAppUseCase initializeAppUseCase,
@@ -23,8 +22,7 @@ class AppInitializeUseCase {
   })  : _initializeAppUseCase = initializeAppUseCase,
         _pingUseCase = pingUseCase,
         _authNotifier = authNotifier,
-        _userSettingsSeedUseCase = seedUserSettingsUseCase,
-        _syncQueueUseCase = syncUseCase;
+        _userSettingsSeedUseCase = seedUserSettingsUseCase;
 
   Future<void> execute() async {
     await _initializeAppUseCase.execute();

@@ -3,7 +3,6 @@ import 'package:flash_english/domain/entities/unit.dart';
 import 'package:flash_english/infrastructure/datasources/local/category_local_data_source.dart';
 import 'package:flash_english/infrastructure/datasources/local/question_local_data_source.dart';
 import 'package:flash_english/infrastructure/datasources/local/unit_local_data_source.dart';
-import 'package:flash_english/infrastructure/datasources/local/user_settings_local_data_source.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/category_mapper.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/question_mapper.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/unit_mapper.dart';

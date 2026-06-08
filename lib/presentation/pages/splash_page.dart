@@ -3,8 +3,6 @@ import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
-import 'package:flash_english/presentation/providers/get_user_settings_usecase_provider.dart';
-import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
