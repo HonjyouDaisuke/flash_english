@@ -11,8 +11,8 @@ class QuestionOrderSetting extends ConsumerWidget {
 
     final value = settings['question_order'] ?? 'random';
 
-    // ignore: deprecated_member_use
     return DropdownButtonFormField<String>(
+      // ignore: deprecated_member_use
       value: value,
       decoration: const InputDecoration(
         labelText: '出題順',
