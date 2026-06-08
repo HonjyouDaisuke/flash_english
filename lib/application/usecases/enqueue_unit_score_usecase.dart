@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:flash_english/domain/constants/sync_types.dart';
+import 'package:flash_english/core/constants/sync_types.dart';
 import 'package:flash_english/domain/entities/sync_queue_item.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/domain/repositories/sync_queue_repository.dart';

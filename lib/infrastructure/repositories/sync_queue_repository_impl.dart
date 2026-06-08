@@ -12,13 +12,11 @@ class SyncQueueRepositoryImpl implements SyncQueueRepository {
   );
 
   @override
-  Future<void> enqueue(
-    SyncQueueItem item,
-  ) async {
+  Future<void> enqueue(SyncQueueItem item) async {
     final model = SyncQueueModel.fromEntity(
       item,
     );
-    debugPrint('Enqueuing sync item: type=${item.type}');
+    debugPrint('Enqueuing sync item: type=${item.type} key=${item.payload}');
 
     await _localDataSource.insert(
       model.toMap(),

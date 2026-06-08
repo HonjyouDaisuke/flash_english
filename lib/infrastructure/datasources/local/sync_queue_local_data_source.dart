@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SyncQueueLocalDataSource {
@@ -6,6 +7,7 @@ class SyncQueueLocalDataSource {
   SyncQueueLocalDataSource(this._database);
 
   Future<void> insert(Map<String, dynamic> data) async {
+    debugPrint('Inserting sync item into local DB: ${data['event_id']}');
     await _database.insert(
       'sync_queue',
       data,

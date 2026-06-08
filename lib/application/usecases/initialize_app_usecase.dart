@@ -14,7 +14,6 @@ class InitializeAppUseCase {
 
       if (needsSeed) {
         await repository.seed(txn);
-        await repository.setSeeded(txn); // ←これは任意
       }
     });
   }

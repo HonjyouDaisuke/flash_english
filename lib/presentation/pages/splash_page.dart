@@ -3,7 +3,9 @@ import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/get_user_settings_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
+import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -85,8 +87,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     _debugPrint(auth);
 
     if (auth.status == AuthStatus.onlineAuthenticated) {
-      await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
-      debugPrint("ローカルのキューをサーバーに同期完了");
+      await ref.read(syncUserDataUseCaseProvider).execute(auth.userId!);
+      // await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
+      // debugPrint("ローカルのキューをサーバーに同期完了");
+
+      // await ref.read(getUserSettingsUsecaseProvider).execute(auth.userId!);
+
+      // debugPrint("ユーザー設定を取得完了");
     }
 
     if (!mounted) return;

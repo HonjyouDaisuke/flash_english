@@ -14,8 +14,8 @@ class _MainTabPageState extends State<MainTabPage> {
   final routes = [
     '/training',
     '/dashboard',
-    '/chat',
     '/weak',
+    '/settings',
   ];
 
   int _calculateIndex(BuildContext context) {
@@ -23,8 +23,8 @@ class _MainTabPageState extends State<MainTabPage> {
 
     if (location.startsWith('/training')) return 0;
     if (location.startsWith('/dashboard')) return 1;
-    if (location.startsWith('/chat')) return 2;
-    if (location.startsWith('/weak')) return 3;
+    if (location.startsWith('/weak')) return 2;
+    if (location.startsWith('/settings')) return 3;
 
     return 0;
   }
@@ -51,8 +51,7 @@ class _MainTabPageState extends State<MainTabPage> {
               icon: Icon(Icons.dashboard), label: 'ダッシュボード'),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month), label: 'カレンダー'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.emoji_events), label: 'チャレンジ'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: '設定'),
         ],
       ),
     );

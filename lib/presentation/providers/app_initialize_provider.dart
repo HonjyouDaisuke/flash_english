@@ -8,6 +8,8 @@ import 'package:flash_english/infrastructure/repositories/ping_repository_impl.d
 import 'package:flash_english/infrastructure/repositories/seed_repository_impl.dart';
 import 'package:flash_english/presentation/providers/api_client_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
+import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
+import 'package:flash_english/presentation/providers/user_setting_seed_use_case_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appInitializeProvider = Provider((ref) {
@@ -28,10 +30,13 @@ final appInitializeProvider = Provider((ref) {
   final pingUseCase = PingUseCase(pingRepo);
 
   final authNotifier = ref.read(authProvider.notifier);
-
+  final userSettingsSeedUseCase = ref.read(userSettingsSeedUseCaseProvider);
+  final syncQueueUseCase = ref.read(syncQueueUseCaseProvider);
   return AppInitializeUseCase(
     initializeAppUseCase: initializeUseCase,
     pingUseCase: pingUseCase,
     authNotifier: authNotifier,
+    seedUserSettingsUseCase: userSettingsSeedUseCase,
+    syncUseCase: syncQueueUseCase,
   );
 });
