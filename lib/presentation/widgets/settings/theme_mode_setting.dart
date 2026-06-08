@@ -11,6 +11,7 @@ class ThemeModeSetting extends ConsumerWidget {
 
     final value = settings['theme_mode'] ?? 'system';
 
+    // ignore: deprecated_member_use
     return DropdownButtonFormField<String>(
       value: value,
       decoration: const InputDecoration(
