@@ -16,7 +16,7 @@ class SyncQueueRepositoryImpl implements SyncQueueRepository {
     final model = SyncQueueModel.fromEntity(
       item,
     );
-    debugPrint('Enqueuing sync item: type=${item.type} key=${item.payload}');
+    debugPrint('Enqueuing sync item: type=${item.type} eventId=${item.eventId}');
 
     await _localDataSource.insert(
       model.toMap(),
