@@ -54,9 +54,11 @@ class AppInitializeUseCase {
     }
 
     debugPrint('ユーザ設定のシードを実行します...');
-    final userId = _authNotifier.userId ?? 'default_user';
-    debugPrint("before seeding userId = $userId");
-    await _userSettingsSeedUseCase.execute(userId);
+    final userId = _authNotifier.userId;
+    if (userId != null) {
+      debugPrint('before seeding userId = $userId');
+      await _userSettingsSeedUseCase.execute(userId);
+    }
     // await _syncQueueUseCase.execute();
     if (isOnline) {
       if (isExpired) {
