@@ -9,7 +9,8 @@ class AnswerWaitSetting extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(userSettingsProvider);
 
-    final answerWait = int.tryParse(settings['answer_wait'] ?? '3') ?? 3;
+    final parsed = int.tryParse(settings['answer_wait'] ?? '');
+    final answerWait = ({1, 3, 5}.contains(parsed)) ? parsed! : 3;
 
     return SegmentedButton<int>(
       segments: const [
