@@ -61,7 +61,8 @@ class SettingsPage extends StatelessWidget {
                 child: Icon(Icons.person),
               ),
               title: Text('アバター設定'),
-              trailing: Icon(Icons.chevron_right),
+              // TODO: アバター設定ページを付けるときに有効にする
+              // trailing: Icon(Icons.chevron_right),
             ),
           ),
           const SizedBox(height: 24),

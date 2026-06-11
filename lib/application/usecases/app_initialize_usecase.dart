@@ -18,7 +18,6 @@ class AppInitializeUseCase {
     required PingUseCase pingUseCase,
     required AuthNotifier authNotifier,
     required UserSettingsSeedUseCase seedUserSettingsUseCase,
-    required SyncQueueUseCase syncUseCase,
   })  : _initializeAppUseCase = initializeAppUseCase,
         _pingUseCase = pingUseCase,
         _authNotifier = authNotifier,

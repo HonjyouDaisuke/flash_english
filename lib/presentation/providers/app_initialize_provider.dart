@@ -31,12 +31,10 @@ final appInitializeProvider = Provider((ref) {
 
   final authNotifier = ref.read(authProvider.notifier);
   final userSettingsSeedUseCase = ref.read(userSettingsSeedUseCaseProvider);
-  final syncQueueUseCase = ref.read(syncQueueUseCaseProvider);
   return AppInitializeUseCase(
     initializeAppUseCase: initializeUseCase,
     pingUseCase: pingUseCase,
     authNotifier: authNotifier,
     seedUserSettingsUseCase: userSettingsSeedUseCase,
-    syncUseCase: syncQueueUseCase,
   );
 });
