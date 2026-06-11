@@ -8,7 +8,6 @@ import 'package:flash_english/infrastructure/repositories/ping_repository_impl.d
 import 'package:flash_english/infrastructure/repositories/seed_repository_impl.dart';
 import 'package:flash_english/presentation/providers/api_client_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
-import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flash_english/presentation/providers/user_setting_seed_use_case_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

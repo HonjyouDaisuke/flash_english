@@ -1,6 +1,5 @@
 import 'package:flash_english/application/usecases/initialize_app_usecase.dart';
 import 'package:flash_english/application/usecases/ping_usecase.dart';
-import 'package:flash_english/application/usecases/sync_queue_usecase.dart';
 import 'package:flash_english/application/usecases/user_settings_seed_usecase.dart';
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
@@ -58,7 +57,7 @@ class AppInitializeUseCase {
       debugPrint('before seeding userId = $userId');
       await _userSettingsSeedUseCase.execute(userId);
     }
-    // await _syncQueueUseCase.execute();
+
     if (isOnline) {
       if (isExpired) {
         debugPrint('オンライン状態でトークンが期限切れ...');
@@ -75,7 +74,7 @@ class AppInitializeUseCase {
         _authNotifier.updateStatus(AuthStatus.offlineAuthExpired);
         return;
       } else {
-        debugPrint('オフライン状態でトークンは有効...');
+        debugPrint('オフライン状態でトークンは有効です...');
         _authNotifier.updateStatus(AuthStatus.offlineAuthenticated);
         return;
       }
