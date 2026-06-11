@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flash_english/domain/entities/sync_queue_item.dart';
 import 'package:flash_english/domain/repositories/sync_queue_repository.dart';
 import 'package:flash_english/domain/repositories/user_settings_repository.dart';
-import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -47,13 +46,6 @@ class UserSettingsSeedUseCase {
       value: '16',
       userId: userId,
     );
-
-    // ↓ デバッグ追加
-    final db = AppDatabase.instance.database;
-    final rows = await db.query('sync_queue');
-
-    debugPrint('sync_queue count = ${rows.length}');
-    debugPrint(rows.toString());
   }
 
   Future<void> _seed({

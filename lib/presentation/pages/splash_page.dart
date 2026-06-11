@@ -85,13 +85,14 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     _debugPrint(auth);
 
     if (auth.status == AuthStatus.onlineAuthenticated) {
-      await ref.read(syncUserDataUseCaseProvider).execute(auth.userId!);
-      // await ref.read(syncQueueUseCaseProvider).execute(auth.userId!);
-      // debugPrint("ローカルのキューをサーバーに同期完了");
-
-      // await ref.read(getUserSettingsUsecaseProvider).execute(auth.userId!);
-
-      // debugPrint("ユーザー設定を取得完了");
+      if (auth.status == AuthStatus.onlineAuthenticated) {
+        try {
+          await ref.read(syncUserDataUseCaseProvider).execute(auth.userId!);
+          debugPrint("ユーザー設定を取得完了");
+        } catch (e) {
+          debugPrint('ユーザーデータ同期失敗: $e');
+        }
+      }
     }
 
     if (!mounted) return;

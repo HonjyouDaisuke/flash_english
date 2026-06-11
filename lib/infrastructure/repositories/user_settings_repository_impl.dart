@@ -28,7 +28,7 @@ class UserSettingsRepositoryImpl implements UserSettingsRepository {
   @override
   Future<void> saveAll(List<UserSetting> userSettings, String userId) async {
     final payload = jsonEncode(userSettings.map((s) => s.toJson()).toList());
-    debugPrint('ユーザ設定を保存します... userId=$userId payload=$payload');
+    debugPrint('ユーザ設定を保存します...');
     const uuid = Uuid();
 
     final item = SyncQueueItem(
@@ -179,8 +179,8 @@ class UserSettingsRepositoryImpl implements UserSettingsRepository {
           'user_id': userId,
         },
       );
-      debugPrint("---------get user setting ---------------- userId = $userId");
-      debugPrint(response.body);
+      debugPrint(
+          "---------get user setting ---------------- status=${response.statusCode}");
       if (response.statusCode < 200 || response.statusCode >= 300) {
         debugPrint("Error get All unit score: status ${response.statusCode}");
         return [];

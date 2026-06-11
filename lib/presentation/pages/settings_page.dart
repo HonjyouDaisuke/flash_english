@@ -55,14 +55,13 @@ class SettingsPage extends StatelessWidget {
           _buildSectionTitle('アカウント'),
           const SizedBox(height: 12),
           _buildCard(
-            child: ListTile(
+            child: const ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const CircleAvatar(
+              leading: CircleAvatar(
                 child: Icon(Icons.person),
               ),
-              title: const Text('アバター設定'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {},
+              title: Text('アバター設定'),
+              trailing: Icon(Icons.chevron_right),
             ),
           ),
           const SizedBox(height: 24),
@@ -140,29 +139,29 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  static void _showResetDialog(BuildContext context) {
+  static void _showResetDialog(BuildContext parentContext) {
     showDialog(
-      context: context,
-      builder: (context) {
+      context: parentContext,
+      builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('学習記録をリセット'),
+          title: const Text('学習記録をリセット(作成中)'),
           content: const Text(
             '本当に削除しますか？\nこの操作は元に戻せません。',
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(dialogContext);
               },
               child: const Text('キャンセル'),
             ),
             FilledButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(dialogContext);
 
-                ScaffoldMessenger.of(context).showSnackBar(
+                ScaffoldMessenger.of(parentContext).showSnackBar(
                   const SnackBar(
-                    content: Text('学習記録をリセットしました'),
+                    content: Text('学習記録をリセットする予定です(作成中)'),
                   ),
                 );
               },

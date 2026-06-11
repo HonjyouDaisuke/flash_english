@@ -149,7 +149,7 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE user_settings (
         setting_key TEXT PRIMARY KEY,
-        value TEXT,
+        value TEXT NOT NULL,
         updated_at TEXT NOT NULL
       )
     ''');

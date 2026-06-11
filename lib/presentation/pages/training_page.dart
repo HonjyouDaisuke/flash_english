@@ -50,13 +50,10 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
 
   Duration _waitingTime() {
     final settings = ref.read(userSettingsProvider);
+    final parsed = int.tryParse(settings['answer_wait'] ?? '3') ?? 3;
+    final seconds = parsed < 1 ? 1 : (parsed > 10 ? 10 : parsed);
 
-    return Duration(
-      seconds: int.tryParse(
-            settings['answer_wait'] ?? '3',
-          ) ??
-          3,
-    );
+    return Duration(seconds: seconds);
   }
 
   void _startAutoFlip(
