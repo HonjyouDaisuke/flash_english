@@ -1,5 +1,6 @@
 import 'package:flash_english/application/usecases/initialize_app_usecase.dart';
 import 'package:flash_english/application/usecases/ping_usecase.dart';
+import 'package:flash_english/application/usecases/user_settings_seed_usecase.dart';
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -9,14 +10,17 @@ class AppInitializeUseCase {
   final InitializeAppUseCase _initializeAppUseCase;
   final PingUseCase _pingUseCase;
   final AuthNotifier _authNotifier;
+  final UserSettingsSeedUseCase _userSettingsSeedUseCase;
 
   AppInitializeUseCase({
     required InitializeAppUseCase initializeAppUseCase,
     required PingUseCase pingUseCase,
     required AuthNotifier authNotifier,
+    required UserSettingsSeedUseCase seedUserSettingsUseCase,
   })  : _initializeAppUseCase = initializeAppUseCase,
         _pingUseCase = pingUseCase,
-        _authNotifier = authNotifier;
+        _authNotifier = authNotifier,
+        _userSettingsSeedUseCase = seedUserSettingsUseCase;
 
   Future<void> execute() async {
     await _initializeAppUseCase.execute();
@@ -47,6 +51,13 @@ class AppInitializeUseCase {
       return;
     }
 
+    debugPrint('ユーザ設定のシードを実行します...');
+    final userId = _authNotifier.userId;
+    if (userId != null) {
+      debugPrint('before seeding userId = $userId');
+      await _userSettingsSeedUseCase.execute(userId);
+    }
+
     if (isOnline) {
       if (isExpired) {
         debugPrint('オンライン状態でトークンが期限切れ...');
@@ -63,7 +74,7 @@ class AppInitializeUseCase {
         _authNotifier.updateStatus(AuthStatus.offlineAuthExpired);
         return;
       } else {
-        debugPrint('オフライン状態でトークンは有効...');
+        debugPrint('オフライン状態でトークンは有効です...');
         _authNotifier.updateStatus(AuthStatus.offlineAuthenticated);
         return;
       }

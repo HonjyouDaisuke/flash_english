@@ -31,8 +31,14 @@ class SeedRepositoryImpl implements SeedRepository {
   }
 
   @override
-  Future<void> setSeeded(DatabaseExecutor db) async {
-    await db.insert('settings', {'key': 'seeded', 'value': 'true'});
+  Future<bool> needsSettingSeeding(DatabaseExecutor db) async {
+    debugPrint("ユーザー設定のシードが必要か確認します...");
+    final result =
+        await db.rawQuery('SELECT COUNT(*) as count FROM user_settings');
+    final count = Sqflite.firstIntValue(result) ?? 0;
+    debugPrint("✅ user_settingsテーブルの件数: $count");
+    debugPrint("✅ ユーザー設定のシードが必要: $count == 0");
+    return count == 0;
   }
 
   @override
@@ -83,7 +89,6 @@ class SeedRepositoryImpl implements SeedRepository {
       await AppDatabase.instance.createDB(txn, 2);
 
       await seed(txn);
-      await setSeeded(txn);
     });
     debugPrint("データベース作りました。");
   }

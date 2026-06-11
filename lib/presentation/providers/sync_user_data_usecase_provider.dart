@@ -1,0 +1,13 @@
+import 'package:flash_english/application/usecases/sync_user_data_usecase.dart';
+import 'package:flash_english/presentation/providers/get_user_settings_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
+import 'package:flash_english/presentation/providers/user_settings_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final syncUserDataUseCaseProvider = Provider<SyncUserDataUseCase>((ref) {
+  return SyncUserDataUseCase(
+    ref.read(syncQueueUseCaseProvider),
+    ref.read(getUserSettingsUsecaseProvider),
+    ref.read(userSettingsProvider.notifier),
+  );
+});

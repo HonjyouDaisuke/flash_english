@@ -3,6 +3,7 @@ import 'package:flash_english/presentation/controllers/game_controller.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/get_unit_description_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
+import 'package:flash_english/presentation/providers/user_settings_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';
@@ -21,7 +22,6 @@ class TrainingPage extends ConsumerStatefulWidget {
 
 class _TrainingPageState extends ConsumerState<TrainingPage> {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
-  static const waitingTime = Duration(seconds: 1);
   bool _isSyncing = false;
 
   @override
@@ -40,13 +40,27 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       final notifier = ref.read(trainingProvider.notifier);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _startAutoFlip(notifier);
+        _startAutoFlip(
+          notifier,
+          _waitingTime(),
+        );
       });
     });
   }
 
-  void _startAutoFlip(TrainingNotifier notifier) async {
-    // final notifier = ref.read(trainingProvider.notifier);
+  Duration _waitingTime() {
+    final settings = ref.read(userSettingsProvider);
+    final parsed = int.tryParse(settings['answer_wait'] ?? '3') ?? 3;
+    final seconds = parsed < 1 ? 1 : (parsed > 10 ? 10 : parsed);
+
+    return Duration(seconds: seconds);
+  }
+
+  void _startAutoFlip(
+    TrainingNotifier notifier,
+    Duration waitingTime,
+  ) async {
+    debugPrint("Auto flip will start after ${waitingTime.inSeconds} seconds");
     final start = ref.read(trainingProvider);
     if (start.questions.isEmpty || !start.isFront) return;
     await notifier.playFrontAndWait();
@@ -94,7 +108,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
       if (prev?.currentIndex != next.currentIndex) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _syncCard(true);
-          _startAutoFlip(notifier);
+          _startAutoFlip(notifier, _waitingTime());
         });
       }
 

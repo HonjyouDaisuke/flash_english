@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -42,9 +43,12 @@ class AppDatabase {
       filePath,
     );
 
+    //開発中のみDBを消す！
+    //await deleteDatabase(path);
+
     return openDatabase(
       path,
-      version: 3,
+      version: 6,
       onCreate: createDB,
       onUpgrade: _upgradeDB,
     );
@@ -52,6 +56,7 @@ class AppDatabase {
 
   /// テーブル作成
   Future<void> createDB(DatabaseExecutor db, int version) async {
+    debugPrint("Creating database with version $version");
     // categoriesテーブル
     await db.execute('''
       CREATE TABLE categories (
@@ -140,11 +145,12 @@ class AppDatabase {
       )
     ''');
 
-    // settingsテーブル
+    // user_settingsテーブル
     await db.execute('''
-      CREATE TABLE settings (
-        key TEXT PRIMARY KEY,
-        value TEXT
+      CREATE TABLE user_settings (
+        setting_key TEXT PRIMARY KEY,
+        value TEXT NOT NULL,
+        updated_at TEXT NOT NULL
       )
     ''');
   }
@@ -154,7 +160,14 @@ class AppDatabase {
     int oldVersion,
     int newVersion,
   ) async {
-    if (oldVersion < 2) {
+    debugPrint("databese version $oldVersion to $newVersion");
+    if (oldVersion < 6) {
+      debugPrint(
+          "Upgrading database from version--------- $oldVersion to $newVersion");
+      await db.execute('''
+      DROP TABLE IF EXISTS sync_queue;
+      ''');
+
       await db.execute('''
       CREATE TABLE sync_queue (
         event_id TEXT PRIMARY KEY,
@@ -182,6 +195,20 @@ class AppDatabase {
         score INTEGER NOT NULL,
         achieved_at TEXT NOT NULL,
         UNIQUE(category_no, unit_no)
+      )
+    ''');
+    }
+
+    if (oldVersion < 6) {
+      debugPrint("Upgrading database from version $oldVersion to $newVersion");
+      await db.execute('''
+      DROP TABLE IF EXISTS user_settings;
+      ''');
+      await db.execute('''
+      CREATE TABLE user_settings (
+        setting_key TEXT PRIMARY KEY,
+        value TEXT NOT NULL,
+        updated_at TEXT NOT NULL
       )
     ''');
     }

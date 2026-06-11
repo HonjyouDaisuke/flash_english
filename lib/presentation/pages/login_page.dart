@@ -1,5 +1,5 @@
 import 'package:flash_english/core/providers/api_providers.dart';
-import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
+import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,11 +19,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final loginUserId = await loginUseCase.login();
     if (!mounted) return;
     if (loginUserId != null) {
-      await ref.read(syncQueueUseCaseProvider).execute(loginUserId);
-
-      debugPrint("ローカルのキューをサーバーに同期完了");
-      if (!mounted) return;
-      context.go('/training');
+      try {
+        await ref.read(syncUserDataUseCaseProvider).execute(loginUserId);
+        debugPrint("ユーザーデータ同期完了");
+        if (!mounted) return;
+        context.go('/training');
+      } catch (e) {
+        debugPrint("ユーザーデータ同期失敗: $e");
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('同期に失敗しました。通信状態を確認してください。')),
+        );
+      }
     } else {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
