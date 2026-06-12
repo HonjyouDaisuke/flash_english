@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/presentation/providers/theme_state.dart';
 
 final themeStateProvider = ChangeNotifierProvider<ThemeState>((ref) {
-  final state = ThemeState(
+  return ThemeState(
     ref.read(userSettingsRepositoryProvider),
   );
-  state.load();
-  return state;
 });
