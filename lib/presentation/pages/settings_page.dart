@@ -19,6 +19,7 @@ class SettingsPage extends StatelessWidget {
           _buildSectionTitle('学習設定'),
           const SizedBox(height: 12),
           _buildCard(
+            context,
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -35,26 +36,31 @@ class SettingsPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _buildCard(
+            context,
             child: const QuestionOrderSetting(),
           ),
           const SizedBox(height: 16),
           _buildCard(
+            context,
             child: const SoundEnabledSetting(),
           ),
           const SizedBox(height: 24),
           _buildSectionTitle('表示設定'),
           const SizedBox(height: 12),
           _buildCard(
+            context,
             child: const ThemeModeSetting(),
           ),
           const SizedBox(height: 16),
           _buildCard(
+            context,
             child: const FontSizeSetting(),
           ),
           const SizedBox(height: 24),
           _buildSectionTitle('アカウント'),
           const SizedBox(height: 12),
           _buildCard(
+            context,
             child: const ListTile(
               contentPadding: EdgeInsets.zero,
               leading: CircleAvatar(
@@ -69,14 +75,15 @@ class SettingsPage extends StatelessWidget {
           _buildSectionTitle('データ'),
           const SizedBox(height: 12),
           _buildCard(
+            context,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   '学習記録のリセット',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.red,
+                    color: Theme.of(context).colorScheme.error,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -88,7 +95,7 @@ class SettingsPage extends StatelessWidget {
                   width: double.infinity,
                   child: FilledButton.tonal(
                     style: FilledButton.styleFrom(
-                      foregroundColor: Colors.red,
+                      foregroundColor: Theme.of(context).colorScheme.error,
                     ),
                     onPressed: () {
                       _showResetDialog(context);
@@ -100,11 +107,11 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32),
-          const Center(
+          Center(
             child: Text(
               'Version 1.0.0',
               style: TextStyle(
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ),
@@ -124,13 +131,13 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildCard({required Widget child}) {
+  Widget _buildCard(BuildContext context, {required Widget child}) {
     return Card(
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(
-          color: Colors.grey.shade300,
+          color: Theme.of(context).colorScheme.outlineVariant,
         ),
       ),
       child: Padding(
