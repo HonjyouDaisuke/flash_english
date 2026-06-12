@@ -32,7 +32,7 @@ class UnitCard extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(16),
       child: Card(
-        color: style.backgroundColor,
+        color: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
           side: BorderSide(

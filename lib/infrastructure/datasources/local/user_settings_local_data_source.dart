@@ -24,7 +24,7 @@ class UserSettingsLocalDataSource {
   Future<String?> get(String key) async {
     final result = await db.query(
       'user_settings',
-      where: 'key = ?',
+      where: 'setting_key = ?',
       whereArgs: [key],
       limit: 1,
     );

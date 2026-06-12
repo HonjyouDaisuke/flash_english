@@ -1,3 +1,4 @@
+import 'package:flash_english/presentation/providers/theme_provider.dart';
 import 'package:flash_english/presentation/providers/user_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -34,10 +35,13 @@ class ThemeModeSetting extends ConsumerWidget {
       ],
       onChanged: (newValue) async {
         if (newValue == null) return;
+        final mode = switch (newValue) {
+          'light' => ThemeMode.light,
+          'dark' => ThemeMode.dark,
+          _ => ThemeMode.system,
+        };
 
-        await ref
-            .read(userSettingsProvider.notifier)
-            .setString('theme_mode', newValue);
+        await ref.read(themeStateProvider).setThemeMode(mode);
       },
     );
   }
