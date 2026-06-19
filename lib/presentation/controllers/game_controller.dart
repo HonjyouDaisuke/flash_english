@@ -1,3 +1,4 @@
+import 'package:flash_english/application/usecases/download_unit_audio_usecase.dart';
 import 'package:flash_english/application/usecases/enqueue_study_log_usecase.dart';
 import 'package:flash_english/application/usecases/enqueue_unit_score_usecase.dart';
 import 'package:flash_english/application/usecases/save_study_log_usecase.dart';
@@ -5,6 +6,7 @@ import 'package:flash_english/application/usecases/save_unit_score_usecase.dart'
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
@@ -27,6 +29,7 @@ class GameController extends StateNotifier<GameState> {
   final SaveUnitScoreUseCase saveUnitScoreUseCase;
   final EnqueueStudyLogUseCase enqueueStudyLogUseCase;
   final EnqueueUnitScoreUseCase enqueueUnitScoreUseCase;
+  final DownloadUnitAudioUseCase downloadUnitAudioUseCase;
 
   GameController(this.ref)
       : saveStudyLogUseCase =
@@ -39,6 +42,8 @@ class GameController extends StateNotifier<GameState> {
         enqueueUnitScoreUseCase = EnqueueUnitScoreUseCase(ref.read(
           syncQueueRepositoryProvider,
         )),
+        downloadUnitAudioUseCase =
+            DownloadUnitAudioUseCase(ref.read(audioDownloadRepositoryProvider)),
         super(GameState.initial());
   bool _isDisposed = false;
   // ▶ スタート
@@ -47,7 +52,10 @@ class GameController extends StateNotifier<GameState> {
     required int unitNo,
   }) async {
     state = state.copyWith(phase: GamePhase.loading);
-
+    await downloadUnitAudioUseCase.execute(
+      categoryNo,
+      unitNo,
+    );
     // 既存Providerで問題ロード
     await ref.read(trainingProvider.notifier).load(categoryNo, unitNo);
 

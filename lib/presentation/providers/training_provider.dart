@@ -9,12 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/domain/entities/question.dart';
 import 'package:flash_english/application/usecases/get_questions_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/question_repository_impl.dart';
+import 'package:path_provider/path_provider.dart';
 
 final trainingProvider =
     StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
   final repo = QuestionRepositoryImpl();
   final getQ = GetQuestionsUseCase(repo);
-  final audioRepo = ref.read(audioRepositoryProvider);
+  final audioRepo = ref.read(audioPlayerRepositoryProvider);
   final playAudio = PlayAudioUseCase(audioRepo);
   final studyRepo = StudyRepositoryImpl();
 
@@ -116,14 +117,26 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   Future<void> playFront() async {
     final q = state.current;
+    final dir = await getApplicationDocumentsDirectory();
+
+    final path = '${dir.path}/audio/'
+        'unit_${q.categoryNo.toString().padLeft(2, '0')}_'
+        '${q.unitNo.toString().padLeft(2, '0')}/'
+        '${q.japaneseAudio}';
     debugPrint("日本語音声:${q.japaneseAudio}");
-    await _audio.execute(q.japaneseAudio);
+    await _audio.execute(path);
   }
 
   Future<void> playBack() async {
     final q = state.current;
-    debugPrint("英語音声:${q.englishAudio}");
-    await _audio.execute(q.englishAudio);
+    final dir = await getApplicationDocumentsDirectory();
+
+    final path = '${dir.path}/audio/'
+        'unit_${q.categoryNo.toString().padLeft(2, '0')}_'
+        '${q.unitNo.toString().padLeft(2, '0')}/'
+        '${q.englishAudio}';
+    debugPrint("英語音声:$path");
+    await _audio.execute(path);
   }
 
   Future<void> playCurrent() async {
@@ -136,8 +149,14 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   Future<void> playFrontAndWait() async {
     final q = state.current;
-    debugPrint("日本語音声(待ち):${q.japaneseAudio}");
-    await _audio.execute(q.japaneseAudio);
+    final dir = await getApplicationDocumentsDirectory();
+
+    final path = '${dir.path}/audio/'
+        'unit_${q.categoryNo.toString().padLeft(2, '0')}_'
+        '${q.unitNo.toString().padLeft(2, '0')}/'
+        '${q.japaneseAudio}';
+    debugPrint("日本語音声(待ち):$path");
+    await _audio.execute(path);
   }
 
   void next() async {
