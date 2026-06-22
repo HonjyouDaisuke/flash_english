@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:path/path.dart' as p;
 import 'package:flash_english/domain/repositories/audio_download_repository.dart';
 import 'package:flash_english/infrastructure/repositories/audio_api_service.dart';
 import 'package:path_provider/path_provider.dart';
@@ -56,9 +57,11 @@ class AudioDownloadRepositoryImpl implements AudioDownloadRepository {
     for (final file in archive) {
       if (!file.isFile) continue;
 
-      final outputFile = File(
-        '${targetDir.path}/${file.name}',
-      );
+      final outputPath = p.normalize(p.join(targetDir.path, file.name));
+      if (!p.isWithin(targetDir.path, outputPath)) {
+        throw const FormatException('Invalid zip entry path');
+      }
+      final outputFile = File(outputPath);
 
       await outputFile.parent.create(
         recursive: true,

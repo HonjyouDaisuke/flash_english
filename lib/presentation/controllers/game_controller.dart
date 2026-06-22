@@ -52,10 +52,18 @@ class GameController extends StateNotifier<GameState> {
     required int unitNo,
   }) async {
     state = state.copyWith(phase: GamePhase.loading);
-    await downloadUnitAudioUseCase.execute(
-      categoryNo,
-      unitNo,
-    );
+
+    try {
+      await downloadUnitAudioUseCase.execute(
+        categoryNo,
+        unitNo,
+      );
+    } catch (e, st) {
+      debugPrint('audio download failed: $e');
+      debugPrintStack(stackTrace: st);
+      // TODO: エラーphaseがあるなら遷移。なければ呼び出し元へ通知しUIでハンドリング。
+      rethrow;
+    }
     // 既存Providerで問題ロード
     await ref.read(trainingProvider.notifier).load(categoryNo, unitNo);
 

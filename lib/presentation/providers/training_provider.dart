@@ -10,6 +10,7 @@ import 'package:flash_english/domain/entities/question.dart';
 import 'package:flash_english/application/usecases/get_questions_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/question_repository_impl.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
 
 final trainingProvider =
     StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
@@ -119,10 +120,13 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     final q = state.current;
     final dir = await getApplicationDocumentsDirectory();
 
-    final path = '${dir.path}/audio/'
-        'unit_${q.categoryNo.toString().padLeft(2, '0')}_'
-        '${q.unitNo.toString().padLeft(2, '0')}/'
-        '${q.japaneseAudio}';
+    final safeFileName = p.basename(q.japaneseAudio);
+    final path = p.join(
+      dir.path,
+      'audio',
+      'unit_${q.categoryNo.toString().padLeft(2, '0')}_${q.unitNo.toString().padLeft(2, '0')}',
+      safeFileName,
+    );
     debugPrint("日本語音声:${q.japaneseAudio}");
     await _audio.execute(path);
   }
