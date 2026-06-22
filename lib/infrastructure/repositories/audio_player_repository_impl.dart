@@ -16,7 +16,7 @@ class AudioPlayerRepositoryImpl implements AudioPlayerRepository {
       }
     });
 
-    await _player.play(AssetSource(path));
+    await _player.play(DeviceFileSource(path));
     await completer.future;
   }
 
