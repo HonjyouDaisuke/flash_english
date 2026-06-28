@@ -73,18 +73,19 @@ class MasterVersionRepositoryImpl implements MasterVersionRepository {
   }
 
   @override
+  `@override`
   Future<bool> saveVersion(MasterVersion currentVersion) async {
-    try {
-      final db = AppDatabase.instance.database;
-      debugPrint(
-          "Version Save name=${currentVersion.versionName} - ver: ${currentVersion.versionNo}");
-      await db.insert(
-          'master_versions', MasterVersionMapper.toMap(currentVersion),
-          conflictAlgorithm: ConflictAlgorithm.replace);
-      return true;
-    } catch (e) {
-      debugPrint("error = $e");
-      return false;
+    final db = AppDatabase.instance.database;
+    debugPrint(
+      'Version Save name=${currentVersion.versionName} - ver: ${currentVersion.versionNo}',
+    );
+    await db.insert(
+      'master_versions',
+      MasterVersionMapper.toMap(currentVersion),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    return true;
+  }
     }
   }
 }
