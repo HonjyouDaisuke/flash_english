@@ -13,4 +13,8 @@ class GetUnitsUseCase {
       categoryNo,
     );
   }
+
+  Future<List<Unit>> callApi() {
+    return repository.getAllApi();
+  }
 }

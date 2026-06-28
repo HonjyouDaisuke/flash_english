@@ -3,6 +3,7 @@ import 'package:flash_english/application/usecases/play_audio_usecase.dart';
 import 'package:flash_english/application/usecases/save_answer_usecase.dart';
 import 'package:flash_english/application/usecases/start_session_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/study_repository_impl.dart';
+import 'package:flash_english/presentation/providers/api_client_provider.dart';
 import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +15,7 @@ import 'package:path/path.dart' as p;
 
 final trainingProvider =
     StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
-  final repo = QuestionRepositoryImpl();
+  final repo = QuestionRepositoryImpl(ref.read(apiClientProvider));
   final getQ = GetQuestionsUseCase(repo);
   final audioRepo = ref.read(audioPlayerRepositoryProvider);
   final playAudio = PlayAudioUseCase(audioRepo);

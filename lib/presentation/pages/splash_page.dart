@@ -3,6 +3,12 @@ import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/check_master_version_provider.dart';
+import 'package:flash_english/presentation/providers/get_categories_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_master_version_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_questions_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_units_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/save_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,6 +74,12 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
   }
 
+  Future<void> _saveVersion(String name) async {
+    final newVer =
+        await ref.read(getMasterVersionUsecaseProvider).execute(name);
+    await ref.read(saveMasterVersionUsecaseProvider).execute(newVer);
+  }
+
   Future<void> _initialize() async {
     await AppDatabase.instance.init();
     try {
@@ -94,7 +106,44 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
 
     if (!mounted) return;
+    debugPrint('マスターバージョンの更新チェックを開始...');
+    if (!auth.isOffline) {
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'category',
+          )) {
+        debugPrint('categoriesの更新があります');
+        final allCategories =
+            await ref.read(getCategoriesUseCaseProvider).callApi();
+        await ref
+            .read(getCategoriesUseCaseProvider)
+            .repository
+            .insertAll(allCategories);
+        await _saveVersion('category');
+      }
 
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'unit',
+          )) {
+        final allUnits = await ref.read(getUnitsUseCaseProvider).callApi();
+        await ref.read(getUnitsUseCaseProvider).repository.insertAll(allUnits);
+        await _saveVersion('unit');
+      }
+
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'question',
+          )) {
+        debugPrint('questionsの更新があります');
+
+        final allQuestions =
+            await ref.read(getQuestionsUseCaseProvider).callApi();
+        await ref
+            .read(getQuestionsUseCaseProvider)
+            .repository
+            .insertAll(allQuestions);
+        await _saveVersion('question');
+      }
+    }
+    if (!mounted) return;
     switch (auth.status) {
       case AuthStatus.unknown:
         debugPrint("Go to login page...");

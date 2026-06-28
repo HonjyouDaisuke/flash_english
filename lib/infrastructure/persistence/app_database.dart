@@ -44,7 +44,7 @@ class AppDatabase {
     );
 
     //開発中のみDBを消す！
-    //await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return openDatabase(
       path,
@@ -145,6 +145,17 @@ class AppDatabase {
       )
     ''');
 
+    // master_versionsテーブル
+    await db.execute('''
+      CREATE TABLE master_versions (
+        version_id INTEGER PRIMARY KEY,
+        version_no VARCHAR(20) NOT NULL,
+        version_name TEXT NOT NULL,
+        version_description TEXT NOT NULL,
+        updated_at TEXT NOT NULL  DEFAULT CURRENT_TIMESTAMP
+        );
+    ''');
+
     // user_settingsテーブル
     await db.execute('''
       CREATE TABLE user_settings (
@@ -153,6 +164,27 @@ class AppDatabase {
         updated_at TEXT NOT NULL
       )
     ''');
+
+    await db.execute('''
+      INSERT INTO master_versions (
+        version_id, version_no, version_name, version_description
+      )
+      VALUES (1, '0.0.0', 'category', 'カテゴリ')
+      ''');
+
+    await db.execute('''
+      INSERT INTO master_versions (
+        version_id, version_no, version_name, version_description
+      )
+      VALUES (2, '0.0.0', 'unit', 'ユニット')
+      ''');
+
+    await db.execute('''
+      INSERT INTO master_versions (
+        version_id, version_no, version_name, version_description
+      )
+      VALUES (3, '0.0.0', 'question', '問題')
+      ''');
   }
 
   Future<void> _upgradeDB(
@@ -211,6 +243,43 @@ class AppDatabase {
         updated_at TEXT NOT NULL
       )
     ''');
+    }
+
+    if (oldVersion < 6) {
+      debugPrint("Upgrading database from version $oldVersion to $newVersion");
+      await db.execute('''
+      DROP TABLE IF EXISTS master_versions;
+    ''');
+      await db.execute('''
+      CREATE TABLE master_versions (
+        version_id INTEGER PRIMARY KEY,
+        version_no VARCHAR(20) NOT NULL,
+        version_name TEXT NOT NULL,
+        version_description TEXT NOT NULL,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+    ''');
+
+      await db.execute('''
+        INSERT INTO master_versions (
+          version_id, version_no, version_name, version_description
+        )
+        VALUES (1, '0.0.0', 'category', 'カテゴリ')
+        ''');
+
+      await db.execute('''
+        INSERT INTO master_versions (
+          version_id, version_no, version_name, version_description
+        )
+        VALUES (2, '0.0.0', 'unit', 'ユニット')
+        ''');
+
+      await db.execute('''
+        INSERT INTO master_versions (
+          version_id, version_no, version_name, version_description
+        )
+        VALUES (3, '0.0.0', 'question', '問題')
+        ''');
     }
   }
 }
