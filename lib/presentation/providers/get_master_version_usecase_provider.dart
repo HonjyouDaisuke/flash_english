@@ -1,11 +1,10 @@
-import 'package:flash_english/core/providers/api_providers.dart';
+import 'package:flash_english/application/usecases/get_master_version_usecase.dart';
+import 'package:flash_english/presentation/providers/master_version_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flash_english/domain/repositories/master_version_repository.dart';
-import 'package:flash_english/infrastructure/repositories/master_version_repository_impl.dart';
 
 final getMasterVersionUsecaseProvider =
-    Provider<MasterVersionRepository>((ref) {
-  return MasterVersionRepositoryImpl(
-    ref.read(apiClientProvider),
+    Provider<GetMasterVersionUsecase>((ref) {
+  return GetMasterVersionUsecase(
+    ref.watch(masterVersionRepositoryProvider),
   );
 });
