@@ -11,6 +11,11 @@ final unitScoresProvider =
   final scoreUseCase = ref.watch(getUnitScoreUseCaseProvider);
   final auth = ref.watch(authProvider);
   final result = await scoreUseCase.getAll(categoryNo, auth);
+  for (final s in result) {
+    debugPrint(
+      'category=${s.categoryNo}, unit=${s.unitNo}, stars=${s.stars}',
+    );
+  }
   debugPrint("取得件数: ${result.length}");
   return result;
 });

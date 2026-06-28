@@ -190,6 +190,7 @@ class GameController extends StateNotifier<GameState> {
     state.printAnswers();
     // final isLast =
     //     trainingState.currentIndex >= trainingState.questions.length - 1;
+    if (ref.read(authProvider).userId == null) return;
     await enqueueStudyLogUseCase.call(studyLog, ref.read(authProvider).userId!);
     final isFinihed = _isFinished();
     if (isFinihed) {
