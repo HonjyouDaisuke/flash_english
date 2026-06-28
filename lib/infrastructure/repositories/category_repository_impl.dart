@@ -1,10 +1,17 @@
+import 'dart:convert';
+
 import 'package:flash_english/domain/entities/category.dart';
 import 'package:flash_english/domain/repositories/category_repository.dart';
+import 'package:flash_english/infrastructure/api/api_client.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/infrastructure/persistence/mappers/category_mapper.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CategoryRepositoryImpl implements CategoryRepository {
+  final ApiClient apiClient;
+  CategoryRepositoryImpl(this.apiClient);
+
   @override
   Future<List<Category>> getAll() async {
     final db = AppDatabase.instance.database;
@@ -25,5 +32,43 @@ class CategoryRepositoryImpl implements CategoryRepository {
           ),
         )
         .toList();
+  }
+
+  @override
+  Future<List<Category>> getAllApi() async {
+    debugPrint('DebugLog1');
+    final response = await apiClient.post(
+      '/flash_english_backend/api/get-all-categories',
+      body: {},
+    );
+    debugPrint('DebugLog2');
+    if (response.statusCode != 200) {
+      debugPrint('Failed to fetch categories from API');
+      debugPrint('Response status code: ${response.statusCode}');
+      debugPrint('Response body: ${response.body}');
+      throw Exception('Failed to fetch categories from API');
+    }
+    debugPrint('Response body: ${response.body}');
+    final decoded = jsonDecode(response.body);
+    debugPrint('DebugLog3');
+    if (decoded == null) return [];
+    debugPrint('DebugLog4');
+    final List data = decoded['categories'] as List;
+    debugPrint('DebugLog5');
+    return data.map((e) => CategoryMapper.fromMap(e)).toList();
+  }
+
+  @override
+  Future<void> insertAll(List<Category> categories) async {
+    final db = AppDatabase.instance.database;
+    for (final category in categories) {
+      debugPrint(
+          'Inserting category: ${category.categoryNo} - ${category.categoryName}');
+      await db.insert(
+        'categories',
+        CategoryMapper.toMap(category),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
   }
 }

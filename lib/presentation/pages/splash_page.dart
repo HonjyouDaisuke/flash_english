@@ -3,6 +3,12 @@ import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/check_master_version_provider.dart';
+import 'package:flash_english/presentation/providers/get_categories_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_master_version_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_questions_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/get_units_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/save_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -68,6 +74,15 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
   }
 
+  Future<void> _saveVersion(String name) async {
+    final newVer =
+        await ref.read(getMasterVersionUsecaseProvider).getVersionApi(name);
+    debugPrint('newVersion = ${newVer.versionName} : ${newVer.versionNo}');
+    final res =
+        await ref.read(saveMasterVersionUsecaseProvider).saveVersion(newVer);
+    debugPrint("save result = $res");
+  }
+
   Future<void> _initialize() async {
     await AppDatabase.instance.init();
     try {
@@ -94,6 +109,54 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
 
     if (!mounted) return;
+    debugPrint('マスターバージョンの更新チェックを開始...');
+    if (!auth.isOffline) {
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'category',
+          )) {
+        //TODO: マスターバージョンの更新がある場合の処理を追加する
+        debugPrint('categoriesの更新があります');
+        debugPrint('categoriesの更新開始');
+        final allCategories =
+            await ref.read(getCategoriesUseCaseProvider).callApi();
+        debugPrint('categoriesの取得完了');
+        await ref
+            .read(getCategoriesUseCaseProvider)
+            .repository
+            .insertAll(allCategories);
+        debugPrint('categoriesのDB更新完了');
+        await _saveVersion('category');
+      }
+
+      debugPrint('category 完了');
+      debugPrint('unit の更新チェック開始');
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'unit',
+          )) {
+        //TODO: マスターバージョンの更新がある場合の処理を追加する
+        debugPrint('unitsの更新があります');
+
+        final allUnits = await ref.read(getUnitsUseCaseProvider).callApi();
+        await ref.read(getUnitsUseCaseProvider).repository.insertAll(allUnits);
+        await _saveVersion('unit');
+      }
+
+      debugPrint('unit の更新チェック完了');
+      if (await ref.read(checkMasterVersionUseCaseProvider).execute(
+            'question',
+          )) {
+        //TODO: マスターバージョンの更新がある場合の処理を追加する
+        debugPrint('questionsの更新があります');
+
+        final allQuestions =
+            await ref.read(getQuestionsUseCaseProvider).callApi();
+        await ref
+            .read(getQuestionsUseCaseProvider)
+            .repository
+            .insertAll(allQuestions);
+        await _saveVersion('question');
+      }
+    }
 
     switch (auth.status) {
       case AuthStatus.unknown:

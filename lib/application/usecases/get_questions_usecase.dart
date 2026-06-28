@@ -9,4 +9,8 @@ class GetQuestionsUseCase {
   Future<List<Question>> execute(int categoryNo, int unitNo) {
     return repository.getQuestions(categoryNo, unitNo);
   }
+
+  Future<List<Question>> callApi() {
+    return repository.getAllApi();
+  }
 }
