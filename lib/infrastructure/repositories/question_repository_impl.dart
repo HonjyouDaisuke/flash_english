@@ -47,17 +47,21 @@ class QuestionRepositoryImpl implements QuestionRepository {
     return data.map((e) => QuestionMapper.fromMap(e)).toList();
   }
 
-  @override
+  `@override`
   Future<void> insertAll(List<Question> questions) async {
     final db = AppDatabase.instance.database;
-    for (final question in questions) {
-      debugPrint(
-          'Inserting question: ${question.questionId} - ${question.japanese}');
-      await db.insert(
-        'questions',
-        QuestionMapper.toMap(question),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
+    await db.transaction((txn) async {
+      await txn.delete('questions');
+      final batch = txn.batch();
+      for (final question in questions) {
+        batch.insert(
+          'questions',
+          QuestionMapper.toMap(question),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit(noResult: true);
+    });
+  }
   }
 }
