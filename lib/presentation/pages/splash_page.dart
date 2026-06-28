@@ -77,10 +77,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   Future<void> _saveVersion(String name) async {
     final newVer =
         await ref.read(getMasterVersionUsecaseProvider).getVersionApi(name);
-    debugPrint('newVersion = ${newVer.versionName} : ${newVer.versionNo}');
-    final res =
-        await ref.read(saveMasterVersionUsecaseProvider).saveVersion(newVer);
-    debugPrint("save result = $res");
+    await ref.read(saveMasterVersionUsecaseProvider).saveVersion(newVer);
   }
 
   Future<void> _initialize() async {
@@ -114,38 +111,27 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       if (await ref.read(checkMasterVersionUseCaseProvider).execute(
             'category',
           )) {
-        //TODO: マスターバージョンの更新がある場合の処理を追加する
         debugPrint('categoriesの更新があります');
-        debugPrint('categoriesの更新開始');
         final allCategories =
             await ref.read(getCategoriesUseCaseProvider).callApi();
-        debugPrint('categoriesの取得完了');
         await ref
             .read(getCategoriesUseCaseProvider)
             .repository
             .insertAll(allCategories);
-        debugPrint('categoriesのDB更新完了');
         await _saveVersion('category');
       }
 
-      debugPrint('category 完了');
-      debugPrint('unit の更新チェック開始');
       if (await ref.read(checkMasterVersionUseCaseProvider).execute(
             'unit',
           )) {
-        //TODO: マスターバージョンの更新がある場合の処理を追加する
-        debugPrint('unitsの更新があります');
-
         final allUnits = await ref.read(getUnitsUseCaseProvider).callApi();
         await ref.read(getUnitsUseCaseProvider).repository.insertAll(allUnits);
         await _saveVersion('unit');
       }
 
-      debugPrint('unit の更新チェック完了');
       if (await ref.read(checkMasterVersionUseCaseProvider).execute(
             'question',
           )) {
-        //TODO: マスターバージョンの更新がある場合の処理を追加する
         debugPrint('questionsの更新があります');
 
         final allQuestions =
@@ -157,7 +143,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         await _saveVersion('question');
       }
     }
-
+    if (!mounted) return;
     switch (auth.status) {
       case AuthStatus.unknown:
         debugPrint("Go to login page...");

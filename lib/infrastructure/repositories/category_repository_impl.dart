@@ -36,25 +36,19 @@ class CategoryRepositoryImpl implements CategoryRepository {
 
   @override
   Future<List<Category>> getAllApi() async {
-    debugPrint('DebugLog1');
     final response = await apiClient.post(
       '/flash_english_backend/api/get-all-categories',
       body: {},
     );
-    debugPrint('DebugLog2');
     if (response.statusCode != 200) {
       debugPrint('Failed to fetch categories from API');
       debugPrint('Response status code: ${response.statusCode}');
       debugPrint('Response body: ${response.body}');
       throw Exception('Failed to fetch categories from API');
     }
-    debugPrint('Response body: ${response.body}');
     final decoded = jsonDecode(response.body);
-    debugPrint('DebugLog3');
     if (decoded == null) return [];
-    debugPrint('DebugLog4');
     final List data = decoded['categories'] as List;
-    debugPrint('DebugLog5');
     return data.map((e) => CategoryMapper.fromMap(e)).toList();
   }
 

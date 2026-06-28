@@ -78,10 +78,9 @@ class MasterVersionRepositoryImpl implements MasterVersionRepository {
       final db = AppDatabase.instance.database;
       debugPrint(
           "Version Save name=${currentVersion.versionName} - ver: ${currentVersion.versionNo}");
-      final rowid = await db.insert(
+      await db.insert(
           'master_versions', MasterVersionMapper.toMap(currentVersion),
           conflictAlgorithm: ConflictAlgorithm.replace);
-      debugPrint("row id = $rowid");
       return true;
     } catch (e) {
       debugPrint("error = $e");
