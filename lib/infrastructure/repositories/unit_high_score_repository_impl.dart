@@ -72,11 +72,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
     int categoryNo, {
     required AuthState authState,
   }) async {
-    if (!authState.isOffline) {
-      return local.getAll();
-    }
-
-    return local.getAll();
+    return local.getAll(categoryNo);
   }
 
   Future<List<UnitScore>> getAllAPI(int categoryNo) async {

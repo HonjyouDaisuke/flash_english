@@ -10,8 +10,12 @@ class UnitScoreLocalDataSource {
     return await db.query('unit_scores');
   }
 
-  Future<List<UnitScore>> getAll() async {
-    final maps = await db.query('unit_scores');
+  Future<List<UnitScore>> getAll(int categoryNo) async {
+    final maps = await db.query(
+      'unit_scores',
+      where: 'category_no = ?',
+      whereArgs: [categoryNo],
+    );
     return maps
         .map((m) => UnitScore(
               categoryNo: (m['category_no'] ?? 0) as int,
