@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../storage/token_storage.dart';
 
@@ -18,8 +19,7 @@ class ApiClient {
     Map<String, dynamic>? body,
   }) async {
     final token = await _storage.getAccessToken();
-
-    return http
+    final response = await http
         .post(
           Uri.parse(_buildUrl(path)),
           headers: {
@@ -29,6 +29,18 @@ class ApiClient {
           body: jsonEncode(body),
         )
         .timeout(_timeout);
+
+    if (response.statusCode == 401) {
+      final body = jsonDecode(response.body);
+
+      if (body["error"] == "TOKEN_EXPIRED") {
+        await _storage.clear(); // or logout処理
+      }
+
+      throw Exception("Unauthorized");
+    }
+
+    return response;
   }
 
   Future<http.Response> get(String path) async {

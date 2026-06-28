@@ -75,30 +75,27 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
     return local.getAll(categoryNo);
   }
 
-  Future<List<UnitScore>> getAllAPI(int categoryNo) async {
+  @override
+  Future<List<UnitScore>> getAllApi(String userId) async {
     try {
       final response = await _apiClient.post(
         '/flash_english_backend/api/getall-unit-high-scores',
         body: {
-          'category_no': categoryNo,
+          'user_id': userId,
         },
       );
-      debugPrint("------------------------- categoryNo = $categoryNo");
-      debugPrint(response.body);
-      if (response.statusCode < 200 || response.statusCode >= 300) {
-        debugPrint("Error get All unit score: status ${response.statusCode}");
-        return [];
-      }
-      final decoded = jsonDecode(response.body);
 
-      if (decoded == null) return [];
-
-      final List data = decoded;
-
-      return data.map((e) => UnitScore.fromJson(e)).toList();
+      final decoded = jsonDecode(response.body) as List;
+      return decoded.map((e) => UnitScore.fromJson(e)).toList();
     } catch (e) {
       debugPrint("Error get All unit score: $e");
       return [];
     }
+  }
+
+  @override
+  Future<void> replaceLocal(List<UnitScore> scores) async {
+    await local.upsertAll(scores);
+    debugPrint("replaced localDB");
   }
 }
