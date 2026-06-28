@@ -73,7 +73,6 @@ class MasterVersionRepositoryImpl implements MasterVersionRepository {
   }
 
   @override
-  `@override`
   Future<bool> saveVersion(MasterVersion currentVersion) async {
     final db = AppDatabase.instance.database;
     debugPrint(
@@ -85,7 +84,5 @@ class MasterVersionRepositoryImpl implements MasterVersionRepository {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     return true;
-  }
-    }
   }
 }

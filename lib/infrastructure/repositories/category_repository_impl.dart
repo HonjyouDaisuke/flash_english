@@ -52,7 +52,7 @@ class CategoryRepositoryImpl implements CategoryRepository {
     return data.map((e) => CategoryMapper.fromMap(e)).toList();
   }
 
-  `@override`
+  @override
   Future<void> insertAll(List<Category> categories) async {
     final db = AppDatabase.instance.database;
     await db.transaction((txn) async {

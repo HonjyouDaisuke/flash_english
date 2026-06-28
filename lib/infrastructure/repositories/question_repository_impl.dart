@@ -47,7 +47,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
     return data.map((e) => QuestionMapper.fromMap(e)).toList();
   }
 
-  `@override`
+  @override
   Future<void> insertAll(List<Question> questions) async {
     final db = AppDatabase.instance.database;
     await db.transaction((txn) async {
@@ -62,6 +62,5 @@ class QuestionRepositoryImpl implements QuestionRepository {
       }
       await batch.commit(noResult: true);
     });
-  }
   }
 }

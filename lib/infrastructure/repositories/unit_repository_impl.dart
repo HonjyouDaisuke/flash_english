@@ -72,7 +72,7 @@ class UnitRepositoryImpl implements UnitRepository {
     return data.map((e) => UnitMapper.fromMap(e)).toList();
   }
 
-  `@override`
+  @override
   Future<void> insertAll(List<Unit> units) async {
     final db = AppDatabase.instance.database;
     await db.transaction((txn) async {

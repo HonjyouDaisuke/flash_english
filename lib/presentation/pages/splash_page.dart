@@ -76,8 +76,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
 
   Future<void> _saveVersion(String name) async {
     final newVer =
-        await ref.read(getMasterVersionUsecaseProvider).getVersionApi(name);
-    await ref.read(saveMasterVersionUsecaseProvider).saveVersion(newVer);
+        await ref.read(getMasterVersionUsecaseProvider).execute(name);
+    await ref.read(saveMasterVersionUsecaseProvider).execute(newVer);
   }
 
   Future<void> _initialize() async {
