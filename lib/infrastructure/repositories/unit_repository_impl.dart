@@ -72,16 +72,20 @@ class UnitRepositoryImpl implements UnitRepository {
     return data.map((e) => UnitMapper.fromMap(e)).toList();
   }
 
-  @override
+  `@override`
   Future<void> insertAll(List<Unit> units) async {
     final db = AppDatabase.instance.database;
-    for (final unit in units) {
-      debugPrint('Inserting unit: ${unit.unitNo} - ${unit.unitName}');
-      await db.insert(
-        'units',
-        UnitMapper.toMap(unit),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
+    await db.transaction((txn) async {
+      await txn.delete('units');
+      final batch = txn.batch();
+      for (final unit in units) {
+        batch.insert(
+          'units',
+          UnitMapper.toMap(unit),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit(noResult: true);
+    });
   }
 }
