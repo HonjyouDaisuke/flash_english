@@ -23,14 +23,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       try {
         await ref.read(syncUserDataUseCaseProvider).execute(loginUserId);
         debugPrint("ユーザーデータ同期完了");
-        if (!mounted) return;
 
-        debugPrint('ユニットスコア同期');
         try {
           await ref.read(syncUnitScoreUseCaseProvider).execute(loginUserId);
         } catch (e) {
           debugPrint('ユニットスコア同期失敗: $e');
         }
+        debugPrint('ユニットスコア同期完了');
+
+        if (!mounted) return;
 
         context.go('/training');
       } catch (e) {
