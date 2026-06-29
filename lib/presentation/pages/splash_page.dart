@@ -106,8 +106,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       }
     }
 
-    if (!auth.isOffline) {
-      await ref.read(syncUnitScoreUseCaseProvider).execute(auth.userId!);
+    if (auth.status == AuthStatus.onlineAuthenticated &&
+        auth.userId != null) {
+      try {
+        await ref.read(syncUnitScoreUseCaseProvider).execute(auth.userId!);
+      } catch (e) {
+        debugPrint('ユニットスコア同期失敗: $e');
+      }
     }
 
     if (!mounted) return;
