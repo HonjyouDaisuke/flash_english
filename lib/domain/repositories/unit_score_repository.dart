@@ -9,4 +9,6 @@ abstract class UnitScoreRepository {
     int categoryNo, {
     required AuthState authState,
   });
+  Future<List<UnitScore>> getAllApi(String userId);
+  Future<void> replaceLocal(List<UnitScore> scores);
 }
