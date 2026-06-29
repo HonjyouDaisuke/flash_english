@@ -34,6 +34,22 @@ class UnitScoreLocalDataSource {
     );
   }
 
+  Future<void> replaceAll(List<UnitScore> scores) async {
+    await db.transaction((txn) async {
+      // 既存データを全削除
+      await txn.delete('unit_scores');
+
+      // サーバーのデータを挿入
+      for (final score in scores) {
+        await txn.insert(
+          'unit_scores',
+          score.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    });
+  }
+
   Future<void> upsertAll(
     List<UnitScore> scores,
   ) async {

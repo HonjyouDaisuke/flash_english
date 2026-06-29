@@ -105,14 +105,16 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         debugPrint('ユーザーデータ同期失敗: $e');
       }
     }
-
-    if (auth.status == AuthStatus.onlineAuthenticated &&
-        auth.userId != null) {
+    debugPrint('ユニットスコア同期する？');
+    if (auth.status == AuthStatus.onlineAuthenticated && auth.userId != null) {
       try {
         await ref.read(syncUnitScoreUseCaseProvider).execute(auth.userId!);
       } catch (e) {
         debugPrint('ユニットスコア同期失敗: $e');
       }
+    } else {
+      debugPrint('ユニットスコアの更新はしません。');
+      debugPrint(' --> status: ${auth.status} userId=${auth.userId}');
     }
 
     if (!mounted) return;

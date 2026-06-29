@@ -95,7 +95,7 @@ class UnitScoreRepositoryImpl implements UnitScoreRepository {
 
   @override
   Future<void> replaceLocal(List<UnitScore> scores) async {
-    await local.upsertAll(scores);
+    await local.replaceAll(scores);
     debugPrint("replaced localDB");
   }
 }
