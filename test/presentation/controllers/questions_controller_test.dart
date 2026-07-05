@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('QuestionsController', () {
     test('start() initializes questions', () {
-      final controller = QuestionsContoller(false);
+      final controller = QuestionsController(false);
 
       final id = controller.start();
 
@@ -15,7 +15,7 @@ void main() {
     });
 
     test('next() moves to next question', () {
-      final controller = QuestionsContoller(false);
+      final controller = QuestionsController(false);
 
       controller.start();
 
@@ -27,11 +27,11 @@ void main() {
     });
 
     test('answer() marks current question as answered', () {
-      final controller = QuestionsContoller(false);
+      final controller = QuestionsController(false);
 
       controller.start();
 
-      final next = controller.answer();
+      final next = controller.markAnswered();
 
       expect(next, 2);
       expect(controller.questionsOrder[0], -1);
@@ -39,12 +39,12 @@ void main() {
     });
 
     test('answered questions are skipped', () {
-      final controller = QuestionsContoller(false);
+      final controller = QuestionsController(false);
 
       controller.start();
 
-      controller.answer(); // 1 answered
-      controller.answer(); // 2 answered
+      controller.markAnswered(); // 1 answered
+      controller.markAnswered(); // 2 answered
 
       expect(controller.currentPos, 2);
       expect(controller.questionsOrder[0], -1);
@@ -55,7 +55,7 @@ void main() {
     });
 
     test('prev() goes back one position', () {
-      final controller = QuestionsContoller(false);
+      final controller = QuestionsController(false);
 
       controller.start();
       controller.next();
@@ -67,20 +67,20 @@ void main() {
       expect(controller.currentPos, 1);
     });
 
-    test('all questions answered returns 99', () {
-      final controller = QuestionsContoller(false);
+    test('all questions answered returns null', () {
+      final controller = QuestionsController(false);
 
       controller.start();
 
       for (int i = 0; i < 10; i++) {
-        controller.answer();
+        controller.markAnswered();
       }
 
-      expect(controller.next(), 99);
+      expect(controller.next(), null);
     });
 
     test('random mode contains 1-10 without duplicates', () {
-      final controller = QuestionsContoller(true);
+      final controller = QuestionsController(true);
 
       controller.start();
 

@@ -31,7 +31,8 @@ class GameController extends StateNotifier<GameState> {
   final EnqueueStudyLogUseCase enqueueStudyLogUseCase;
   final EnqueueUnitScoreUseCase enqueueUnitScoreUseCase;
   final DownloadUnitAudioUseCase downloadUnitAudioUseCase;
-  QuestionsContoller questionsController = QuestionsContoller(true);
+  QuestionsController questionsController =
+      QuestionsController(true); // TODO: ランダムを設定から披露
 
   GameController(this.ref)
       : saveStudyLogUseCase =
@@ -54,7 +55,7 @@ class GameController extends StateNotifier<GameState> {
     required int unitNo,
   }) async {
     state = state.copyWith(phase: GamePhase.loading);
-    questionsController.start();
+
     try {
       await downloadUnitAudioUseCase.execute(
         categoryNo,
@@ -69,6 +70,10 @@ class GameController extends StateNotifier<GameState> {
     // 既存Providerで問題ロード
     await ref.read(trainingProvider.notifier).load(categoryNo, unitNo);
 
+    final first = questionsController.start();
+
+    ref.read(trainingProvider.notifier).moveToQuestion(first);
+
     state = state.copyWith(
       phase: GamePhase.playing,
       currentIndex: 0,
@@ -80,22 +85,15 @@ class GameController extends StateNotifier<GameState> {
     );
   }
 
-  void _test() {
-    debugPrint("---------------------------");
-    questionsController.answer();
-    questionsController.answer();
-    questionsController.answer();
-    questionsController.next();
-    questionsController.answer();
-    questionsController.prev();
-    questionsController.prev();
-    questionsController.answer();
-    questionsController.answer();
-    questionsController.next();
-    questionsController.answer();
-    questionsController.answer();
-    questionsController.answer();
-    questionsController.answer();
+  Future<void> _moveToNextQuestion() async {
+    final nextQuestion = questionsController.markAnswered();
+
+    if (nextQuestion == null) {
+      await _finish();
+      return;
+    }
+
+    ref.read(trainingProvider.notifier).moveToQuestion(nextQuestion);
   }
 
   // ▶ 回答
@@ -109,7 +107,8 @@ class GameController extends StateNotifier<GameState> {
     final newMaxCombo = newCombo > state.maxCombo ? newCombo : state.maxCombo;
     // final updatedAnswerSets = [...state.answers, answersSet];
     updateAnswers(id, isCorrect);
-    _test();
+    // _test();
+
     state = state.copyWith(
       phase: GamePhase.feedback,
       correctCount: newCorrect,
@@ -118,12 +117,9 @@ class GameController extends StateNotifier<GameState> {
       isCorrect: isCorrect,
       // answers: updatedAnswerSets,
     );
+    await ref.read(trainingProvider.notifier).saveAnswer(isCorrect);
 
-    // ② 既存Providerに保存させる（DB）
-    await ref.read(trainingProvider.notifier).answer(isCorrect);
-
-    // ③ 次へ or 終了
-    await nextOrFinish(isCorrect);
+    await _moveToNextQuestion();
   }
 
   void updateAnswers(int id, bool isCorrect) {
@@ -142,92 +138,23 @@ class GameController extends StateNotifier<GameState> {
     }
   }
 
-  bool _isFinished() {
-    const result = false;
+  Future<void> next() async {
+    final no = questionsController.next();
 
-    state.answers.length;
-    if (state.answers.length >= 10) {
-      return true;
-    }
-    return result;
-  }
-
-  void next() {
-    final trainingNotifier = ref.read(trainingProvider.notifier);
-
-    trainingNotifier.next(); // 表示を進める
-    nextOrFinish(false); // ゲーム進行管理
-  }
-
-  // TODO: 次の問題へアルゴリズム
-  // int _getLowestId() {
-  //   int lowestId = 999;
-  //   for (final answer in state.answers) {
-  //     if (answer.id < lowestId) {
-  //       lowestId = answer.id;
-  //     }
-  //   }
-  //   return lowestId;
-  // }
-
-  // int _getNextEmptyId(int currentId) {
-  //   for (int i = currentId + 1; i < 10; i++) {
-  //     bool isExist = false;
-  //     for (final answer in state.answers) {
-  //       if (answer.id == i) {
-  //         isExist = true;
-  //         break;
-  //       }
-  //     }
-  //     if (!isExist) {
-  //       return i;
-  //     }
-  //   }
-  //   return -1;
-  // }
-
-  // int _getNextId(int currentId) {
-  //   if (currentId >= 10) {
-  //     return _getLowestId();
-  //   }
-  //   return _getNextEmptyId(currentId);
-  // }
-
-  Future<void> nextOrFinish(bool isCorrect) async {
-    await Future.delayed(const Duration(milliseconds: 700));
-    debugPrint("nextOrFinish called");
-    final trainingState = ref.read(trainingProvider);
-    final studyLog = StudyLog(
-      categoryNo: state.categoryNo,
-      unitNo: state.unitNo,
-      questionNo: trainingState.current.number,
-      isCorrect: isCorrect,
-      sessionId: trainingState.sessionId ?? 1,
-      durationSeconds: 60, // TODO: 勉強時間
-      createdAt: DateTime.now(), // TODO: 作成日時
-    );
-
-    state.printAnswers();
-    // final isLast =
-    //     trainingState.currentIndex >= trainingState.questions.length - 1;
-    final userId = ref.read(authProvider).userId;
-    if (userId != null) {
-      await enqueueStudyLogUseCase.call(studyLog, userId);
-    }
-    final isFinihed = _isFinished();
-    if (isFinihed) {
-      debugPrint("nextOrFinish 終了へ行きます。");
-
+    if (no == null) {
       await _finish();
-    } else {
-      debugPrint(
-          "nextOrFinish 次へ行きます。currentIndex: ${trainingState.currentIndex}");
-
-      state = state.copyWith(
-        phase: GamePhase.playing,
-        currentIndex: trainingState.currentIndex,
-      );
+      return;
     }
+
+    ref.read(trainingProvider.notifier).moveToQuestion(no);
+  }
+
+  void prev() {
+    final no = questionsController.prev();
+
+    if (no == null) return;
+
+    ref.read(trainingProvider.notifier).moveToQuestion(no);
   }
 
   @override

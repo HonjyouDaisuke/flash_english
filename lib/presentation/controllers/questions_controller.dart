@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class QuestionsContoller {
+class QuestionsController {
   List<int> questionsOrder = [];
   bool isRandom;
   int currentPos = 0;
   bool isStarted = false;
-  QuestionsContoller(this.isRandom);
+  QuestionsController(this.isRandom);
 
   List<int> generateNumbers() {
     final numbers = List.generate(10, (index) => index + 1);
@@ -68,7 +68,7 @@ class QuestionsContoller {
     final nextPos = _nextPos(currentPos + 1);
     if (nextPos == -1) {
       debugPrint("全問回答済み");
-      return 99; // 全問回答済み
+      return null; // 全問回答済み
     }
 
     currentPos = nextPos;
@@ -76,7 +76,7 @@ class QuestionsContoller {
     return questionsOrder[currentPos];
   }
 
-  int? answer() {
+  int? markAnswered() {
     debugPrint("answer---");
     debugPrint("     ---set! $currentPos");
     _setQuestionsOrder(currentPos);

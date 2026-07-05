@@ -173,7 +173,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
                 ),
-                onPressed: notifier.prev,
+                onPressed: () {
+                  ref.read(gameControllerProvider.notifier).prev();
+                },
               ),
               const SizedBox(width: 20),
               if (!state.isFront) ...[
