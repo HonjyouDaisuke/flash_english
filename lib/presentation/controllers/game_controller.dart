@@ -6,6 +6,7 @@ import 'package:flash_english/application/usecases/save_unit_score_usecase.dart'
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/presentation/controllers/questions_controller.dart';
 import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/study_log_provider.dart';
@@ -30,6 +31,7 @@ class GameController extends StateNotifier<GameState> {
   final EnqueueStudyLogUseCase enqueueStudyLogUseCase;
   final EnqueueUnitScoreUseCase enqueueUnitScoreUseCase;
   final DownloadUnitAudioUseCase downloadUnitAudioUseCase;
+  QuestionsContoller questionsController = QuestionsContoller(true);
 
   GameController(this.ref)
       : saveStudyLogUseCase =
@@ -52,7 +54,7 @@ class GameController extends StateNotifier<GameState> {
     required int unitNo,
   }) async {
     state = state.copyWith(phase: GamePhase.loading);
-
+    questionsController.start();
     try {
       await downloadUnitAudioUseCase.execute(
         categoryNo,
@@ -78,6 +80,24 @@ class GameController extends StateNotifier<GameState> {
     );
   }
 
+  void _test() {
+    debugPrint("---------------------------");
+    questionsController.answer();
+    questionsController.answer();
+    questionsController.answer();
+    questionsController.next();
+    questionsController.answer();
+    questionsController.prev();
+    questionsController.prev();
+    questionsController.answer();
+    questionsController.answer();
+    questionsController.next();
+    questionsController.answer();
+    questionsController.answer();
+    questionsController.answer();
+    questionsController.answer();
+  }
+
   // ▶ 回答
   Future<void> answer(int id, bool isCorrect) async {
     if (state.phase != GamePhase.playing) return;
@@ -89,7 +109,7 @@ class GameController extends StateNotifier<GameState> {
     final newMaxCombo = newCombo > state.maxCombo ? newCombo : state.maxCombo;
     // final updatedAnswerSets = [...state.answers, answersSet];
     updateAnswers(id, isCorrect);
-
+    _test();
     state = state.copyWith(
       phase: GamePhase.feedback,
       correctCount: newCorrect,
