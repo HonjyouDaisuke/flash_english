@@ -3,8 +3,8 @@ import 'package:flash_english/application/usecases/enqueue_study_log_usecase.dar
 import 'package:flash_english/application/usecases/enqueue_unit_score_usecase.dart';
 import 'package:flash_english/application/usecases/save_study_log_usecase.dart';
 import 'package:flash_english/application/usecases/save_unit_score_usecase.dart';
+import 'package:flash_english/core/constants/user_setting_keys.dart';
 import 'package:flash_english/domain/entities/auth_status.dart';
-import 'package:flash_english/domain/entities/study_log.dart';
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/controllers/questions_controller.dart';
 import 'package:flash_english/presentation/providers/audio_repository_provider.dart';
@@ -14,6 +14,7 @@ import 'package:flash_english/presentation/providers/sync_queue_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/providers/unit_score_repository_provider.dart';
 import 'package:flash_english/presentation/providers/unit_scores_provider.dart';
+import 'package:flash_english/presentation/providers/user_settings_repository_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,8 +32,7 @@ class GameController extends StateNotifier<GameState> {
   final EnqueueStudyLogUseCase enqueueStudyLogUseCase;
   final EnqueueUnitScoreUseCase enqueueUnitScoreUseCase;
   final DownloadUnitAudioUseCase downloadUnitAudioUseCase;
-  QuestionsController questionsController =
-      QuestionsController(true); // TODO: ランダムを設定から披露
+  final QuestionsController questionsController = QuestionsController();
 
   GameController(this.ref)
       : saveStudyLogUseCase =
@@ -55,6 +55,10 @@ class GameController extends StateNotifier<GameState> {
     required int unitNo,
   }) async {
     state = state.copyWith(phase: GamePhase.loading);
+    final questionOrder = await ref
+        .read(userSettingsRepositoryProvider)
+        .getString(UserSettingKeys.questionOrder);
+    final isRandom = questionOrder == 'random';
 
     try {
       await downloadUnitAudioUseCase.execute(
@@ -70,7 +74,7 @@ class GameController extends StateNotifier<GameState> {
     // 既存Providerで問題ロード
     await ref.read(trainingProvider.notifier).load(categoryNo, unitNo);
 
-    final first = questionsController.start();
+    final first = questionsController.start(isRandom: isRandom);
 
     ref.read(trainingProvider.notifier).moveToQuestion(first);
 
@@ -105,12 +109,10 @@ class GameController extends StateNotifier<GameState> {
     final newCombo = isCorrect ? state.combo + 1 : 0;
 
     final newMaxCombo = newCombo > state.maxCombo ? newCombo : state.maxCombo;
-    // final updatedAnswerSets = [...state.answers, answersSet];
+
     updateAnswers(id, isCorrect);
-    // _test();
 
     state = state.copyWith(
-      phase: GamePhase.feedback,
       correctCount: newCorrect,
       combo: newCombo,
       maxCombo: newMaxCombo,

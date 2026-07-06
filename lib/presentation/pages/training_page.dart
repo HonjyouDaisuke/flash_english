@@ -187,6 +187,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onError,
                   ),
                   onPressed: () {
+                    debugPrint("pushed 不正解");
                     gameController.answer(state.currentIndex, false);
                   },
                 ),

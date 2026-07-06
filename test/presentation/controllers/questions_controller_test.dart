@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('QuestionsController', () {
     test('start() initializes questions', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      final id = controller.start();
+      final id = controller.start(isRandom: false);
 
       expect(id, 1);
       expect(controller.currentPos, 0);
@@ -15,9 +15,9 @@ void main() {
     });
 
     test('next() moves to next question', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
 
       expect(controller.next(), 2);
       expect(controller.currentPos, 1);
@@ -27,9 +27,9 @@ void main() {
     });
 
     test('answer() marks current question as answered', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
 
       final next = controller.markAnswered();
 
@@ -39,9 +39,9 @@ void main() {
     });
 
     test('answered questions are skipped', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
 
       controller.markAnswered(); // 1 answered
       controller.markAnswered(); // 2 answered
@@ -55,9 +55,9 @@ void main() {
     });
 
     test('prev() goes back one position', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
       controller.next();
       controller.next();
 
@@ -68,9 +68,9 @@ void main() {
     });
 
     test('all questions answered returns null', () {
-      final controller = QuestionsController(false);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
 
       for (int i = 0; i < 10; i++) {
         controller.markAnswered();
@@ -80,9 +80,9 @@ void main() {
     });
 
     test('random mode contains 1-10 without duplicates', () {
-      final controller = QuestionsController(true);
+      final controller = QuestionsController();
 
-      controller.start();
+      controller.start(isRandom: false);
 
       final sorted = [...controller.questionsOrder]..sort();
 
