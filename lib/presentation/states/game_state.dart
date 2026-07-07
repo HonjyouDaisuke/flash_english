@@ -82,7 +82,7 @@ class GameState {
     int? categoryNo,
     int? unitNo,
     int? correctCount,
-    int? currentIndex,
+    // int? currentIndex,
     int? currentQuestionPos,
     int? combo,
     int? maxCombo,
