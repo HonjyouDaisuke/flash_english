@@ -14,10 +14,6 @@ void main() async {
   debugPrint("② Firebase後");
   await AppDatabase.instance.init();
 
-  final container = ProviderContainer();
-  final themeState = container.read(themeStateProvider);
-  await themeState.load();
-
   runApp(
     const ProviderScope(
       child: FlashEnglishApp(),

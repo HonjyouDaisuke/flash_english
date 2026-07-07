@@ -1,5 +1,4 @@
 import 'package:flash_english/domain/entities/auth_status.dart';
-import 'package:flash_english/infrastructure/persistence/app_database.dart';
 import 'package:flash_english/presentation/providers/app_initialize_provider.dart';
 import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/auth_state.dart';
@@ -11,6 +10,7 @@ import 'package:flash_english/presentation/providers/get_units_usecase_provider.
 import 'package:flash_english/presentation/providers/save_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_unit_score_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,7 +82,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   }
 
   Future<void> _initialize() async {
-    await AppDatabase.instance.init();
+    // await AppDatabase.instance.init();
     try {
       await ref.read(appInitializeProvider).execute();
     } catch (e) {
@@ -93,6 +93,7 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     }
 
     final auth = ref.read(authProvider);
+    await ref.read(themeStateProvider).load();
 
     if (!mounted) return;
     _debugPrint(auth);
@@ -101,6 +102,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       try {
         await ref.read(syncUserDataUseCaseProvider).execute(auth.userId!);
         debugPrint("ユーザー設定を取得完了");
+        debugPrint("テーマを反映");
+        await ref.read(themeStateProvider).load();
       } catch (e) {
         debugPrint('ユーザーデータ同期失敗: $e');
       }

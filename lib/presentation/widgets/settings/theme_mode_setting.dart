@@ -1,5 +1,4 @@
 import 'package:flash_english/presentation/providers/theme_provider.dart';
-import 'package:flash_english/presentation/providers/user_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +7,13 @@ class ThemeModeSetting extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.watch(userSettingsProvider);
+    final themeState = ref.watch(themeStateProvider);
 
-    final value = settings['theme_mode'] ?? 'system';
+    final value = switch (themeState.themeMode) {
+      ThemeMode.light => 'light',
+      ThemeMode.dark => 'dark',
+      ThemeMode.system => 'system',
+    };
 
     return DropdownButtonFormField<String>(
       // ignore: deprecated_member_use
