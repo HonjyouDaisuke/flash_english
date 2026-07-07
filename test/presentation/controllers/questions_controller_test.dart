@@ -82,7 +82,7 @@ void main() {
     test('random mode contains 1-10 without duplicates', () {
       final controller = QuestionsController();
 
-      controller.start(isRandom: false);
+      controller.start(isRandom: true);
 
       final sorted = [...controller.questionsOrder]..sort();
 

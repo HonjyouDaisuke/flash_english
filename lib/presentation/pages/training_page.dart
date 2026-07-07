@@ -150,7 +150,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
+            Text("問題 ${game.currentQuestionPos + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
               cardKey: _cardKey,

@@ -80,7 +80,8 @@ class GameController extends StateNotifier<GameState> {
 
     state = state.copyWith(
       phase: GamePhase.playing,
-      currentIndex: 0,
+      // currentIndex: 0,
+      currentQuestionPos: questionsController.currentPos,
       correctCount: 0,
       categoryNo: categoryNo,
       unitNo: unitNo,
@@ -96,7 +97,9 @@ class GameController extends StateNotifier<GameState> {
       await _finish();
       return;
     }
-
+    state = state.copyWith(
+      currentQuestionPos: questionsController.currentPos,
+    );
     ref.read(trainingProvider.notifier).moveToQuestion(nextQuestion);
   }
 
@@ -147,7 +150,9 @@ class GameController extends StateNotifier<GameState> {
       await _finish();
       return;
     }
-
+    state = state.copyWith(
+      currentQuestionPos: questionsController.currentPos,
+    );
     ref.read(trainingProvider.notifier).moveToQuestion(no);
   }
 
@@ -155,7 +160,9 @@ class GameController extends StateNotifier<GameState> {
     final no = questionsController.prev();
 
     if (no == null) return;
-
+    state = state.copyWith(
+      currentQuestionPos: questionsController.currentPos,
+    );
     ref.read(trainingProvider.notifier).moveToQuestion(no);
   }
 

@@ -31,6 +31,7 @@ class GameState {
   final int unitNo;
   final int correctCount;
   //final int currentIndex;
+  final int currentQuestionPos;
   final int combo;
   final int maxCombo;
   final int stars;
@@ -44,6 +45,7 @@ class GameState {
     required this.unitNo,
     required this.correctCount,
     //required this.currentIndex,
+    required this.currentQuestionPos,
     required this.combo,
     required this.maxCombo,
     required this.stars,
@@ -59,6 +61,7 @@ class GameState {
       unitNo: 1,
       correctCount: 0,
       // currentIndex: 0,
+      currentQuestionPos: 0,
       combo: 0,
       maxCombo: 0,
       stars: 0,
@@ -80,6 +83,7 @@ class GameState {
     int? unitNo,
     int? correctCount,
     int? currentIndex,
+    int? currentQuestionPos,
     int? combo,
     int? maxCombo,
     int? stars,
@@ -93,6 +97,7 @@ class GameState {
       unitNo: unitNo ?? this.unitNo,
       correctCount: correctCount ?? this.correctCount,
       // currentIndex: currentIndex ?? this.currentIndex,
+      currentQuestionPos: currentQuestionPos ?? this.currentQuestionPos,
       combo: combo ?? this.combo,
       maxCombo: maxCombo ?? this.maxCombo,
       stars: stars ?? this.stars,
