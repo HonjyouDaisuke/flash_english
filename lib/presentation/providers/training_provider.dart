@@ -164,45 +164,33 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     await _audio.execute(path);
   }
 
-  void next() async {
-    if (state.questions.isEmpty) return;
+  void moveToQuestion(int questionNo) {
+    final index = state.questions.indexWhere(
+      (q) => q.number == questionNo,
+    );
 
-    if (state.currentIndex >= state.questions.length - 1) return;
+    if (index == -1) return;
 
     state = state.copyWith(
-      currentIndex: state.currentIndex + 1,
+      currentIndex: index,
       isFront: true,
     );
   }
 
-  void prev() async {
-    if (state.currentIndex <= 0) return;
+  Future<void> saveAnswer(bool isCorrect) async {
+    final q = state.current;
 
-    state = state.copyWith(
-      currentIndex: state.currentIndex - 1,
-      isFront: true,
+    if (state.sessionId == null) return;
+
+    await _saveAnswer.execute(
+      questionNo: q.questionId,
+      isCorrect: isCorrect,
+      sessionId: state.sessionId!,
     );
-
-    await playFront();
   }
 
   void flip(bool isFront) async {
     state = state.copyWith(isFront: isFront);
     await playCurrent();
-  }
-
-  Future<void> answer(bool isCorrect) async {
-    final q = state.current;
-
-    if (state.sessionId == null) return;
-
-    final questionId = q.questionId;
-    await _saveAnswer.execute(
-      questionNo: questionId,
-      isCorrect: isCorrect,
-      sessionId: state.sessionId!,
-    );
-
-    next(); // 👈 次へ
   }
 }

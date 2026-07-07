@@ -150,7 +150,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("問題 ${state.currentIndex + 1}/${state.questions.length}"),
+            Text("問題 ${game.currentQuestionPos + 1}/${state.questions.length}"),
             const SizedBox(height: 20),
             FlashCardWidget(
               cardKey: _cardKey,
@@ -173,7 +173,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
                 ),
-                onPressed: notifier.prev,
+                onPressed: () {
+                  ref.read(gameControllerProvider.notifier).prev();
+                },
               ),
               const SizedBox(width: 20),
               if (!state.isFront) ...[
@@ -185,6 +187,7 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     foregroundColor: cs.onError,
                   ),
                   onPressed: () {
+                    debugPrint("pushed 不正解");
                     gameController.answer(state.currentIndex, false);
                   },
                 ),
