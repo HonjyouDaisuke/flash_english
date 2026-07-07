@@ -13,7 +13,6 @@ import 'package:flash_english/presentation/providers/save_master_version_usecase
 import 'package:flash_english/presentation/providers/sync_unit_score_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync_user_data_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/theme_provider.dart';
-import 'package:flash_english/presentation/providers/user_settings_provider.dart';
 import 'package:flash_english/presentation/providers/user_settings_repository_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
