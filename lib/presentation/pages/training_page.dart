@@ -103,6 +103,9 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     final gameController = ref.read(gameControllerProvider.notifier);
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
+    final current = game.currentQuestionPos + 1;
+    final total = state.questions.length;
+    final progress = current / total;
 
     ref.listen(trainingProvider, (prev, next) {
       if (prev?.currentIndex != next.currentIndex) {
@@ -150,7 +153,17 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("問題 ${game.currentQuestionPos + 1}/${state.questions.length}"),
+            Text("問題 $current/$total"),
+            const SizedBox(height: 8),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                value: progress,
+                minHeight: 10,
+                backgroundColor: cs.surfaceContainerHighest,
+                valueColor: AlwaysStoppedAnimation(cs.primary),
+              ),
+            ),
             const SizedBox(height: 20),
             FlashCardWidget(
               cardKey: _cardKey,
