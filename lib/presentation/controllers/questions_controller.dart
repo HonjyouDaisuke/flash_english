@@ -11,7 +11,7 @@ class QuestionsController {
     final numbers = List.generate(10, (index) => index + 1);
 
     if (isRandom) numbers.shuffle(Random());
-    debugPrint("generateNumbers....");
+    debugPrint("generateNumbers.... isRandom=$isRandom");
     for (int i = 0; i < 10; i++) {
       debugPrint("$i : ${numbers[i]}");
     }
