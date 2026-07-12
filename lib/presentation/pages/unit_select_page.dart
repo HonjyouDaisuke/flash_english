@@ -1,6 +1,7 @@
 import 'package:flash_english/domain/entities/unit_score.dart';
 import 'package:flash_english/presentation/providers/unit_scores_provider.dart';
 import 'package:flash_english/presentation/providers/units_provider.dart';
+import 'package:flash_english/presentation/widgets/empty_state_widget.dart';
 import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,6 +36,13 @@ class UnitSelectPage extends ConsumerWidget {
           ),
         ),
         data: (units) {
+          if (units.isEmpty) {
+            return const EmptyState(
+              icon: Icons.auto_stories_outlined,
+              title: '表示するユニットがありません',
+              message: 'このカテゴリにはまだユニットが登録されていません。',
+            );
+          }
           return scoresAsync.when(
             loading: () => const Center(
               child: CircularProgressIndicator(),

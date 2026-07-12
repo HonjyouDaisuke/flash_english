@@ -13,7 +13,15 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
+  bool _isLoading = false;
+
   Future<void> _login() async {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
     debugPrint("ログイン処理開始");
     final loginUseCase = ref.read(loginUseCaseProvider);
 
@@ -40,6 +48,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('同期に失敗しました。通信状態を確認してください。')),
         );
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     } else {
       if (context.mounted) {
@@ -58,11 +72,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("ログイン")),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _login,
-          child: const Text("Googleでログイン"),
-        ),
+      body: Stack(
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: _isLoading ? null : _login,
+              child: const Text("Googleでログイン"),
+            ),
+          ),
+          if (_isLoading)
+            const ColoredBox(
+              color: Colors.black26,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }

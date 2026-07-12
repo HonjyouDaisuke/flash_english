@@ -11,6 +11,19 @@ import 'package:sqflite/sqflite.dart';
 class UnitRepositoryImpl implements UnitRepository {
   final ApiClient apiClient;
   UnitRepositoryImpl(this.apiClient);
+
+  // TODO; 今は偶数のユニットだけを返すようにしているが、オーディオファイルをダウンロードしているかどうかをチェックする
+  List<Unit> checkUnitsAudio(List<Unit> units) {
+    final resultUnits = <Unit>[];
+
+    for (final unit in units) {
+      if (unit.unitNo % 2 == 0) {
+        resultUnits.add(unit);
+      }
+    }
+    return resultUnits;
+  }
+
   @override
   Future<List<Unit>> getByCategory(
     int categoryNo,
@@ -24,11 +37,7 @@ class UnitRepositoryImpl implements UnitRepository {
       orderBy: 'unit_no',
     );
 
-    return result
-        .map(
-          (map) => UnitMapper.fromMap(map),
-        )
-        .toList();
+    return result.map((map) => UnitMapper.fromMap(map)).toList();
   }
 
   @override
