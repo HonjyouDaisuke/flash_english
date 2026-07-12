@@ -1,17 +1,20 @@
+import 'package:flash_english/application/usecases/check_download_audio_usecase.dart';
 import 'package:flash_english/domain/entities/unit.dart';
 import 'package:flash_english/domain/repositories/unit_repository.dart';
 
 class GetUnitsUseCase {
   final UnitRepository repository;
+  final CheckDownloadAudioUseCase checkDownloadAudioUseCase;
 
-  GetUnitsUseCase(this.repository);
+  GetUnitsUseCase(this.repository, this.checkDownloadAudioUseCase);
 
-  Future<List<Unit>> call(
-    int categoryNo,
-  ) {
-    return repository.getByCategory(
-      categoryNo,
-    );
+  Future<List<Unit>> call(int categoryNo, bool isOffline) async {
+    final units = await repository.getByCategory(categoryNo);
+    if (!isOffline) {
+      return units;
+    }
+
+    return await checkDownloadAudioUseCase.execute(units);
   }
 
   Future<List<Unit>> callApi() {
