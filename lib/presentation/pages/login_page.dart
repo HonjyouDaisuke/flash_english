@@ -21,49 +21,61 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     setState(() {
       _isLoading = true;
     });
+    try {
+      debugPrint("ログイン処理開始");
+      final loginUseCase = ref.read(loginUseCaseProvider);
 
-    debugPrint("ログイン処理開始");
-    final loginUseCase = ref.read(loginUseCaseProvider);
-
-    final loginUserId = await loginUseCase.login();
-    if (!mounted) return;
-    if (loginUserId != null) {
-      try {
-        await ref.read(syncUserDataUseCaseProvider).execute(loginUserId);
-        debugPrint("ユーザーデータ同期完了");
-
+      final loginUserId = await loginUseCase.login();
+      if (!mounted) return;
+      if (loginUserId != null) {
         try {
-          await ref.read(syncUnitScoreUseCaseProvider).execute(loginUserId);
+          await ref.read(syncUserDataUseCaseProvider).execute(loginUserId);
+          debugPrint("ユーザーデータ同期完了");
+
+          try {
+            await ref.read(syncUnitScoreUseCaseProvider).execute(loginUserId);
+          } catch (e) {
+            debugPrint('ユニットスコア同期失敗: $e');
+          }
+          debugPrint('ユニットスコア同期完了');
+
+          if (!mounted) return;
+
+          context.go('/training');
         } catch (e) {
-          debugPrint('ユニットスコア同期失敗: $e');
+          debugPrint("ユーザーデータ同期失敗: $e");
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('同期に失敗しました。通信状態を確認してください。')),
+          );
         }
-        debugPrint('ユニットスコア同期完了');
-
-        if (!mounted) return;
-
-        context.go('/training');
-      } catch (e) {
-        debugPrint("ユーザーデータ同期失敗: $e");
-        if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('同期に失敗しました。通信状態を確認してください。')),
-        );
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
+      } else {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text(
+                'ログインに失敗しました',
+              ),
+            ),
+          );
         }
       }
-    } else {
+    } catch (e) {
+      debugPrint("ログイン処理中にエラーが発生: $e");
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
-              'ログインに失敗しました',
+              'ログイン中にエラーが発生しました。通信状態を確認してください。',
             ),
           ),
         );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flash_english/domain/entities/unit_score.dart';
+import 'package:flash_english/presentation/providers/auth_provider.dart';
 import 'package:flash_english/presentation/providers/unit_scores_provider.dart';
 import 'package:flash_english/presentation/providers/units_provider.dart';
 import 'package:flash_english/presentation/widgets/empty_state_widget.dart';
@@ -15,6 +16,7 @@ class UnitSelectPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final unitsAsync = ref.watch(unitsProvider(categoryNo));
     final scoresAsync = ref.watch(unitScoresProvider(categoryNo));
+    final auth = ref.watch(authProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('ユニット選択')),
       body: unitsAsync.when(
@@ -37,10 +39,12 @@ class UnitSelectPage extends ConsumerWidget {
         ),
         data: (units) {
           if (units.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.auto_stories_outlined,
-              title: '表示するユニットがありません',
-              message: 'このカテゴリにはまだユニットが登録されていません。',
+              title: auth.isOffline ? 'オフラインでは利用できません' : '表示するユニットがありません',
+              message: auth.isOffline
+                  ? 'この端末に音声データがダウンロードされていないため、ユニットを表示できません。オンラインで一度ダウンロードしてください。'
+                  : 'このカテゴリにはまだユニットが登録されていません。',
             );
           }
           return scoresAsync.when(
