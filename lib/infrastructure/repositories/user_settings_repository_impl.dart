@@ -8,7 +8,7 @@ import 'package:flash_english/domain/repositories/user_settings_repository.dart'
 import 'package:flash_english/infrastructure/api/api_client.dart';
 import 'package:flash_english/infrastructure/datasources/local/user_settings_local_data_source.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:uuid/uuid.dart';

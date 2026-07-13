@@ -1,6 +1,6 @@
 import 'package:flash_english/domain/entities/unit.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
-import 'package:flash_english/presentation/providers/get_units_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
+import 'package:flash_english/presentation/providers/unit/get_units_usecase_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final unitsProvider =

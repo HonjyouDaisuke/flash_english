@@ -7,8 +7,8 @@ import 'package:flash_english/infrastructure/datasources/local/unit_local_data_s
 import 'package:flash_english/infrastructure/repositories/ping_repository_impl.dart';
 import 'package:flash_english/infrastructure/repositories/seed_repository_impl.dart';
 import 'package:flash_english/presentation/providers/api_client_provider.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
-import 'package:flash_english/presentation/providers/user_setting_seed_use_case_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
+import 'package:flash_english/presentation/providers/user_setting/user_setting_seed_use_case_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final appInitializeProvider = Provider((ref) {

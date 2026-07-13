@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
-import 'package:flash_english/presentation/providers/theme_provider.dart';
+import 'package:flash_english/presentation/providers/theme/theme_provider.dart';
 import 'package:flash_english/presentation/theme/app_theme.dart';
 import 'package:flash_english/router/app_router.dart';
 import 'package:flutter/material.dart';

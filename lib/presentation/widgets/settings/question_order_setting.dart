@@ -1,4 +1,4 @@
-import 'package:flash_english/presentation/providers/user_settings_provider.dart';
+import 'package:flash_english/presentation/providers/user_setting/user_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

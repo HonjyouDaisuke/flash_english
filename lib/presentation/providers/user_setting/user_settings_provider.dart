@@ -1,5 +1,5 @@
 import 'package:flash_english/domain/repositories/user_settings_repository.dart';
-import 'package:flash_english/presentation/providers/user_settings_repository_provider.dart';
+import 'package:flash_english/presentation/providers/user_setting/user_settings_repository_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userSettingsProvider =

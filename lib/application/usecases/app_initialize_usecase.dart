@@ -2,7 +2,7 @@ import 'package:flash_english/application/usecases/initialize_app_usecase.dart';
 import 'package:flash_english/application/usecases/ping_usecase.dart';
 import 'package:flash_english/application/usecases/user_settings_seed_usecase.dart';
 import 'package:flash_english/domain/entities/auth_status.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 

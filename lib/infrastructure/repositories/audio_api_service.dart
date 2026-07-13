@@ -1,5 +1,5 @@
 import 'package:flash_english/infrastructure/api/api_client.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
 
 class AudioApiService {
   final ApiClient apiClient;

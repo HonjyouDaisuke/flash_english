@@ -1,6 +1,6 @@
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/infrastructure/storage/token_storage.dart';
-import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/auth/auth_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
