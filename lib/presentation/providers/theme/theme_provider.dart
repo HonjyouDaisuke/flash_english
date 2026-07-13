@@ -4,6 +4,6 @@ import 'package:flash_english/presentation/providers/theme/theme_state.dart';
 
 final themeStateProvider = ChangeNotifierProvider<ThemeState>((ref) {
   return ThemeState(
-    ref.read(userSettingsRepositoryProvider),
+    ref.watch(userSettingsRepositoryProvider),
   );
 });

@@ -5,7 +5,7 @@ import 'package:flash_english/presentation/providers/study_log/study_log_local_d
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final studyLogRepositoryProvider = Provider<StudyLogRepository>((ref) {
-  final ds = ref.read(studyLogLocalDataSourceProvider);
-  final apiClient = ref.read(apiClientProvider);
+  final ds = ref.watch(studyLogLocalDataSourceProvider);
+  final apiClient = ref.watch(apiClientProvider);
   return StudyLogRepositoryImpl(ds, apiClient);
 });

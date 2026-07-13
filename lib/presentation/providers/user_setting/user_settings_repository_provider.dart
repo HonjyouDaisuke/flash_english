@@ -7,19 +7,19 @@ import 'package:flash_english/presentation/providers/user_setting/user_settings_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userSettingsRepositoryProvider = Provider<UserSettingsRepository>((ref) {
-  final local = ref.read(
+  final local = ref.watch(
     userSettingsLocalDataSourceProvider,
   );
 
-  final syncQueueRepository = ref.read(
+  final syncQueueRepository = ref.watch(
     syncQueueRepositoryProvider,
   );
 
-  final authNotifier = ref.read(authProvider.notifier);
+  final authNotifier = ref.watch(authProvider.notifier);
   return UserSettingsRepositoryImpl(
     local: local,
     syncQueueRepository: syncQueueRepository,
-    apiClient: ref.read(apiClientProvider),
+    apiClient: ref.watch(apiClientProvider),
     authNotifier: authNotifier,
   );
 });

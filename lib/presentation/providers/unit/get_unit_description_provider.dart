@@ -11,7 +11,7 @@ final unitDescriptionProvider = FutureProvider.family<
       int unitNo,
     })>((ref, param) async {
   final useCase = GetUnitDescriptionUseCase(
-    ref.read(
+    ref.watch(
       unitRepositoryProvider,
     ),
   );

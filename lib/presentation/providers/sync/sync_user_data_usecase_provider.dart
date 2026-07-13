@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final syncUserDataUseCaseProvider = Provider<SyncUserDataUseCase>((ref) {
   return SyncUserDataUseCase(
-    ref.read(syncQueueUseCaseProvider),
-    ref.read(getUserSettingsUsecaseProvider),
-    ref.read(userSettingsProvider.notifier),
+    ref.watch(syncQueueUseCaseProvider),
+    ref.watch(getUserSettingsUsecaseProvider),
+    ref.watch(userSettingsProvider.notifier),
   );
 });

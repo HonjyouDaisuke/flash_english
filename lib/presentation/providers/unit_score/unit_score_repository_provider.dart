@@ -5,8 +5,8 @@ import 'package:flash_english/presentation/providers/unit_score/unit_score_local
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final unitScoreRepositoryProvider = Provider<UnitScoreRepository>((ref) {
-  final ds = ref.read(unitScoreLocalDataSourceProvider);
-  final apiClient = ref.read(apiClientProvider);
-  final local = ref.read(unitScoreLocalDataSourceProvider);
+  final ds = ref.watch(unitScoreLocalDataSourceProvider);
+  final apiClient = ref.watch(apiClientProvider);
+  final local = ref.watch(unitScoreLocalDataSourceProvider);
   return UnitScoreRepositoryImpl(ds, apiClient, local);
 });

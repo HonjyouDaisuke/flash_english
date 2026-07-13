@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final userSettingsSeedUseCaseProvider =
     Provider<UserSettingsSeedUseCase>((ref) {
   return UserSettingsSeedUseCase(
-    ref.read(userSettingsRepositoryProvider),
-    ref.read(syncQueueRepositoryProvider),
+    ref.watch(userSettingsRepositoryProvider),
+    ref.watch(syncQueueRepositoryProvider),
   );
 });

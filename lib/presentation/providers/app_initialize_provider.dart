@@ -24,12 +24,12 @@ final appInitializeProvider = Provider((ref) {
 
   final initializeUseCase = InitializeAppUseCase(seedRepository);
 
-  final pingRepo = PingRepositoryImpl(ref.read(apiClientProvider));
+  final pingRepo = PingRepositoryImpl(ref.watch(apiClientProvider));
 
   final pingUseCase = PingUseCase(pingRepo);
 
-  final authNotifier = ref.read(authProvider.notifier);
-  final userSettingsSeedUseCase = ref.read(userSettingsSeedUseCaseProvider);
+  final authNotifier = ref.watch(authProvider.notifier);
+  final userSettingsSeedUseCase = ref.watch(userSettingsSeedUseCaseProvider);
   return AppInitializeUseCase(
     initializeAppUseCase: initializeUseCase,
     pingUseCase: pingUseCase,

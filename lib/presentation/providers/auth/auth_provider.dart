@@ -62,6 +62,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
       token: accessToken,
       userId: userId,
       status: AuthStatus.onlineAuthenticated,
+      isExpired: false,
+      isOffline: false,
     );
   }
 

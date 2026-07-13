@@ -4,6 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final syncUnitScoreUseCaseProvider = Provider(
   (ref) => SyncUnitScoreUseCase(
-    ref.read(unitScoreRepositoryProvider),
+    ref.watch(unitScoreRepositoryProvider),
   ),
 );

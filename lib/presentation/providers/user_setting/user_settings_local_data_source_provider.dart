@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userSettingsLocalDataSourceProvider =
     Provider<UserSettingsLocalDataSource>((ref) {
-  final db = ref.read(databaseProvider);
+  final db = ref.watch(databaseProvider);
 
   return UserSettingsLocalDataSource(db);
 });

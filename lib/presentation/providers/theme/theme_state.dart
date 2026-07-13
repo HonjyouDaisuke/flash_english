@@ -25,6 +25,9 @@ class ThemeState extends ChangeNotifier {
   Future<void> setThemeMode(
     ThemeMode mode,
   ) async {
+    if (_themeMode == mode) {
+      return;
+    }
     _themeMode = mode;
 
     await _repository.setString(

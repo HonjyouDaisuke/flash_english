@@ -15,9 +15,9 @@ import 'package:path/path.dart' as p;
 
 final trainingProvider =
     StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
-  final repo = QuestionRepositoryImpl(ref.read(apiClientProvider));
+  final repo = QuestionRepositoryImpl(ref.watch(apiClientProvider));
   final getQ = GetQuestionsUseCase(repo);
-  final audioRepo = ref.read(audioPlayerRepositoryProvider);
+  final audioRepo = ref.watch(audioPlayerRepositoryProvider);
   final playAudio = PlayAudioUseCase(audioRepo);
   final studyRepo = StudyRepositoryImpl();
 
