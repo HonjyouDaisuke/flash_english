@@ -1,5 +1,5 @@
 import 'package:flash_english/domain/entities/unit_score.dart';
-import 'package:flash_english/presentation/providers/auth_state.dart';
+import 'package:flash_english/presentation/providers/auth/auth_state.dart';
 
 abstract class UnitScoreRepository {
   Future<List<UnitScore>> getAllScores();

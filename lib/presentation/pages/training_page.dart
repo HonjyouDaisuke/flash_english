@@ -1,9 +1,9 @@
 import 'package:flash_english/domain/entities/auth_status.dart';
 import 'package:flash_english/presentation/controllers/game_controller.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
-import 'package:flash_english/presentation/providers/get_unit_description_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
+import 'package:flash_english/presentation/providers/unit/get_unit_description_provider.dart';
 import 'package:flash_english/presentation/providers/training_provider.dart';
-import 'package:flash_english/presentation/providers/user_settings_provider.dart';
+import 'package:flash_english/presentation/providers/user_setting/user_settings_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
 import 'package:flip_card/flip_card.dart';

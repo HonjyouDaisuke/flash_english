@@ -1,5 +1,5 @@
 import 'package:flash_english/domain/entities/daily_stats.dart';
-import 'package:flash_english/presentation/providers/get_today_stats_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/study_log/get_today_stats_usecase_provider.dart';
 import 'package:flash_english/presentation/widgets/today_stats_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

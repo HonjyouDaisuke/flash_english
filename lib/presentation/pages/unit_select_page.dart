@@ -1,7 +1,7 @@
 import 'package:flash_english/domain/entities/unit_score.dart';
-import 'package:flash_english/presentation/providers/auth_provider.dart';
-import 'package:flash_english/presentation/providers/unit_scores_provider.dart';
-import 'package:flash_english/presentation/providers/units_provider.dart';
+import 'package:flash_english/presentation/providers/auth/auth_provider.dart';
+import 'package:flash_english/presentation/providers/unit_score/unit_scores_provider.dart';
+import 'package:flash_english/presentation/providers/unit/units_provider.dart';
 import 'package:flash_english/presentation/widgets/empty_state_widget.dart';
 import 'package:flash_english/presentation/widgets/unit_card_widget.dart';
 import 'package:flutter/material.dart';
