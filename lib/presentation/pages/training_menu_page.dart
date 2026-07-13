@@ -20,6 +20,28 @@ class TrainingMenuPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
+                  onPressed: () {
+                    context.push('/training/category');
+                  },
+                  child: const Text('通常トレーニング'),
+                ),
+                const ElevatedButton(
+                  // TODO: シャッフルトレーニングの実装が完了したら有効化する
+                  // onPressed: () {
+                  //   context.push('/training/shuffle');
+                  // },
+                  onPressed: null,
+                  child: Text('シャッフル'),
+                ),
+                const ElevatedButton(
+                  // TODO: 苦手問題トレーニングの実装が完了したら有効化する
+                  // onPressed: () {
+                  //   context.push('/training/difficult');
+                  // },
+                  onPressed: null,
+                  child: Text('苦手問題'),
+                ),
+                ElevatedButton(
                   onPressed: () async {
                     final questionDataSource = QuestionLocalDataSource();
                     final unitDataSource = UnitLocalDataSource();
@@ -30,18 +52,6 @@ class TrainingMenuPage extends StatelessWidget {
                     await useCase.execute();
                   },
                   child: const Text('初期化'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/training/normal');
-                  },
-                  child: const Text('通常トレーニング'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    context.push('/training/category');
-                  },
-                  child: const Text('シャッフル'),
                 ),
               ],
             ),
