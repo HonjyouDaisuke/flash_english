@@ -43,7 +43,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
           context.go('/training');
         } catch (e) {
-          debugPrint("ユーザーデータ同期失敗: $e");
+          debugPrint("ユーザーデータ同期失敗(loginPage): $e");
           if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('同期に失敗しました。通信状態を確認してください。')),

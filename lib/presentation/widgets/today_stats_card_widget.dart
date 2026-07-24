@@ -31,8 +31,9 @@ class TodayStatsCardWidget extends StatelessWidget {
             const SizedBox(height: 12),
             _row('学習時間', formatDuration(stats.studyTime)),
             _row('センテンス数', '${stats.sentenceCount}'),
-            _row('正解数', '${stats.correctCount}'),
-            _row('不正解数', '${stats.wrongCount}'),
+            // _row('正解数', '${stats.correctCount}'),
+            // _row('不正解数', '${stats.wrongCount}'),
+            _resultBar(),
           ],
         ),
       ),
@@ -52,6 +53,55 @@ class TodayStatsCardWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _resultBar() {
+    final total = stats.correctCount + stats.wrongCount;
+
+    if (total == 0) {
+      return const Text('まだ学習していません');
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          '回答結果',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: SizedBox(
+            height: 12,
+            child: Row(
+              children: [
+                Expanded(
+                  flex: stats.correctCount,
+                  child: Container(color: Colors.green),
+                ),
+                Expanded(
+                  flex: stats.wrongCount,
+                  child: Container(color: Colors.red),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('✅ ${stats.correctCount}'),
+            Text(
+              '${(stats.correctCount / total * 100).toStringAsFixed(0)}%',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text('❌ ${stats.wrongCount}'),
+          ],
+        ),
+      ],
     );
   }
 }
