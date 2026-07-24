@@ -173,10 +173,11 @@ class GameController extends StateNotifier<GameState> {
     super.dispose();
   }
 
-  Future<void> _setStreak() async {
-    final today = DateFormat('yyyy/MM/dd').format(DateTime.now());
+  Future<void> _setStreak(DateTime completedAt) async {
+    final today = DateFormat('yyyy/MM/dd').format(completedAt);
     final yesterday = DateFormat('yyyy/MM/dd')
-        .format(DateTime.now().subtract(const Duration(days: 1)));
+        .format(completedAt.subtract(const Duration(days: 1)));
+
     int currentStreak = await ref
             .read(userSettingsRepositoryProvider)
             .getInt(UserSettingKeys.currentStreak) ??
@@ -212,13 +213,15 @@ class GameController extends StateNotifier<GameState> {
     await ref
         .read(userSettingsRepositoryProvider)
         .setString(UserSettingKeys.lastStudyDate, lastStudyDate);
+    await ref.read(userSettingsRepositoryProvider).getAll();
   }
 
   // ▶ 終了処理
   Future<void> _finish() async {
     final score = state.correctCount;
     final auth = ref.read(authProvider);
-    final today = DateFormat('yyyy/MM/dd').format(DateTime.now());
+    final completedAt = DateTime.now();
+    final today = DateFormat('yyyy/MM/dd').format(completedAt);
     final unitScore = UnitScore(
       categoryNo: state.categoryNo,
       unitNo: state.unitNo,
@@ -228,7 +231,7 @@ class GameController extends StateNotifier<GameState> {
     final stars = unitScore.stars;
     final isNew = _isNewRecord(stars);
 
-    await _setStreak();
+    await _setStreak(completedAt);
 
     state = state.copyWith(
       phase: GamePhase.result,

@@ -77,14 +77,16 @@ class TodayStatsCardWidget extends StatelessWidget {
             height: 12,
             child: Row(
               children: [
-                Expanded(
-                  flex: stats.correctCount,
-                  child: Container(color: Colors.green),
-                ),
-                Expanded(
-                  flex: stats.wrongCount,
-                  child: Container(color: Colors.red),
-                ),
+                if (stats.correctCount > 0)
+                  Expanded(
+                    flex: stats.correctCount,
+                    child: Container(color: Colors.green),
+                  ),
+                if (stats.wrongCount > 0)
+                  Expanded(
+                    flex: stats.wrongCount,
+                    child: Container(color: Colors.red),
+                  ),
               ],
             ),
           ),
