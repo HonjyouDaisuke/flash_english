@@ -1,5 +1,6 @@
 import 'package:flash_english/domain/entities/daily_stats.dart';
 import 'package:flash_english/presentation/providers/study_log/get_today_stats_usecase_provider.dart';
+import 'package:flash_english/presentation/widgets/streak_card_widget.dart';
 import 'package:flash_english/presentation/widgets/today_stats_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,10 +56,45 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
           final stats = snapshot.data!;
 
-          return Column(
+          return ListView(
+            padding: const EdgeInsets.all(16),
             children: [
-              const Text('ダッシュボード'),
-              TodayStatsCardWidget(stats: stats),
+              const Text(
+                'ダッシュボード',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 16),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  if (constraints.maxWidth >= 700) {
+                    // タブレット・Web
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: TodayStatsCardWidget(stats: stats),
+                        ),
+                        const SizedBox(width: 16),
+                        const Expanded(
+                          child: StreakCard(),
+                        ),
+                      ],
+                    );
+                  }
+
+                  // スマホ
+                  return Column(
+                    children: [
+                      TodayStatsCardWidget(stats: stats),
+                      const SizedBox(height: 16),
+                      const StreakCard(),
+                    ],
+                  );
+                },
+              ),
             ],
           );
         },

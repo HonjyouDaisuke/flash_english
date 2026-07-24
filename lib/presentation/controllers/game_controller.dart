@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flash_english/application/usecases/download_unit_audio_usecase.dart';
 import 'package:flash_english/application/usecases/enqueue_study_log_usecase.dart';
 import 'package:flash_english/application/usecases/enqueue_unit_score_usecase.dart';
@@ -172,18 +173,65 @@ class GameController extends StateNotifier<GameState> {
     super.dispose();
   }
 
+  Future<void> _setStreak(DateTime completedAt) async {
+    final today = DateFormat('yyyy/MM/dd').format(completedAt);
+    final yesterday = DateFormat('yyyy/MM/dd')
+        .format(completedAt.subtract(const Duration(days: 1)));
+
+    int currentStreak = await ref
+            .read(userSettingsRepositoryProvider)
+            .getInt(UserSettingKeys.currentStreak) ??
+        1;
+    int maxStreak = await ref
+            .read(userSettingsRepositoryProvider)
+            .getInt(UserSettingKeys.maxStreak) ??
+        1;
+    String lastStudyDate = await ref
+            .read(userSettingsRepositoryProvider)
+            .getString(UserSettingKeys.lastStudyDate) ??
+        "";
+
+    if (lastStudyDate == today) {
+      debugPrint("今日の学習は既に記録済みです。");
+    } else if (lastStudyDate == yesterday) {
+      debugPrint("昨日の学習が記録されているので、連続学習日数を増やします。");
+      currentStreak++;
+    } else {
+      debugPrint("昨日の学習が記録されていないので、連続学習日数をリセットします。");
+      currentStreak = 1;
+    }
+
+    maxStreak = max(currentStreak, maxStreak);
+    lastStudyDate = today;
+
+    await ref
+        .read(userSettingsRepositoryProvider)
+        .setInt(UserSettingKeys.currentStreak, currentStreak);
+    await ref
+        .read(userSettingsRepositoryProvider)
+        .setInt(UserSettingKeys.maxStreak, maxStreak);
+    await ref
+        .read(userSettingsRepositoryProvider)
+        .setString(UserSettingKeys.lastStudyDate, lastStudyDate);
+    await ref.read(userSettingsRepositoryProvider).getAll();
+  }
+
   // ▶ 終了処理
   Future<void> _finish() async {
     final score = state.correctCount;
     final auth = ref.read(authProvider);
+    final completedAt = DateTime.now();
+    final today = DateFormat('yyyy/MM/dd').format(completedAt);
     final unitScore = UnitScore(
       categoryNo: state.categoryNo,
       unitNo: state.unitNo,
       score: score,
-      achievedAt: DateFormat('yyyy/MM/dd').format(DateTime.now()),
+      achievedAt: today,
     );
     final stars = unitScore.stars;
     final isNew = _isNewRecord(stars);
+
+    await _setStreak(completedAt);
 
     state = state.copyWith(
       phase: GamePhase.result,
