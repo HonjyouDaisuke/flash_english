@@ -17,9 +17,7 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
     return maps
         .map((m) => StudyLog(
               id: m['id'] as int?,
-              categoryNo: (m['category_no'] ?? 0) as int,
-              unitNo: (m['unit_no'] ?? 0) as int,
-              questionNo: (m['question_no'] ?? 0) as int,
+              questionId: (m['question_id'] ?? 0) as int,
               isCorrect: (m['is_correct'] ?? 0) == 1,
               sessionId: (m['session_id'] ?? 0) as int,
               durationSeconds: (m['duration'] ?? 0) as int,
@@ -31,9 +29,7 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
   @override
   Future<void> insertLog(StudyLog log) async {
     final map = {
-      'category_no': log.categoryNo,
-      'unit_no': log.unitNo,
-      'question_no': log.questionNo,
+      'question_id': log.questionId,
       'is_correct': log.isCorrect ? 1 : 0,
       'session_id': log.sessionId,
       'duration': log.durationSeconds,
@@ -49,9 +45,7 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
       await _apiClient.post(
         '/flash_english_backend/api/study-log',
         body: {
-          'category_no': log.categoryNo,
-          'unit_no': log.unitNo,
-          'question_no': log.questionNo,
+          'question_id': log.questionId,
           'is_correct': log.isCorrect ? 1 : 0,
           'session_id': log.sessionId,
           'duration_seconds': log.durationSeconds,

@@ -9,6 +9,7 @@ void main() {
         sentenceCount: 50,
         correctCount: 40,
         wrongCount: 10,
+        wrongQuestions: [],
       );
 
       expect(stats.studyTime, const Duration(hours: 1, minutes: 20));
@@ -23,6 +24,7 @@ void main() {
         sentenceCount: 0,
         correctCount: 0,
         wrongCount: 0,
+        wrongQuestions: [],
       );
 
       expect(stats.studyTime, Duration.zero);
@@ -37,6 +39,7 @@ void main() {
         sentenceCount: 20,
         correctCount: 5,
         wrongCount: 15,
+        wrongQuestions: [],
       );
 
       expect(stats.correctCount, 5);

@@ -2,6 +2,7 @@ import 'package:flash_english/domain/entities/daily_stats.dart';
 import 'package:flash_english/presentation/providers/study_log/get_today_stats_usecase_provider.dart';
 import 'package:flash_english/presentation/widgets/streak_card_widget.dart';
 import 'package:flash_english/presentation/widgets/today_stats_card_widget.dart';
+import 'package:flash_english/presentation/widgets/wrong_questions_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -94,6 +95,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     ],
                   );
                 },
+              ),
+              const SizedBox(height: 24),
+              WrongQuestionsCard(
+                questions: stats.wrongQuestions,
               ),
             ],
           );
