@@ -25,6 +25,21 @@ class QuestionRepositoryImpl implements QuestionRepository {
   }
 
   @override
+  Future<Question?> getQuestion({required int questionId}) async {
+    final db = AppDatabase.instance.database;
+
+    final result = await db.query('questions',
+        where: 'question_id = ?',
+        whereArgs: [questionId],
+        orderBy: 'question_id');
+
+    if (result.isEmpty) {
+      return null;
+    }
+    return QuestionMapper.fromMap(result.first);
+  }
+
+  @override
   Future<List<Question>> getAllApi() async {
     final response = await apiClient.post(
       '/flash_english_backend/api/get-all-questions',
