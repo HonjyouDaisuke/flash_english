@@ -72,7 +72,7 @@ void main() {
       expect(json['question_id'], 30);
       expect(json['is_correct'], true);
       expect(json['session_id'], 99);
-      expect(json['duration_seconds'], 12);
+      expect(json['duration'], 12);
       expect(
         json['created_at'],
         createdAt.toUtc().toIso8601String(),
@@ -94,7 +94,7 @@ void main() {
       expect(json['question_id'], 3);
       expect(json['is_correct'], false);
       expect(json['session_id'], 4);
-      expect(json['duration_seconds'], 5);
+      expect(json['duration'], 5);
     });
 
     test('created_at は UTC ISO8601 形式で出力される', () {
@@ -129,7 +129,7 @@ void main() {
 
       final json = log.toJson();
 
-      expect(json['duration_seconds'], 0);
+      expect(json['duration'], 0);
     });
   });
 }
