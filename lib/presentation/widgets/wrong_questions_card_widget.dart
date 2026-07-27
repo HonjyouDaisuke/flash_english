@@ -28,13 +28,9 @@ class WrongQuestionsCard extends StatelessWidget {
               ...questions.map(
                 (q) => ListTile(
                   dense: true,
-                  leading: const Icon(Icons.error_outline),
+                  leading: const Icon(Icons.cancel_outlined, color: Colors.red),
                   title: Text(q.japanese),
                   subtitle: Text(q.english),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    // 後で問題画面へ遷移
-                  },
                 ),
               ),
           ],
