@@ -15,9 +15,10 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
     final maps = await dataSource.getAllLogs();
 
     return maps
+        .where((m) => m['question_id'] != null)
         .map((m) => StudyLog(
               id: m['id'] as int?,
-              questionId: (m['question_id'] ?? 0) as int,
+              questionId: m['question_id'] as int,
               isCorrect: (m['is_correct'] ?? 0) == 1,
               sessionId: (m['session_id'] ?? 0) as int,
               durationSeconds: (m['duration'] ?? 0) as int,
