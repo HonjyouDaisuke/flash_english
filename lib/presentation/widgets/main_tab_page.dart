@@ -14,6 +14,7 @@ class _MainTabPageState extends State<MainTabPage> {
   final routes = [
     '/training',
     '/dashboard',
+    '/calendar',
     '/weak',
     '/settings',
   ];
@@ -23,8 +24,9 @@ class _MainTabPageState extends State<MainTabPage> {
 
     if (location.startsWith('/training')) return 0;
     if (location.startsWith('/dashboard')) return 1;
-    if (location.startsWith('/weak')) return 2;
-    if (location.startsWith('/settings')) return 3;
+    if (location.startsWith('/calendar')) return 2;
+    if (location.startsWith('/weak')) return 3;
+    if (location.startsWith('/settings')) return 4;
 
     return 0;
   }
@@ -51,6 +53,7 @@ class _MainTabPageState extends State<MainTabPage> {
               icon: Icon(Icons.dashboard), label: 'ダッシュボード'),
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month), label: 'カレンダー'),
+          BottomNavigationBarItem(icon: Icon(Icons.warning), label: '苦手項目'),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: '設定'),
         ],
       ),

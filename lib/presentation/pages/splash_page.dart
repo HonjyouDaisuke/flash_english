@@ -6,6 +6,8 @@ import 'package:flash_english/presentation/providers/master_version/check_master
 import 'package:flash_english/presentation/providers/category/get_categories_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/master_version/get_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/question/get_questions_usecase_provider.dart';
+import 'package:flash_english/presentation/providers/study_log/study_log_provider.dart';
+import 'package:flash_english/presentation/providers/sync/sync_study_log_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/unit/get_units_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/master_version/save_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_unit_score_usecase_provider.dart';
@@ -85,8 +87,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
     // await AppDatabase.instance.init();
     try {
       await ref.read(appInitializeProvider).execute();
-    } catch (e) {
+    } catch (e, st) {
       debugPrint('初期化失敗: $e');
+      debugPrintStack(stackTrace: st);
       if (!mounted) return;
       _showErrorDialog();
       return;
@@ -115,11 +118,25 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       } catch (e) {
         debugPrint('ユニットスコア同期失敗: $e');
       }
+
+      try {
+        final latest =
+            await ref.read(studyLogRepositoryProvider).getLatestCreatedAt() ??
+                DateTime.utc(2026, 4, 1, 0, 0, 0);
+        debugPrint('splash Page : 学習ログ同期開始');
+        debugPrint('最新の学習ログ日時: $latest');
+        await ref.read(syncStudyLogUseCaseProvider).execute(
+              auth.userId!,
+              latest,
+            );
+      } catch (e) {
+        debugPrint('学習ログ同期失敗: $e');
+      }
     } else {
       debugPrint('ユニットスコアの更新はしません。');
       debugPrint(' --> status: ${auth.status} userId=${auth.userId}');
     }
-
+    // TODO: ここにstudy_logの同期処理を追加する
     if (!mounted) return;
     debugPrint('マスターバージョンの更新チェックを開始...');
     if (!auth.isOffline) {

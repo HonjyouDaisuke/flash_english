@@ -101,7 +101,7 @@ class AppDatabase {
         question_id INTEGER PRIMARY KEY AUTOINCREMENT,
         category_no INTEGER ,
         unit_no INTEGER ,
-        number INTEGER ,
+        question_no INTEGER ,
         japanese TEXT NOT NULL,
         english TEXT NOT NULL,
         audioPath TEXT,
@@ -123,8 +123,11 @@ class AppDatabase {
     // 👇 ログテーブル修正
     await db.execute('''
       CREATE TABLE study_logs (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id TEXT PRIMARY KEY,
         question_id INTEGER,
+        category_no INTEGER,
+        unit_no INTEGER,
+        question_no INTEGER,
         is_correct INTEGER,
         created_at TEXT,
         session_id INTEGER,

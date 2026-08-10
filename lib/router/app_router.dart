@@ -1,3 +1,4 @@
+import 'package:flash_english/presentation/pages/caledar_page.dart';
 import 'package:flash_english/presentation/pages/category_select_page.dart';
 import 'package:flash_english/presentation/pages/login_page.dart';
 import 'package:flash_english/presentation/pages/settings_page.dart';
@@ -77,6 +78,12 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/dashboard',
           builder: (context, state) => const DashboardPage(),
+        ),
+
+        /// カレンダー
+        GoRoute(
+          path: '/calendar',
+          builder: (context, state) => const CalendarPage(),
         ),
 
         /// 設定

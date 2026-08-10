@@ -107,6 +107,8 @@ class GameController extends StateNotifier<GameState> {
   // ▶ 回答
   Future<void> answer(int id, bool isCorrect) async {
     if (state.phase != GamePhase.playing) return;
+
+    final auth = ref.read(authProvider);
     // ① 自分の状態更新
     final newCorrect = isCorrect ? state.correctCount + 1 : state.correctCount;
 
@@ -123,7 +125,9 @@ class GameController extends StateNotifier<GameState> {
       isCorrect: isCorrect,
       // answers: updatedAnswerSets,
     );
-    await ref.read(trainingProvider.notifier).saveAnswer(isCorrect);
+    await ref
+        .read(trainingProvider.notifier)
+        .saveAnswer(isCorrect, auth.userId!);
 
     await _moveToNextQuestion();
   }

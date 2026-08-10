@@ -1,5 +1,6 @@
 import 'package:flash_english/domain/repositories/study_repository.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
+import 'package:uuid/uuid.dart';
 
 class StudyRepositoryImpl implements StudyRepository {
   final db = AppDatabase.instance;
@@ -27,17 +28,27 @@ class StudyRepositoryImpl implements StudyRepository {
 
   @override
   Future<void> saveAnswer({
+    required String id,
     required int questionId,
     required bool isCorrect,
     required int sessionId,
+    required int categoryNo,
+    required int unitNo,
+    required int questionNo,
+    required int durationSeconds,
   }) async {
     final database = db.database;
 
     database.insert('study_logs', {
+      'id': id,
       'question_id': questionId,
       'is_correct': isCorrect ? 1 : 0,
       'created_at': DateTime.now().toIso8601String(),
       'session_id': sessionId,
+      'category_no': categoryNo,
+      'unit_no': unitNo,
+      'question_no': questionNo,
+      'duration': durationSeconds,
     });
   }
 }

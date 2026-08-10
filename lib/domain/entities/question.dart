@@ -2,7 +2,7 @@ class Question {
   final int questionId;
   final int categoryNo;
   final int unitNo;
-  final int number;
+  final int questionNo;
   final String japanese;
   final String english;
   final String japaneseAudio;
@@ -12,7 +12,7 @@ class Question {
     required this.questionId,
     required this.categoryNo,
     required this.unitNo,
-    required this.number,
+    required this.questionNo,
     required this.japanese,
     required this.english,
     required this.japaneseAudio,

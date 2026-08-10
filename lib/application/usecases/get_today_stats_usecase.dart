@@ -24,8 +24,8 @@ class GetTodayStatsUseCase {
     }).toList();
   }
 
-  Future<DailyStats> execute() async {
-    final now = DateTime.now();
+  Future<DailyStats> execute({DateTime? date}) async {
+    final now = date ?? DateTime.now();
     final logs = await logRepository.getAllLogs();
     final todayLogs = _filterByDate(logs, now);
 
