@@ -1,6 +1,5 @@
 import 'package:flash_english/domain/repositories/study_repository.dart';
 import 'package:flash_english/infrastructure/persistence/app_database.dart';
-import 'package:uuid/uuid.dart';
 
 class StudyRepositoryImpl implements StudyRepository {
   final db = AppDatabase.instance;
@@ -39,7 +38,7 @@ class StudyRepositoryImpl implements StudyRepository {
   }) async {
     final database = db.database;
 
-    database.insert('study_logs', {
+    await database.insert('study_logs', {
       'id': id,
       'question_id': questionId,
       'is_correct': isCorrect ? 1 : 0,

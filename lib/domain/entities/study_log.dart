@@ -22,15 +22,27 @@ class StudyLog {
   });
 
   factory StudyLog.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('question_id')) {
+      throw const FormatException('Missing question_id');
+    }
+    if (!json.containsKey('category_no')) {
+      throw const FormatException('Missing category_no');
+    }
+    if (!json.containsKey('unit_no')) {
+      throw const FormatException('Missing unit_no');
+    }
+    if (!json.containsKey('question_no')) {
+      throw const FormatException('Missing question_no');
+    }
     return StudyLog(
       id: json['id'] as String?,
-      questionId: (json['question_id'] as num?)?.toInt() ?? 0,
-      categoryNo: (json['category_no'] as num?)?.toInt() ?? 0,
-      unitNo: (json['unit_no'] as num?)?.toInt() ?? 0,
-      questionNo: (json['question_no'] as num?)?.toInt() ?? 0,
-      isCorrect: (json['is_correct'] as num?)?.toInt() == 1,
-      sessionId: (json['session_id'] as num?)?.toInt() ?? 0,
-      durationSeconds: (json['duration'] as num?)?.toInt() ?? 0,
+      questionId: (json['question_id'] as num).toInt(),
+      categoryNo: (json['category_no'] as num).toInt(),
+      unitNo: (json['unit_no'] as num).toInt(),
+      questionNo: (json['question_no'] as num).toInt(),
+      isCorrect: (json['is_correct'] as num).toInt() == 1,
+      sessionId: (json['session_id'] as num).toInt(),
+      durationSeconds: (json['duration'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
     );
   }

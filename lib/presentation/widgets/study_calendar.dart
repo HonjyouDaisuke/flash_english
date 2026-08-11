@@ -19,8 +19,25 @@ class StudyCalendar extends StatelessWidget {
 
   final ValueChanged<DateTime>? onPageChanged;
   final void Function(DateTime selectedDay, DateTime focusedDay)? onDaySelected;
+
+  static final DateTime _firstDay = DateTime.utc(2024, 1, 1);
+  static final DateTime _lastDay = DateTime.utc(2050, 12, 31);
+
+  DateTime _clampFocusedDay(DateTime day) {
+    if (day.isBefore(_firstDay)) {
+      return _firstDay;
+    }
+
+    if (day.isAfter(_lastDay)) {
+      return _lastDay;
+    }
+
+    return day;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final calendarFocusedDay = _clampFocusedDay(focusedDay);
     return TableCalendar(
       rowHeight: 42,
       daysOfWeekHeight: 30,
@@ -38,8 +55,8 @@ class StudyCalendar extends StatelessWidget {
         return status ? ['done'] : ['miss'];
       },
       firstDay: DateTime.utc(2024, 1, 1),
-      lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: focusedDay,
+      lastDay: DateTime.utc(2050, 12, 31),
+      focusedDay: calendarFocusedDay,
       selectedDayPredicate: (day) {
         return isSameDay(day, selectedDay);
       },

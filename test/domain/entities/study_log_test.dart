@@ -185,21 +185,15 @@ void main() {
     });
   });
 
-  test('nullの値はデフォルト値になる', () {
+  test('必須項目が欠けている場合はFormatException', () {
     final json = {
       'created_at': '2026-04-19T12:30:45Z',
     };
 
-    final log = StudyLog.fromJson(json);
-
-    expect(log.id, isNull);
-    expect(log.questionId, 0);
-    expect(log.categoryNo, 0);
-    expect(log.unitNo, 0);
-    expect(log.questionNo, 0);
-    expect(log.isCorrect, isFalse);
-    expect(log.sessionId, 0);
-    expect(log.durationSeconds, 0);
+    expect(
+      () => StudyLog.fromJson(json),
+      throwsA(isA<FormatException>()),
+    );
   });
 
   test('is_correct が0ならfalseになる', () {

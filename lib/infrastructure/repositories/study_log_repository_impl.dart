@@ -97,29 +97,28 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
   }
 
   @override
-  Future<List<StudyLog>> getAllApi(String userId, DateTime sinceDate) async {
-    try {
-      final response = await _apiClient.post(
-        '/flash_english_backend/api/get-study-logs',
-        body: {
-          'user_id': userId,
-          'since_date': sinceDate.toIso8601String(),
-        },
-      );
-      debugPrint("★★Response status code: ${response.statusCode}");
-      debugPrint(response.body);
+  Future<List<StudyLog>> getAllApi(
+    String userId,
+    DateTime sinceDate,
+  ) async {
+    final response = await _apiClient.post(
+      '/flash_english_backend/api/get-study-logs',
+      body: {
+        'user_id': userId,
+        'since_date': sinceDate.toIso8601String(),
+      },
+    );
 
-      final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+    debugPrint("★★Response status code: ${response.statusCode}");
+    debugPrint(response.body);
 
-      final logs = decoded['logs'] as List;
+    final decoded = jsonDecode(response.body) as Map<String, dynamic>;
 
-      return logs
-          .map((e) => StudyLog.fromJson(e as Map<String, dynamic>))
-          .toList();
-    } catch (e) {
-      debugPrint("Error get All study logs: $e");
-      return [];
-    }
+    final logs = decoded['logs'] as List;
+
+    return logs
+        .map((e) => StudyLog.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   @override
