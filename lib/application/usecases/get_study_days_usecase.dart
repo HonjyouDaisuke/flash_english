@@ -46,13 +46,13 @@ class GetStudyDaysUseCase {
 
     while (!day.isAfter(last)) {
       if (day.isAfter(today)) {
-        day = day.add(const Duration(days: 1));
+        day = DateTime(day.year, day.month, day.day + 1);
         continue;
       }
 
       result[day] = studiedDays.contains(day);
 
-      day = day.add(const Duration(days: 1));
+      day = DateTime(day.year, day.month, day.day + 1);
     }
     return result;
   }
