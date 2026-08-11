@@ -110,6 +110,10 @@ class AppDatabase {
         english_audio TEXT
       )
     ''');
+    await db.execute('''
+      CREATE UNIQUE INDEX idx_questions_category_unit_question
+      ON questions(category_no, unit_no, question_no)
+    ''');
 
     // 👇 セッションテーブル追加
     await db.execute('''

@@ -142,7 +142,9 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
           'question=$questionNo',
         );
       }
-
+      final createdAt = DateTime.parse(
+        '${json['created_at'] as String}Z',
+      );
       result.add(
         StudyLog(
           id: json['id'] as String?,
@@ -153,7 +155,7 @@ class StudyLogRepositoryImpl implements StudyLogRepository {
           isCorrect: (json['is_correct'] as num).toInt() == 1,
           sessionId: (json['session_id'] as num).toInt(),
           durationSeconds: (json['duration_seconds'] as num).toInt(),
-          createdAt: DateTime.parse(json['created_at'] as String),
+          createdAt: createdAt,
         ),
       );
     }
