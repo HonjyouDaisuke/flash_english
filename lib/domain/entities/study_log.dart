@@ -42,7 +42,7 @@ class StudyLog {
       questionNo: (json['question_no'] as num).toInt(),
       isCorrect: (json['is_correct'] as num).toInt() == 1,
       sessionId: (json['session_id'] as num).toInt(),
-      durationSeconds: (json['duration'] as num).toInt(),
+      durationSeconds: (json['duration_seconds'] as num).toInt(),
       createdAt: DateTime.parse(json['created_at'] as String),
     );
   }
@@ -56,7 +56,7 @@ class StudyLog {
       'question_no': questionNo,
       'is_correct': isCorrect,
       'session_id': sessionId,
-      'duration': durationSeconds,
+      'duration_seconds': durationSeconds,
       'created_at': createdAt.toUtc().toIso8601String(),
     };
   }
@@ -70,7 +70,7 @@ class StudyLog {
       'question_no': questionNo,
       'is_correct': isCorrect ? 1 : 0,
       'session_id': sessionId,
-      'duration': durationSeconds,
+      'duration_seconds': durationSeconds,
       'created_at': createdAt.toUtc().toIso8601String(),
     };
   }

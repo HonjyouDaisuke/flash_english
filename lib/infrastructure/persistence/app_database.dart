@@ -44,7 +44,7 @@ class AppDatabase {
     );
 
     //開発中のみDBを消す！
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
 
     return openDatabase(
       path,
@@ -124,14 +124,14 @@ class AppDatabase {
     await db.execute('''
       CREATE TABLE study_logs (
         id TEXT PRIMARY KEY,
-        question_id INTEGER,
-        category_no INTEGER,
-        unit_no INTEGER,
-        question_no INTEGER,
-        is_correct INTEGER,
-        created_at TEXT,
-        session_id INTEGER,
-        duration INTEGER NOT NULL DEFAULT 0,
+        question_id INTEGER NOT NULL,
+        category_no INTEGER NOT NULL,
+        unit_no INTEGER NOT NULL,
+        question_no INTEGER NOT NULL,
+        is_correct INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        session_id INTEGER NOT NULL,
+        duration_seconds INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (session_id) REFERENCES study_sessions(id)
       )
     ''');
@@ -206,14 +206,14 @@ class AppDatabase {
       await db.execute('''
         CREATE TABLE study_logs (
           id TEXT PRIMARY KEY,
-          question_id INTEGER,
-          category_no INTEGER,
-          unit_no INTEGER,
-          question_no INTEGER,
-          is_correct INTEGER,
-          created_at TEXT,
-          session_id INTEGER,
-          duration INTEGER NOT NULL DEFAULT 0,
+          question_id INTEGER NOT NULL,
+          category_no INTEGER NOT NULL,
+          unit_no INTEGER NOT NULL,
+          question_no INTEGER NOT NULL,
+          is_correct INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          session_id INTEGER NOT NULL,
+          duration_seconds INTEGER NOT NULL DEFAULT 0,
           FOREIGN KEY (session_id) REFERENCES study_sessions(id)
         )
       ''');

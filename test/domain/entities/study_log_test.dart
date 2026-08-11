@@ -85,7 +85,7 @@ void main() {
       expect(json['question_id'], 30);
       expect(json['is_correct'], true);
       expect(json['session_id'], 99);
-      expect(json['duration'], 12);
+      expect(json['duration_seconds'], 12);
       expect(
         json['created_at'],
         createdAt.toUtc().toIso8601String(),
@@ -111,7 +111,7 @@ void main() {
       expect(json['question_id'], 3);
       expect(json['is_correct'], false);
       expect(json['session_id'], 4);
-      expect(json['duration'], 5);
+      expect(json['duration_seconds'], 5);
     });
 
     test('created_at は UTC ISO8601 形式で出力される', () {
@@ -154,7 +154,7 @@ void main() {
 
       final json = log.toJson();
 
-      expect(json['duration'], 0);
+      expect(json['duration_seconds'], 0);
     });
   });
   group('StudyLog.fromJson', () {
@@ -167,7 +167,7 @@ void main() {
         'question_no': 4,
         'is_correct': 1,
         'session_id': 99,
-        'duration': 12,
+        'duration_seconds': 12,
         'created_at': '2026-04-19T12:30:45Z',
       };
 
@@ -204,7 +204,7 @@ void main() {
       'question_no': 1,
       'is_correct': 0,
       'session_id': 1,
-      'duration': 3,
+      'duration_seconds': 3,
       'created_at': '2026-04-19T12:30:45Z',
     };
 
@@ -238,7 +238,7 @@ void main() {
       expect(map['question_no'], 3);
       expect(map['is_correct'], 1);
       expect(map['session_id'], 5);
-      expect(map['duration'], 8);
+      expect(map['duration_seconds'], 8);
       expect(
         map['created_at'],
         createdAt.toUtc().toIso8601String(),

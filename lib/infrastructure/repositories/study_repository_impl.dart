@@ -47,7 +47,7 @@ class StudyRepositoryImpl implements StudyRepository {
       'category_no': categoryNo,
       'unit_no': unitNo,
       'question_no': questionNo,
-      'duration': durationSeconds,
+      'duration_seconds': durationSeconds,
     });
   }
 }
