@@ -44,7 +44,7 @@ class AppDatabase {
     );
 
     //開発中のみDBを消す！
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return openDatabase(
       path,
