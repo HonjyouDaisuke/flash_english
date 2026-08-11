@@ -8,12 +8,17 @@ class SaveStudyLogUseCase {
 
   Future<bool> execute(StudyLog log) async {
     final studyLog = StudyLog(
+      id: log.id,
       questionId: log.questionId,
+      categoryNo: log.categoryNo,
+      unitNo: log.unitNo,
+      questionNo: log.questionNo,
       isCorrect: log.isCorrect,
       sessionId: log.sessionId,
       durationSeconds: log.durationSeconds,
       createdAt: log.createdAt,
     );
+
     return await repository.save(studyLog);
   }
 }

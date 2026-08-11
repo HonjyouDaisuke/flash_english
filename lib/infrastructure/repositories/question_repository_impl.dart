@@ -78,4 +78,25 @@ class QuestionRepositoryImpl implements QuestionRepository {
       await batch.commit(noResult: true);
     });
   }
+
+  @override
+  Future<int?> findQuestionIdByCategoryUnitQuestionNo(
+      {required int categoryNo,
+      required int unitNo,
+      required int questionNo}) async {
+    final db = AppDatabase.instance.database;
+
+    final result = await db.query(
+      'questions',
+      columns: ['question_id'],
+      where: 'category_no = ? AND unit_no = ? AND question_no = ?',
+      whereArgs: [categoryNo, unitNo, questionNo],
+    );
+
+    if (result.isEmpty) {
+      return null;
+    }
+
+    return result.first['question_id'] as int;
+  }
 }

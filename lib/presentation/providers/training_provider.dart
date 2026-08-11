@@ -5,6 +5,7 @@ import 'package:flash_english/application/usecases/start_session_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/study_repository_impl.dart';
 import 'package:flash_english/presentation/providers/api_client_provider.dart';
 import 'package:flash_english/presentation/providers/audio/audio_repository_provider.dart';
+import 'package:flash_english/presentation/providers/sync/sync_queue_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flash_english/domain/entities/question.dart';
@@ -12,6 +13,7 @@ import 'package:flash_english/application/usecases/get_questions_usecase.dart';
 import 'package:flash_english/infrastructure/repositories/question_repository_impl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:uuid/uuid.dart';
 
 final trainingProvider =
     StateNotifierProvider.autoDispose<TrainingNotifier, TrainingState>((ref) {
@@ -26,7 +28,7 @@ final trainingProvider =
     playAudio,
     StartSessionUseCase(studyRepo),
     EndSessionUseCase(studyRepo),
-    SaveAnswerUseCase(studyRepo),
+    SaveAnswerUseCase(studyRepo, ref.watch(syncQueueRepositoryProvider)),
   );
   ref.onDispose(() {
     notifier.endSession();
@@ -166,7 +168,7 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
 
   void moveToQuestion(int questionNo) {
     final index = state.questions.indexWhere(
-      (q) => q.number == questionNo,
+      (q) => q.questionNo == questionNo,
     );
 
     if (index == -1) return;
@@ -177,16 +179,22 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     );
   }
 
-  Future<void> saveAnswer(bool isCorrect) async {
+  Future<void> saveAnswer(bool isCorrect, String userId) async {
     final q = state.current;
 
     if (state.sessionId == null) return;
 
     await _saveAnswer.execute(
-      questionNo: q.questionId,
-      isCorrect: isCorrect,
-      sessionId: state.sessionId!,
-    );
+        id: const Uuid().v4(),
+        questionId: q.questionId,
+        categoryNo: q.categoryNo,
+        unitNo: q.unitNo,
+        questionNo: q.questionNo,
+        isCorrect: isCorrect,
+        sessionId: state.sessionId!,
+        userId: userId,
+        durationSeconds: 5 // 仮の値。実際には回答にかかった時間を計測して渡す必要があります
+        );
   }
 
   void flip(bool isFront) async {

@@ -1,4 +1,6 @@
 import 'package:flash_english/core/providers/api_providers.dart';
+import 'package:flash_english/presentation/providers/study_log/study_log_provider.dart';
+import 'package:flash_english/presentation/providers/sync/sync_study_log_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_unit_score_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_user_data_usecase_provider.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             debugPrint('ユニットスコア同期失敗: $e');
           }
           debugPrint('ユニットスコア同期完了');
+
+          try {
+            final latest = await ref
+                    .read(studyLogRepositoryProvider)
+                    .getLatestCreatedAt() ??
+                DateTime.utc(2026, 4, 1, 0, 0, 0);
+            debugPrint('login Page : 学習ログ同期開始');
+            debugPrint('最新の学習ログ日時: $latest');
+            await ref.read(syncStudyLogUseCaseProvider).execute(
+                  loginUserId,
+                  latest,
+                );
+          } catch (e) {
+            debugPrint('学習ログ同期失敗: $e');
+          }
 
           if (!mounted) return;
 

@@ -12,7 +12,7 @@ class QuestionLocalDataSource {
               questionId: e['question_id'],
               categoryNo: e['category_no'],
               unitNo: e['unit_no'],
-              number: e['number'],
+              questionNo: e['question_no'],
               japanese: e['japanese'],
               english: e['english'],
               japaneseAudio: e['japanese_audio'],

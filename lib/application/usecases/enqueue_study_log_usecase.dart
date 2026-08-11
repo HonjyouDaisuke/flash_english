@@ -10,7 +10,7 @@ class EnqueueStudyLogUseCase {
   final SyncQueueRepository queueRepository;
   EnqueueStudyLogUseCase(this.queueRepository);
 
-  Future<void> call(StudyLog log, String userId) async {
+  Future<void> execute(StudyLog log, String userId) async {
     final payload = jsonEncode(log.toJson());
 
     const uuid = Uuid();
