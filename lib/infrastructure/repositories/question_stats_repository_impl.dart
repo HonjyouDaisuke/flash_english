@@ -13,9 +13,9 @@ class QuestionStatsRepositoryImpl implements QuestionStatsRepository {
   QuestionStatsRepositoryImpl(this.dataSource, this._apiClient);
 
   @override
-Future<List<QuestionStats>> getAllQuestionStats() async {
-  return dataSource.getAll();
-}
+  Future<List<QuestionStats>> getAllQuestionStats() async {
+    return dataSource.getAll();
+  }
 
   @override
   Future<void> insertQuestionStats(Map<String, dynamic> map) async {
