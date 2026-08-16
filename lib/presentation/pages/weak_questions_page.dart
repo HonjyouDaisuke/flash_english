@@ -22,9 +22,16 @@ class WeakQuestionsPage extends ConsumerWidget {
         },
         error: (error, stackTrace) {
           return Center(
-            child: Text(
-              '苦手問題の取得に失敗しました\n$error,$stackTrace',
-              textAlign: TextAlign.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('苦手問題の取得に失敗しました。'),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () => ref.invalidate(weakQuestionsProvider),
+                  child: const Text('再試行'),
+                ),
+              ],
             ),
           );
         },
