@@ -62,10 +62,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             await ref.read(syncQuestionStatsUseCaseProvider).execute(
                   loginUserId,
                 );
+            debugPrint('問題統計同期完了');
           } catch (e) {
             debugPrint('問題統計同期失敗: $e');
           }
-          debugPrint('問題統計同期完了');
           if (!mounted) return;
 
           context.go('/training');
