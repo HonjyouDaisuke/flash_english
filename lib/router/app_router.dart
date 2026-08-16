@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../presentation/pages/training_menu_page.dart';
 import '../presentation/pages/training_page.dart';
 import '../presentation/pages/dashboard_page.dart';
-import '../presentation/pages/weak_menu_page.dart';
+import '../presentation/pages/weak_questions_page.dart';
 import '../presentation/widgets/main_tab_page.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -95,7 +95,7 @@ final GoRouter appRouter = GoRouter(
         /// 苦手
         GoRoute(
           path: '/weak',
-          builder: (context, state) => const WeakMenuPage(),
+          builder: (context, state) => const WeakQuestionsPage(),
         ),
       ],
     ),

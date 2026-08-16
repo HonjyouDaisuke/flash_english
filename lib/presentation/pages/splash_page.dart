@@ -7,6 +7,7 @@ import 'package:flash_english/presentation/providers/category/get_categories_use
 import 'package:flash_english/presentation/providers/master_version/get_master_version_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/question/get_questions_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/study_log/study_log_provider.dart';
+import 'package:flash_english/presentation/providers/sync/sync_question_stats_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_study_log_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/unit/get_units_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/master_version/save_master_version_usecase_provider.dart';
@@ -132,11 +133,20 @@ class _SplashPageState extends ConsumerState<SplashPage> {
       } catch (e) {
         debugPrint('学習ログ同期失敗: $e');
       }
+
+      try {
+        debugPrint('splash Page : QuesitionStats同期開始');
+        await ref.read(syncQuestionStatsUseCaseProvider).execute(
+              auth.userId!,
+            );
+      } catch (e, stackTrace) {
+        debugPrint('QuestionStats同期失敗: $e');
+        debugPrintStack(stackTrace: stackTrace);
+      }
     } else {
       debugPrint('ユニットスコアの更新はしません。');
       debugPrint(' --> status: ${auth.status} userId=${auth.userId}');
     }
-    // TODO: ここにstudy_logの同期処理を追加する
     if (!mounted) return;
     debugPrint('マスターバージョンの更新チェックを開始...');
     if (!auth.isOffline) {

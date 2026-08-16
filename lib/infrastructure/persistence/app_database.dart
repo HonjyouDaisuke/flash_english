@@ -48,7 +48,7 @@ class AppDatabase {
 
     return openDatabase(
       path,
-      version: 7,
+      version: 8,
       onCreate: createDB,
       onUpgrade: _upgradeDB,
     );
@@ -137,6 +137,20 @@ class AppDatabase {
         session_id INTEGER NOT NULL,
         duration_seconds INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY (session_id) REFERENCES study_sessions(id)
+      )
+    ''');
+
+    // 👇 question_statsテーブル
+    await db.execute('''
+      CREATE TABLE question_stats (
+        question_id INTEGER PRIMARY KEY,
+        category_no INTEGER NOT NULL,
+        unit_no INTEGER NOT NULL,
+        question_no INTEGER NOT NULL,
+        correct_count INTEGER NOT NULL,
+        wrong_count INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (question_id) REFERENCES questions(question_id)
       )
     ''');
 
@@ -309,6 +323,45 @@ class AppDatabase {
           version_id, version_no, version_name, version_description
         )
         VALUES (3, '0.0.0', 'question', '問題');
+      ''');
+    }
+
+    if (oldVersion < 7) {
+      debugPrint("Upgrading database from version $oldVersion to $newVersion");
+      await db.execute('''
+        DROP TABLE IF EXISTS study_logs;
+      ''');
+
+      await db.execute('''
+        CREATE TABLE study_logs (
+          id TEXT PRIMARY KEY,
+          question_id INTEGER NOT NULL,
+          category_no INTEGER NOT NULL,
+          unit_no INTEGER NOT NULL,
+          question_no INTEGER NOT NULL,
+          is_correct INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          session_id INTEGER NOT NULL,
+          duration_seconds INTEGER NOT NULL DEFAULT 0,
+          FOREIGN KEY (session_id) REFERENCES study_sessions(id)
+        )
+      ''');
+
+      await db.execute('''
+        DROP TABLE IF EXISTS question_stats;
+      ''');
+
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS question_stats (
+          question_id INTEGER PRIMARY KEY,
+          category_no INTEGER NOT NULL,
+          unit_no INTEGER NOT NULL,
+          question_no INTEGER NOT NULL,
+          correct_count INTEGER NOT NULL,
+          wrong_count INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          FOREIGN KEY (question_id) REFERENCES questions(question_id)
+        )
       ''');
     }
   }
