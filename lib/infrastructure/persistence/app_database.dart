@@ -364,5 +364,20 @@ class AppDatabase {
         )
       ''');
     }
+
+    if (oldVersion < 8) {
+      await db.execute('''
+        CREATE TABLE IF NOT EXISTS question_stats (
+          question_id INTEGER PRIMARY KEY,
+          category_no INTEGER NOT NULL,
+          unit_no INTEGER NOT NULL,
+          question_no INTEGER NOT NULL,
+          correct_count INTEGER NOT NULL,
+          wrong_count INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          FOREIGN KEY (question_id) REFERENCES questions(question_id)
+        )
+      ''');
+    }
   }
 }
