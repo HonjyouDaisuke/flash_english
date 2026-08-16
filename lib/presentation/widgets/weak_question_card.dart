@@ -36,18 +36,18 @@ class WeakQuestionCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 12),
-            Row(
+            Wrap(
+              spacing: 12,
+              runSpacing: 8,
               children: [
                 _AccuracyBadge(
                   accuracyPercent: accuracyPercent,
                 ),
-                const SizedBox(width: 16),
                 Text('正解 ${stats.correctCount}回'),
-                const SizedBox(width: 12),
                 Text('不正解 ${stats.wrongCount}回'),
-                const SizedBox(width: 12),
                 Text(
-                    '[カテゴリ ${question.categoryNo}, ユニット ${question.unitNo}, 問題番号 ${question.questionNo}]'),
+                  '[カテゴリ ${question.categoryNo}, ユニット ${question.unitNo}, 問題番号 ${question.questionNo}]',
+                ),
               ],
             ),
           ],
