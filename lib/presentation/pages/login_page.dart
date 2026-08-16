@@ -1,4 +1,5 @@
 import 'package:flash_english/core/providers/api_providers.dart';
+import 'package:flash_english/presentation/providers/sync/sync_question_stats_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/study_log/study_log_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_study_log_usecase_provider.dart';
 import 'package:flash_english/presentation/providers/sync/sync_unit_score_usecase_provider.dart';
@@ -55,7 +56,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           } catch (e) {
             debugPrint('学習ログ同期失敗: $e');
           }
+          debugPrint('学習ログ同期完了');
 
+          try {
+            await ref.read(syncQuestionStatsUseCaseProvider).execute(
+                  loginUserId,
+                );
+            debugPrint('問題統計同期完了');
+          } catch (e) {
+            debugPrint('問題統計同期失敗: $e');
+          }
           if (!mounted) return;
 
           context.go('/training');
