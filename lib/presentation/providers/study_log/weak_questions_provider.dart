@@ -33,16 +33,21 @@ final weakQuestionsProvider = FutureProvider<List<WeakQuestion>>((ref) async {
   final result = <WeakQuestion>[];
 
   for (final stat in weakStats) {
-    final question = await getQuestion.execute(
-      questionId: stat.questionId,
-    );
+    try {
+      final question = await getQuestion.execute(
+        questionId: stat.questionId,
+      );
 
-    result.add(
-      WeakQuestion(
-        question: question,
-        stats: stat,
-      ),
-    );
+      result.add(
+        WeakQuestion(
+          question: question,
+          stats: stat,
+        ),
+      );
+    } catch (e) {
+      // 問題マスタにまだ存在しない問題はスキップする
+      continue;
+    }
   }
 
   return result;
