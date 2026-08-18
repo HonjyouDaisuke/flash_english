@@ -83,6 +83,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage>
     TrainingNotifier notifier,
     Duration waitingTime,
   ) async {
+    if (!mounted) return;
+
     _waitController
       ..stop()
       ..value = 0;
