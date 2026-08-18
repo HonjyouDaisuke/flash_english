@@ -6,6 +6,7 @@ import 'package:flash_english/presentation/providers/training_provider.dart';
 import 'package:flash_english/presentation/providers/user_setting/user_settings_provider.dart';
 import 'package:flash_english/presentation/states/game_state.dart';
 import 'package:flash_english/presentation/widgets/flash_card_widget.dart';
+import 'package:flash_english/presentation/widgets/training_progress_bar.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,13 +21,21 @@ class TrainingPage extends ConsumerStatefulWidget {
   ConsumerState<TrainingPage> createState() => _TrainingPageState();
 }
 
-class _TrainingPageState extends ConsumerState<TrainingPage> {
+class _TrainingPageState extends ConsumerState<TrainingPage>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FlipCardState> _cardKey = GlobalKey<FlipCardState>();
   bool _isSyncing = false;
+  late AnimationController _waitController;
 
   @override
   void initState() {
     super.initState();
+
+    _waitController = AnimationController(
+      vsync: this,
+      value: 0,
+    );
+
     debugPrint(
         'TrainingPage initState: categoryNo=${widget.categoryNo}, unitNo=${widget.unitNo}');
 
@@ -48,6 +57,12 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     });
   }
 
+  @override
+  void dispose() {
+    _waitController.dispose();
+    super.dispose();
+  }
+
   Duration _waitingTime() {
     final settings = ref.read(userSettingsProvider);
     final parsed = int.tryParse(settings['answer_wait'] ?? '3') ?? 3;
@@ -56,31 +71,38 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
     return Duration(seconds: seconds);
   }
 
+  bool _isSameQuestion(TrainingState start) {
+    final state = ref.read(trainingProvider);
+
+    return state.questions.isNotEmpty &&
+        state.currentIndex == start.currentIndex &&
+        state.isFront;
+  }
+
   void _startAutoFlip(
     TrainingNotifier notifier,
     Duration waitingTime,
   ) async {
-    debugPrint("Auto flip will start after ${waitingTime.inSeconds} seconds");
+    _waitController
+      ..stop()
+      ..value = 0;
+
     final start = ref.read(trainingProvider);
+
     if (start.questions.isEmpty || !start.isFront) return;
+
     await notifier.playFrontAndWait();
-    if (!mounted) return;
-    final afterPlay = ref.read(trainingProvider);
-    if (afterPlay.questions.isEmpty ||
-        afterPlay.currentIndex != start.currentIndex ||
-        !afterPlay.isFront) {
-      return;
-    }
 
-    await Future.delayed(waitingTime);
+    if (!mounted || !_isSameQuestion(start)) return;
 
-    if (!mounted) return;
-    final beforeFlip = ref.read(trainingProvider);
-    if (beforeFlip.questions.isEmpty ||
-        beforeFlip.currentIndex != start.currentIndex ||
-        !beforeFlip.isFront) {
-      return;
-    }
+    await _waitController.animateTo(
+      1,
+      duration: waitingTime,
+      curve: Curves.linear,
+    );
+
+    if (!mounted || !_isSameQuestion(start)) return;
+
     notifier.flip(false);
   }
 
@@ -155,15 +177,12 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
           children: [
             Text("問題 $current/$total"),
             const SizedBox(height: 8),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: LinearProgressIndicator(
-                value: progress,
-                minHeight: 10,
-                backgroundColor: cs.surfaceContainerHighest,
-                valueColor: AlwaysStoppedAnimation(cs.primary),
-              ),
+            TrainingProgressBar(
+              value: progress,
+              color: cs.primary,
+              minHeight: 10,
             ),
+
             const SizedBox(height: 20),
             FlashCardWidget(
               cardKey: _cardKey,
@@ -242,6 +261,14 @@ class _TrainingPageState extends ConsumerState<TrainingPage> {
                     gameController.next();
                   }),
             ]),
+            const SizedBox(height: 12),
+
+            // 自動めくりまでのカウントダウン
+            TrainingProgressBar(
+              animation: _waitController,
+              color: cs.tertiary,
+              minHeight: 12,
+            ),
           ],
         ),
       ),
