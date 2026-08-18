@@ -9,4 +9,8 @@ class PlayAudioUseCase {
     if (path.isEmpty) return;
     await repository.play(path);
   }
+
+  Future<void> stop() async {
+    await repository.stop();
+  }
 }

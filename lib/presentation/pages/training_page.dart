@@ -195,7 +195,8 @@ class _TrainingPageState extends ConsumerState<TrainingPage>
                   _isSyncing = false; // 👈 同期由来なので無視
                   return;
                 }
-                notifier.flip(isFront); // 👈 ユーザー操作のみ反映
+                notifier.stopAudio();
+                notifier.flip(!isFront); // 👈 ユーザー操作のみ反映
               },
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
