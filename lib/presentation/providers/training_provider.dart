@@ -154,6 +154,10 @@ class TrainingNotifier extends StateNotifier<TrainingState> {
     }
   }
 
+  Future<void> stopAudio() async {
+    await _audio.stop();
+  }
+
   Future<void> playFrontAndWait() async {
     final q = state.current;
     final dir = await getApplicationDocumentsDirectory();
